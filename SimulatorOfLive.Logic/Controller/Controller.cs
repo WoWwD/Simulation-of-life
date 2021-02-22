@@ -23,55 +23,107 @@ namespace SimulatorOfLive.Logic.Controller
         public void Move(int MaxWidth, int MaxHeight, int maxvaluespeed)
         {
             Random rnd = new Random();
-            int overviewright, overviewleft, overviewup, overviewdown, a;
+            int directionOfMove;
             for (int i = 0; i < lowcells.Count; i++)
             {
-                overviewleft = lowcells[i].X - lowcells[i].Speed;
-                overviewright = lowcells[i].X + lowcells[i].Speed;
-                overviewdown = lowcells[i].Y - lowcells[i].Speed;
-                overviewup = lowcells[i].Y + lowcells[i].Speed;
-                a = rnd.Next(0, maxvaluespeed);
-                if (a == 1)
+                directionOfMove = rnd.Next(0, maxvaluespeed);
+                /* Движение вправо */
+                if (directionOfMove == 1)
                 {
                     lowcells[i].X += lowcells[i].Speed;
-                    if (overviewright >= MaxWidth)
+                    if (lowcells[i].X >= MaxWidth)
                     {
-                        lowcells[i].Speed *= -1;
-                        lowcells[i].X += lowcells[i].Speed;
+                        //lowcells[i].X = rnd.Next(1, MaxWidth);
+                        lowcells[i].X -= lowcells[i].Speed;
                     }
                 }
-                if (a == 2)
+                /* Движение влево */
+                if (directionOfMove == 2)
                 {
                     lowcells[i].X -= lowcells[i].Speed;
-                    if (overviewleft <= 0)
+                    if (lowcells[i].X <= 0)
                     {
-                        lowcells[i].Speed *= 1;
+                        //lowcells[i].X = rnd.Next(1, MaxWidth);
                         lowcells[i].X += lowcells[i].Speed;
                     }
                 }
-                if (a == 3)
+                /* Движение вниз */
+                if (directionOfMove == 3)
                 {
                     lowcells[i].Y += lowcells[i].Speed;
-                    if (overviewdown >= MaxHeight)
+                    if (lowcells[i].Y >= MaxHeight)
                     {
-                        lowcells[i].Speed *= -1;
-                        lowcells[i].X += lowcells[i].Speed;
+                        //lowcells[i].Y = rnd.Next(1, MaxHeight);
+                        lowcells[i].Y -= lowcells[i].Speed;
                     }
                 }
-                if (a == 4)
+                /* Движение вверх */
+                if (directionOfMove == 4)
                 {
                     lowcells[i].Y -= lowcells[i].Speed;
-                    if (overviewup <= 0)
+                    if (lowcells[i].Y <= 0)
                     {
-                        lowcells[i].Speed *= 1;
+                        //lowcells[i].Y = rnd.Next(1, MaxHeight);
+                        lowcells[i].Y += lowcells[i].Speed;
+                    }
+                }
+                /* Движение по диагонали вверх + вправо */
+                if (directionOfMove == 5)
+                {
+                    lowcells[i].X += lowcells[i].Speed;
+                    lowcells[i].Y -= lowcells[i].Speed;
+                    if (lowcells[i].X >= MaxWidth || lowcells[i].Y <= 0)
+                    {
+                        //lowcells[i].X = rnd.Next(1, MaxHeight);
+                        //lowcells[i].Y = rnd.Next(1, MaxHeight);
+                        lowcells[i].X -= lowcells[i].Speed;
+                        lowcells[i].Y += lowcells[i].Speed;
+                    }
+                }
+                /* Движение по диагонали вниз + влево */
+                if (directionOfMove == 6)
+                {
+                    lowcells[i].X -= lowcells[i].Speed;
+                    lowcells[i].Y += lowcells[i].Speed;
+                    if (lowcells[i].X <= 0 || lowcells[i].Y >= MaxHeight)
+                    {
+                        //lowcells[i].X = rnd.Next(1, MaxHeight);
+                        //lowcells[i].Y = rnd.Next(1, MaxHeight);
                         lowcells[i].X += lowcells[i].Speed;
+                        lowcells[i].Y -= lowcells[i].Speed;
+                    }
+                }
+                /* Движение по диагонали вверх + влево */
+                if (directionOfMove == 7)
+                {
+                    lowcells[i].X -= lowcells[i].Speed;
+                    lowcells[i].Y -= lowcells[i].Speed;
+                    if (lowcells[i].X <= 0 || lowcells[i].Y <= 0)
+                    {
+                        //lowcells[i].X = rnd.Next(1, MaxHeight);
+                        //lowcells[i].Y = rnd.Next(1, MaxHeight);
+                        lowcells[i].X += lowcells[i].Speed;
+                        lowcells[i].Y += lowcells[i].Speed;
+                    }
+                }
+                /* Движение по диагонали вниз + вправо */
+                if (directionOfMove == 8)
+                {
+                    lowcells[i].X += lowcells[i].Speed;
+                    lowcells[i].Y += lowcells[i].Speed;
+                    if (lowcells[i].X >= MaxWidth || lowcells[i].Y >= MaxHeight)
+                    {
+                        //lowcells[i].X = rnd.Next(1, MaxHeight);
+                        //lowcells[i].Y = rnd.Next(1, MaxHeight);
+                        lowcells[i].X -= lowcells[i].Speed;
+                        lowcells[i].Y -= lowcells[i].Speed;
                     }
                 }
                 /* Удаление клеток */
-                if (lowcells[i].X < 0 || lowcells[i].X > MaxWidth || lowcells[i].Y < 0 || lowcells[i].Y > MaxHeight)
-                {
-                    lowcells.RemoveAll(c => c == lowcells[i]);
-                }
+                //if (lowcells[i].X < 0 || lowcells[i].X > MaxWidth || lowcells[i].Y < 0 || lowcells[i].Y > MaxHeight)
+                //{
+                //    lowcells.RemoveAll(c => c == lowcells[i]);
+                //}
             }
         }
         public void Eating()
@@ -80,7 +132,6 @@ namespace SimulatorOfLive.Logic.Controller
         }
         public bool Detecting()
         {
-            
             return false;
         }
     }

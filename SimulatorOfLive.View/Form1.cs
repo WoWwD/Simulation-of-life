@@ -15,7 +15,7 @@ namespace SimulatorOfLive.View
 {
     public partial class Form1 : Form
     {
-        public int speedOfGame = 100;
+        public int speedOfGame = 243;
         private static Bitmap bmp = new Bitmap(1262, 589);
         private static Graphics graphics = Graphics.FromImage(bmp);
         private static Controller controller = new Controller();
@@ -24,7 +24,7 @@ namespace SimulatorOfLive.View
             InitializeComponent();
             graphics.FillRectangle(Brushes.LightGray, 0, 0, GameZonePictureBox.Width, GameZonePictureBox.Height);
             GameZonePictureBox.Image = bmp;
-            controller.AddCellsLow(50000, GameZonePictureBox.Width, GameZonePictureBox.Height);
+            controller.AddCellsLow(500, GameZonePictureBox.Width, GameZonePictureBox.Height);
         }
         private void StartGameButton_Click(object sender, EventArgs e)
         {
@@ -52,6 +52,10 @@ namespace SimulatorOfLive.View
                 GameZonePictureBox.Image = bmp;
                 graphics.FillEllipse(Brushes.BlueViolet, controller.lowcells[i].X, controller.lowcells[i].Y, controller.lowcells[i].Width, controller.lowcells[i].Height);
             }
+            if (controller.lowcells.Count < 500)
+            {
+                timer1.Stop();
+            }
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
@@ -59,19 +63,19 @@ namespace SimulatorOfLive.View
             SpeedOfGamesLabel.Text = $"Скорость игры: {trackBar1.Value}x";
             if (trackBar1.Value == 1)
             {
-                speedOfGame = 100;
+                speedOfGame = 243;
             }
             if (trackBar1.Value == 2)
             {
-                speedOfGame = 50;
+                speedOfGame = 81;
             }
             if (trackBar1.Value == 3)
             {
-                speedOfGame = 25;
+                speedOfGame = 27;
             }
             if (trackBar1.Value == 4)
             {
-                speedOfGame = 5;
+                speedOfGame = 9;
             }
         }
     }

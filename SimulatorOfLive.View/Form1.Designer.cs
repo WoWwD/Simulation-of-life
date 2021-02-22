@@ -36,8 +36,8 @@ namespace SimulatorOfLive.View
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.GameZonePictureBox = new System.Windows.Forms.PictureBox();
-            this.SpeedOfGamesLabel = new System.Windows.Forms.Label();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.SpeedOfGamesLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -78,7 +78,7 @@ namespace SimulatorOfLive.View
             // 
             // timer1
             // 
-            this.timer1.Interval = 10;
+            this.timer1.Interval = 1;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // splitContainer1
@@ -117,16 +117,6 @@ namespace SimulatorOfLive.View
             this.GameZonePictureBox.TabIndex = 0;
             this.GameZonePictureBox.TabStop = false;
             // 
-            // SpeedOfGamesLabel
-            // 
-            this.SpeedOfGamesLabel.AutoSize = true;
-            this.SpeedOfGamesLabel.BackColor = System.Drawing.SystemColors.Window;
-            this.SpeedOfGamesLabel.Location = new System.Drawing.Point(1087, 76);
-            this.SpeedOfGamesLabel.Name = "SpeedOfGamesLabel";
-            this.SpeedOfGamesLabel.Size = new System.Drawing.Size(126, 17);
-            this.SpeedOfGamesLabel.TabIndex = 4;
-            this.SpeedOfGamesLabel.Text = "Скорость игры: 1x";
-            // 
             // trackBar1
             // 
             this.trackBar1.Location = new System.Drawing.Point(1058, 17);
@@ -137,6 +127,16 @@ namespace SimulatorOfLive.View
             this.trackBar1.TabIndex = 5;
             this.trackBar1.Value = 1;
             this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+            // 
+            // SpeedOfGamesLabel
+            // 
+            this.SpeedOfGamesLabel.AutoSize = true;
+            this.SpeedOfGamesLabel.BackColor = System.Drawing.SystemColors.Window;
+            this.SpeedOfGamesLabel.Location = new System.Drawing.Point(1087, 76);
+            this.SpeedOfGamesLabel.Name = "SpeedOfGamesLabel";
+            this.SpeedOfGamesLabel.Size = new System.Drawing.Size(126, 17);
+            this.SpeedOfGamesLabel.TabIndex = 4;
+            this.SpeedOfGamesLabel.Text = "Скорость игры: 1x";
             // 
             // Form1
             // 
