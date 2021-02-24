@@ -36,6 +36,7 @@ namespace SimulatorOfLive.View
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.GameZonePictureBox = new System.Windows.Forms.PictureBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.SpeedOfGamesLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -98,6 +99,7 @@ namespace SimulatorOfLive.View
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.BackColor = System.Drawing.Color.White;
+            this.splitContainer1.Panel2.Controls.Add(this.label1);
             this.splitContainer1.Panel2.Controls.Add(this.trackBar1);
             this.splitContainer1.Panel2.Controls.Add(this.SpeedOfGamesLabel);
             this.splitContainer1.Panel2.Controls.Add(this.ResetGameButton);
@@ -116,6 +118,15 @@ namespace SimulatorOfLive.View
             this.GameZonePictureBox.Size = new System.Drawing.Size(1262, 550);
             this.GameZonePictureBox.TabIndex = 0;
             this.GameZonePictureBox.TabStop = false;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(329, 17);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(180, 17);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Вышло за границу: 0 из 0 ";
             // 
             // trackBar1
             // 
@@ -168,6 +179,7 @@ namespace SimulatorOfLive.View
         private System.Windows.Forms.PictureBox GameZonePictureBox;
         private System.Windows.Forms.Label SpeedOfGamesLabel;
         private System.Windows.Forms.TrackBar trackBar1;
+        private System.Windows.Forms.Label label1;
     }
 }
 

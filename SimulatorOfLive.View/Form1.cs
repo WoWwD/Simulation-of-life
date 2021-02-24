@@ -1,14 +1,6 @@
 ﻿using SimulatorOfLive.Logic.Controller;
-using SimulatorOfLive.Logic.Model;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SimulatorOfLive.View
@@ -16,19 +8,22 @@ namespace SimulatorOfLive.View
     public partial class Form1 : Form
     {
         public int speedOfGame = 243;
+        public int killed = 0;
         private static Bitmap bmp = new Bitmap(1262, 589);
         private static Graphics graphics = Graphics.FromImage(bmp);
         private static Controller controller = new Controller();
         public Form1()
         {
             InitializeComponent();
+            label1.Visible = false;
             graphics.FillRectangle(Brushes.LightGray, 0, 0, GameZonePictureBox.Width, GameZonePictureBox.Height);
             GameZonePictureBox.Image = bmp;
-            controller.AddCellsLow(500, GameZonePictureBox.Width, GameZonePictureBox.Height);
+            controller.AddFirstCells(350, GameZonePictureBox.Width, GameZonePictureBox.Height, controller.cells);  
         }
         private void StartGameButton_Click(object sender, EventArgs e)
         {
             StartGameButton.Enabled = false;
+            label1.Visible = true;
             timer1.Start();
             
         }
@@ -46,16 +41,35 @@ namespace SimulatorOfLive.View
         {
             trackBar1.Enabled = false;
             graphics.Clear(Color.LightGray);
-            controller.Move(GameZonePictureBox.Width, GameZonePictureBox.Height, speedOfGame);
-            for (int i = 0; i < controller.lowcells.Count; i++)
+            controller.Move(GameZonePictureBox.Width, GameZonePictureBox.Height, speedOfGame, controller.cells);
+            controller.AddMediumCells();
+            controller.AddHighCells();
+            for (int i = 0; i < controller.cells.Count; i++)
             {
-                GameZonePictureBox.Image = bmp;
-                graphics.FillEllipse(Brushes.BlueViolet, controller.lowcells[i].X, controller.lowcells[i].Y, controller.lowcells[i].Width, controller.lowcells[i].Height);
+                if (controller.cells[i].Width == 10 && controller.cells[i].Height == 10)
+                {
+                    GameZonePictureBox.Image = bmp;
+                    graphics.FillEllipse(Brushes.Brown, controller.cells[i].X, controller.cells[i].Y, controller.cells[i].Width, controller.cells[i].Height);
+
+                }
+                if (controller.cells[i].Width == 8 && controller.cells[i].Height == 8)
+                {
+                    GameZonePictureBox.Image = bmp;
+                    graphics.FillEllipse(Brushes.Blue, controller.cells[i].X, controller.cells[i].Y, controller.cells[i].Width, controller.cells[i].Height);
+                    
+                }
+                if (controller.cells[i].Width == 6 && controller.cells[i].Height == 6)
+                {
+                    GameZonePictureBox.Image = bmp;
+                    graphics.FillEllipse(Brushes.BlueViolet, controller.cells[i].X, controller.cells[i].Y, controller.cells[i].Width, controller.cells[i].Height);
+                }
+                label1.Text = $"Вышло за границу: {350 - controller.cells.Count} из {350}";
+                
             }
-            if (controller.lowcells.Count < 500)
-            {
-                timer1.Stop();
-            }
+            //if (controller.cells.Count < 250 || controller.cells.Count > 250)
+            //{
+            //    timer1.Stop();
+            //}
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
