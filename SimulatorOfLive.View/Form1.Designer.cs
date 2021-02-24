@@ -36,9 +36,9 @@ namespace SimulatorOfLive.View
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.GameZonePictureBox = new System.Windows.Forms.PictureBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.SpeedOfGamesLabel = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -79,7 +79,7 @@ namespace SimulatorOfLive.View
             // 
             // timer1
             // 
-            this.timer1.Interval = 10;
+            this.timer1.Interval = 1;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // splitContainer1
@@ -105,8 +105,8 @@ namespace SimulatorOfLive.View
             this.splitContainer1.Panel2.Controls.Add(this.ResetGameButton);
             this.splitContainer1.Panel2.Controls.Add(this.StartGameButton);
             this.splitContainer1.Panel2.Controls.Add(this.PauseGameButton);
-            this.splitContainer1.Size = new System.Drawing.Size(1262, 673);
-            this.splitContainer1.SplitterDistance = 550;
+            this.splitContainer1.Size = new System.Drawing.Size(1582, 853);
+            this.splitContainer1.SplitterDistance = 696;
             this.splitContainer1.TabIndex = 4;
             // 
             // GameZonePictureBox
@@ -115,18 +115,10 @@ namespace SimulatorOfLive.View
             this.GameZonePictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.GameZonePictureBox.Location = new System.Drawing.Point(0, 0);
             this.GameZonePictureBox.Name = "GameZonePictureBox";
-            this.GameZonePictureBox.Size = new System.Drawing.Size(1262, 550);
+            this.GameZonePictureBox.Size = new System.Drawing.Size(1582, 696);
             this.GameZonePictureBox.TabIndex = 0;
             this.GameZonePictureBox.TabStop = false;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(329, 17);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(117, 17);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "Съедено: 0 из 0 ";
+            this.GameZonePictureBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.GameZonePictureBox_MouseClick);
             // 
             // trackBar1
             // 
@@ -150,11 +142,20 @@ namespace SimulatorOfLive.View
             this.SpeedOfGamesLabel.TabIndex = 4;
             this.SpeedOfGamesLabel.Text = "Скорость игры: 1x";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(327, 17);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(182, 17);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Количество клеток: 0 из 0";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1262, 673);
+            this.ClientSize = new System.Drawing.Size(1582, 853);
             this.Controls.Add(this.splitContainer1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;

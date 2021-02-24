@@ -43,9 +43,16 @@
   <ItemGroup>
     <Compile Include="Abstract model\FormOfCell.cs" />
     <Compile Include="Controller\Controller.cs" />
-    <Compile Include="Model\HighCell.cs" />
-    <Compile Include="Model\LowCell.cs" />
-    <Compile Include="Model\MediumCell.cs" />
+    <Compile Include="Model\Cell\HerbivoreHighCell.cs" />
+    <Compile Include="Model\Cell\OmnivoreHighCell.cs" />
+    <Compile Include="Model\Cell\OmnivoreLowCell.cs" />
+    <Compile Include="Model\Cell\OmnivoreMediumCell.cs" />
+    <Compile Include="Model\Cell\HerbivoreMediumCell.cs" />
+    <Compile Include="Model\Eat.cs" />
+    <Compile Include="Model\Cell\CarnivorousHighCell.cs" />
+    <Compile Include="Model\Cell\CarnivorousLowCell.cs" />
+    <Compile Include="Model\Cell\CarnivorousMediumCell.cs" />
+    <Compile Include="Model\Cell\HerbivoreLowCell.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
