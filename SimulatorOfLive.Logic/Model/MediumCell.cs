@@ -1,13 +1,13 @@
 ﻿using SimulatorOfLive.Logic.Abstract_model;
-using System;
-using System.Collections.Generic;
 
 namespace SimulatorOfLive.Logic.Model
 {
     public class MediumCell : FormOfCell
     {
-        public MediumCell(int X, int Y, int Speed = 4, int Overview = 8, int Width = 8, int Height = 8) : base(Speed, Overview, Width, Height, X, Y)
+        public MediumCell(long Id, int X, int Y, int Speed = 4, int RegionOfEating = 7, int Width = 8, int Height = 8, int CountOfEating = 0) 
+            : base(Id, Speed, RegionOfEating, Width, Height, X, Y, CountOfEating)
         {
+            this.Id = Id;
             this.X = X;
             this.Y = Y;
         }

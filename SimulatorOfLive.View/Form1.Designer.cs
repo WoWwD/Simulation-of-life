@@ -79,7 +79,7 @@ namespace SimulatorOfLive.View
             // 
             // timer1
             // 
-            this.timer1.Interval = 1;
+            this.timer1.Interval = 10;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // splitContainer1
@@ -124,12 +124,13 @@ namespace SimulatorOfLive.View
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(329, 17);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(180, 17);
+            this.label1.Size = new System.Drawing.Size(117, 17);
             this.label1.TabIndex = 6;
-            this.label1.Text = "Вышло за границу: 0 из 0 ";
+            this.label1.Text = "Съедено: 0 из 0 ";
             // 
             // trackBar1
             // 
+            this.trackBar1.LargeChange = 1;
             this.trackBar1.Location = new System.Drawing.Point(1058, 17);
             this.trackBar1.Maximum = 4;
             this.trackBar1.Minimum = 1;
