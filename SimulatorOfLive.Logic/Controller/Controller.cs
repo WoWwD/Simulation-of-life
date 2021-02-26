@@ -1,5 +1,6 @@
 ﻿using SimulatorOfLive.Logic.Abstract_model;
 using SimulatorOfLive.Logic.Model;
+using SimulatorOfLive.Logic.Model.Cell;
 using System;
 using System.Collections.Generic;
 
@@ -7,133 +8,32 @@ namespace SimulatorOfLive.Logic.Controller
 {
     public class Controller
     {
-        public int SpeedOfGame;
+        public int SpeedOfGame = 0;
         public List<FormOfCell> cells = new List<FormOfCell>();
         public List<Eat> eat = new List<Eat>();
         public Controller()
         {
 
         }
-        public void Move<T>(int MaxWidthField, int MaxHeightField, int SpeedOfGame, List<T> cells) where T: FormOfCell
+        public void MoveCells(int MaxWidthField, int MaxHeightField)
         {
-            Random rnd = new Random();
-            int directionOfMove;
-            foreach (var cell in cells)
+            foreach (FormOfCell cell in cells)
             {
-                directionOfMove = rnd.Next(0, SpeedOfGame);
-                /* Движение вправо */
-                if (directionOfMove == 1)
-                {
-                    cell.X += cell.Speed;
-                    if (cell.X >= MaxWidthField)
-                    {
-                        cell.X -= cell.Speed;
-                    }
-                }
-                /* Движение влево */
-                if (directionOfMove == 2)
-                {
-                    cell.X -= cell.Speed;
-                    if (cell.X <= 0)
-                    {
-                        cell.X += cell.Speed;
-                    }
-                }
-                /* Движение вниз */
-                if (directionOfMove == 3)
-                {
-                    cell.Y += cell.Speed;
-                    if (cell.Y >= MaxHeightField)
-                    {
-                        cell.Y -= cell.Speed;
-                    }
-                }
-                /* Движение вверх */
-                if (directionOfMove == 4)
-                {
-                    cell.Y -= cell.Speed;
-                    if (cell.Y <= 0)
-                    {
-                        cell.Y += cell.Speed;
-                    }
-                }
-                /* Движение по диагонали вверх + вправо */
-                if (directionOfMove == 5)
-                {
-                    cell.X += cell.Speed;
-                    cell.Y -= cell.Speed;
-                    if (cell.X >= MaxWidthField || cell.Y <= 0)
-                    {
-                        cell.X -= cell.Speed;
-                        cell.Y += cell.Speed;
-                    }
-                }
-                /* Движение по диагонали вниз + влево */
-                if (directionOfMove == 6)
-                {
-                    cell.X -= cell.Speed;
-                    cell.Y += cell.Speed;
-                    if (cell.X <= 0 || cell.Y >= MaxHeightField)
-                    {
-                        cell.X += cell.Speed;
-                        cell.Y -= cell.Speed;
-                    }
-                }
-                /* Движение по диагонали вверх + влево */
-                if (directionOfMove == 7)
-                {
-                    cell.X -= cell.Speed;
-                    cell.Y -= cell.Speed;
-                    if (cell.X <= 0 || cell.Y <= 0)
-                    {
-                        cell.X += cell.Speed;
-                        cell.Y += cell.Speed;
-                    }
-                }
-                /* Движение по диагонали вниз + вправо */
-                if (directionOfMove == 8)
-                {
-                    cell.X += cell.Speed;
-                    cell.Y += cell.Speed;
-                    if (cell.X >= MaxWidthField || cell.Y >= MaxHeightField)
-                    {
-                        cell.X -= cell.Speed;
-                        cell.Y -= cell.Speed;
-                    }
-                }
+                cell.Move(MaxWidthField, MaxHeightField, SpeedOfGame);
             }
-                
         }
-        public void AddFirstCells(int count, int MaxWidthField, int MaxHeightField, List<FormOfCell> cells)
+        public void AddFirstCells(int count, int MaxWidthField, int MaxHeightField)
         {
             Random rnd = new Random();
             int a;
             for (int i = 0; i < count; i++)
             {
-                a = rnd.Next(0,50);
+                a = rnd.Next(20);
                 if (a == 1)
                 {
                     cells.Add(new HerbivoreLowCell(rnd.Next(MaxWidthField), rnd.Next(MaxHeightField)));
-                    continue;
                 }
-                cells.Add(new CarnivorousLowCell(rnd.Next(MaxWidthField), rnd.Next(MaxHeightField))); 
-            }
-        }
-        public void AddEat(int MaxWidthField, int MaxHeightField, List<Eat> eat)
-        {
-            Random rnd = new Random();
-            int a;
-            a = rnd.Next(0, 100);
-            if (a == 1)
-            {
-                eat.Add(new Eat(rnd.Next(MaxWidthField), rnd.Next(MaxHeightField)));
-            }
-        }
-        public void DeleteAllCells(List<FormOfCell> cells)
-        {
-            for (int i = 0; i < cells.Count; i++)
-            {
-                cells.RemoveAt(i);
+                cells.Add(new CarnivorousLowCell(rnd.Next(MaxWidthField), rnd.Next(MaxHeightField)));
             }
         }
         public int EditSpeedOfGame(int speedofgame)
@@ -141,17 +41,26 @@ namespace SimulatorOfLive.Logic.Controller
             SpeedOfGame = speedofgame;
             return SpeedOfGame;
         }
-        public void Eating() // стоит рандом на съедение клетки (1:50)
+        public void AddEat(int MaxWidthField, int MaxHeightField)
         {
             Random rnd = new Random();
-            int viewRight, viewLeft, viewUp, viewDown, a;
+            int a;
+            a = rnd.Next(100);
+            if (a == 1)
+            {
+                eat.Add(new Eat(rnd.Next(MaxWidthField), rnd.Next(MaxHeightField)));
+            }
+        }
+        public void Eating() 
+        {
+            int viewRight, viewLeft, viewUp, viewDown;
             foreach (var cell in cells.ToArray())
             {
                 viewRight = cell.X + cell.RegionOfEating;
                 viewLeft = cell.X - cell.RegionOfEating;
                 viewUp = cell.Y + cell.RegionOfEating;
                 viewDown = cell.Y - cell.RegionOfEating;
-                if (cell is HerbivoreLowCell)
+                if (cell is HerbivoreLowCell || cell is HerbivoreMediumCell || cell is HerbivoreHighCell)
                 {
                     foreach (var e in eat.ToArray())
                     {
@@ -159,88 +68,105 @@ namespace SimulatorOfLive.Logic.Controller
                         {
                             cell.X = e.X;
                             cell.Y = e.Y;
-                            eat.RemoveAll(c => c == e);
                             cell.CountOfEating++;
+                            eat.RemoveAll(c => c == e);
                             break;
-                            
                         }
-
                     }
                     continue;
                 }
-                foreach (var targetToEat in cells)
+                if (cell is CarnivorousLowCell || cell is CarnivorousMediumCell || cell is CarnivorousHighCell)
                 {
-                    if (targetToEat.X == cell.X && targetToEat.Y == cell.Y || targetToEat is HerbivoreLowCell)
+                    foreach (var targetToEat in cells.ToArray())
                     {
-                        continue;
-                    }
-                    if (targetToEat.X <= viewRight && targetToEat.X >= viewLeft && targetToEat.Y <= viewUp && targetToEat.Y >= viewDown)
-                    {
-                        a = rnd.Next(0, 30);
-                        if(a == 1)
+                        if (targetToEat.X == cell.X && targetToEat.Y == cell.Y || targetToEat is HerbivoreLowCell || targetToEat is HerbivoreMediumCell || targetToEat is HerbivoreHighCell)
+                        {
+                            continue;
+                        }
+                        if (targetToEat.X <= viewRight && targetToEat.X >= viewLeft && targetToEat.Y <= viewUp && targetToEat.Y >= viewDown)
                         {
                             cell.X = targetToEat.X;
                             cell.Y = targetToEat.Y;
-                            cells.RemoveAll(c => c == targetToEat);
+                            targetToEat.HP--;
                             cell.CountOfEating++;
+                            if (targetToEat.HP <= 0)
+                            {
+                                cells.RemoveAll(c => c == targetToEat);
+                            }
                             break;
                         }
                     }
                 }
-
             }
-        } 
-        public void EvolutionOfCells(List<FormOfCell> cells)
+        }
+        public void Evolution()
         {
             Random rnd = new Random();
-            int a, b;
-            for (int i = 0; i < cells.Count; i++)
-            {
-                if (cells[i] is CarnivorousLowCell)
+            int a, b, X, Y;
+            foreach (var cell in cells.ToArray())
+            { 
+                if (cell is CarnivorousLowCell)
                 {
-                    if (cells[i].CountOfEating == 3)
+                    if (cell.CountOfEating >= 5)
                     {
-                        a = rnd.Next(0, 100);
+                        a = rnd.Next(100);
                         if (a == 1)
                         {
-                            cells.Add(new CarnivorousMediumCell(cells[i].X, cells[i].Y));
-                            cells.RemoveAt(i);
+                            X = cell.X;
+                            Y = cell.Y;
+                            cells.RemoveAll(c => c == cell);
+                            cells.Add(new CarnivorousMediumCell(X, Y));
                         }
-                        break;
                     }
                 }
-                if (cells[i] is CarnivorousMediumCell)
+                if (cell is CarnivorousMediumCell)
                 {
-                    if (cells[i].CountOfEating == 4)
+                    if (cell.CountOfEating >= 4)
                     {
-                        b = rnd.Next(0, 100);
+                        b = rnd.Next(100);
                         if (b == 1)
                         {
-                            cells.Add(new CarnivorousHighCell(cells[i].X, cells[i].Y));
-                            cells.RemoveAt(i);
+                            X = cell.X;
+                            Y = cell.Y;
+                            cells.RemoveAll(c => c == cell);
+                            cells.Add(new CarnivorousHighCell(X, Y));
                         }
-                        break;
+                    }
+                    
+                }
+                if (cell is HerbivoreLowCell)
+                {
+                    if (cell.CountOfEating >= 3)
+                    {
+                        a = rnd.Next(10);
+                        if (a == 1)
+                        {
+                            X = cell.X;
+                            Y = cell.Y;
+                            cells.RemoveAll(c => c == cell);
+                            cells.Add(new HerbivoreMediumCell(X, Y));
+                        }
                     }
                 }
-                if (cells[i] is HerbivoreLowCell)
+                if (cell is HerbivoreMediumCell)
                 {
-                    if (cells[i].CountOfEating >= 5)
+                    if (cell.CountOfEating >= 3)
                     {
-                        b = rnd.Next(0, 10);
-                        if (b == 1)
+                        a = rnd.Next(10);
+                        if (a == 1)
                         {
-                            cells.Add(new HerbivoreLowCell(cells[i].X, cells[i].Y, 10, 7, 10, 10));
-                            cells.RemoveAt(i);
+                            X = cell.X;
+                            Y = cell.Y;
+                            cells.RemoveAll(c => c == cell);
+                            cells.Add(new HerbivoreHighCell(X, Y));
                         }
-                        break;
                     }
                 }
             }
-            
         }
-        public void AddingDeletingCellsThroughMouse(int MaxWidthField, int MaxHeightField, List<FormOfCell> cells)
-        {
-            cells.Add(new CarnivorousLowCell(MaxWidthField, MaxHeightField));
-        }
+        //public void AddingDeletingCellsThroughMouse(int MaxWidthField, int MaxHeightField, List<FormOfCell> cells)
+        //{
+        //    cells.Add(new CarnivorousLowCell(MaxWidthField, MaxHeightField));
+        //}
     }
 }

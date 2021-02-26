@@ -2,11 +2,19 @@
 
 namespace SimulatorOfLive.Logic.Model
 {
-    public class HerbivoreLowCell: FormOfCell
+    public class HerbivoreLowCell : FormOfCell
     {
-        public HerbivoreLowCell() { }
-        public HerbivoreLowCell(int X, int Y, int Speed = 10, int RegionOfEating = 7, int Width = 7, int Height = 7, int CountOfEating = 0)
-            : base(Speed, RegionOfEating, Width, Height, X, Y, CountOfEating)
+        private byte _HP = 2;
+        private int _CountOfEating;
+        public override byte HP { get { return _HP; } set { _HP = value; } }
+        public override int CountOfEating { get { return _CountOfEating; } set { _CountOfEating = value; } }
+        public override int Speed { get { return 8; } }
+        public override int RegionOfEating { get { return 8; } }
+        public override int Width { get { return 6; } }
+        public override int Height { get { return 6; } }
+        public override int X { get; set; }
+        public override int Y { get; set; }
+        public HerbivoreLowCell(int X, int Y) : base(X, Y)
         {
             this.X = X;
             this.Y = Y;

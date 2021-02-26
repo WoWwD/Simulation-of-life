@@ -36,9 +36,9 @@ namespace SimulatorOfLive.View
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.GameZonePictureBox = new System.Windows.Forms.PictureBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.SpeedOfGamesLabel = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -120,6 +120,15 @@ namespace SimulatorOfLive.View
             this.GameZonePictureBox.TabStop = false;
             this.GameZonePictureBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.GameZonePictureBox_MouseClick);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(327, 17);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(182, 17);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Количество клеток: 0 из 0";
+            // 
             // trackBar1
             // 
             this.trackBar1.LargeChange = 1;
@@ -141,15 +150,6 @@ namespace SimulatorOfLive.View
             this.SpeedOfGamesLabel.Size = new System.Drawing.Size(126, 17);
             this.SpeedOfGamesLabel.TabIndex = 4;
             this.SpeedOfGamesLabel.Text = "Скорость игры: 1x";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(327, 17);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(182, 17);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "Количество клеток: 0 из 0";
             // 
             // Form1
             // 

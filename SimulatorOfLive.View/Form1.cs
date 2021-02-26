@@ -1,8 +1,8 @@
 ﻿using SimulatorOfLive.Logic.Abstract_model;
 using SimulatorOfLive.Logic.Controller;
 using SimulatorOfLive.Logic.Model;
+using SimulatorOfLive.Logic.Model.Cell;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -10,86 +10,74 @@ namespace SimulatorOfLive.View
 {
     public partial class Form1 : Form
     {
-        private const int CountOfCells = 750;
-        private static Bitmap bmp = new Bitmap(1262, 589);
-        private static Graphics graphics = Graphics.FromImage(bmp);
+        private const int CountOfCells = 300;
+        private Graphics graphics;
         private static Controller controller = new Controller();
-        private void RefreshCells<T>(List<T> cells) where T: FormOfCell
+        public Form1()
         {
-            foreach (var cell in cells)
+            InitializeComponent();
+            controller.EditSpeedOfGame(243);
+        }
+        private void RefreshData()
+        {
+            foreach (FormOfCell cell in controller.cells)
             {
                 if (cell is CarnivorousLowCell)
                 {
-                    GameZonePictureBox.Image = bmp;
                     graphics.FillEllipse(Brushes.BlueViolet, cell.X, cell.Y, cell.Width, cell.Height);
                 }
                 if (cell is CarnivorousMediumCell)
                 {
-                    GameZonePictureBox.Image = bmp;
                     graphics.FillEllipse(Brushes.Blue, cell.X, cell.Y, cell.Width, cell.Height);
                 }
                 if (cell is CarnivorousHighCell)
                 {
-                    GameZonePictureBox.Image = bmp;
                     graphics.FillEllipse(Brushes.Brown, cell.X, cell.Y, cell.Width, cell.Height);
                 }
                 if (cell is HerbivoreLowCell)
                 {
-                    GameZonePictureBox.Image = bmp;
-                    graphics.FillEllipse(Brushes.Black, cell.X, cell.Y, cell.Width, cell.Height);
+                    graphics.FillEllipse(Brushes.DarkGreen, cell.X, cell.Y, cell.Width, cell.Height);
                 }
-            }
-            label1.Text = $"Количество клеток: {cells.Count} из {CountOfCells}";
-        }
-        private void RefreshEat<T>(List<T> eat) where T : Eat
-        {
-            if (eat.Count != 0)
-            {
-                foreach (var e in eat)
+                if (cell is HerbivoreMediumCell)
                 {
-                    if (e is Eat)
-                    {
-                        GameZonePictureBox.Image = bmp;
-                        graphics.FillRectangle(Brushes.Green, e.X, e.Y, e.Width, e.Height);
-                    }
+                    graphics.FillEllipse(Brushes.DarkSeaGreen, cell.X, cell.Y, cell.Width, cell.Height);
+                }
+                if (cell is HerbivoreHighCell)
+                {
+                    graphics.FillEllipse(Brushes.Green, cell.X, cell.Y, cell.Width, cell.Height);
                 }
             }
-        }
-        public Form1()
-        {
-            InitializeComponent();
-            graphics.FillRectangle(Brushes.LightGray, 0, 0, GameZonePictureBox.Width, GameZonePictureBox.Height);
-            GameZonePictureBox.Image = bmp;
-            controller.AddFirstCells(CountOfCells, GameZonePictureBox.Width, GameZonePictureBox.Height, controller.cells);
-            controller.EditSpeedOfGame(243);
+            foreach (var e in controller.eat)
+            {
+                graphics.FillRectangle(Brushes.Green, e.X, e.Y, e.Width, e.Height);
+            }
         }
         private void StartGameButton_Click(object sender, EventArgs e)
         {
             StartGameButton.Enabled = false;
+            controller.AddFirstCells(CountOfCells, GameZonePictureBox.Width, GameZonePictureBox.Height);
+            GameZonePictureBox.Image = new Bitmap(GameZonePictureBox.Width, GameZonePictureBox.Height);
+            graphics = Graphics.FromImage(GameZonePictureBox.Image);
             timer1.Start();
         }
         private void ResetGameButton_Click(object sender, EventArgs e)
         {
-            timer1.Stop();
-            controller.DeleteAllCells(controller.cells);
-            RefreshCells(controller.cells);
-            controller.AddFirstCells(CountOfCells, GameZonePictureBox.Width, GameZonePictureBox.Height, controller.cells);
-            timer1.Start();
+            
         }
         private void PauseGameButton_Click(object sender, EventArgs e)
         {
-            timer1.Stop();
-            StartGameButton.Enabled = true;
+            
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
             graphics.Clear(Color.LightGray);
-            controller.AddEat(GameZonePictureBox.Width, GameZonePictureBox.Height, controller.eat);
-            RefreshEat(controller.eat);
-            RefreshCells(controller.cells);
-            controller.Move(GameZonePictureBox.Width, GameZonePictureBox.Height, controller.SpeedOfGame, controller.cells);
+            controller.MoveCells(GameZonePictureBox.Width, GameZonePictureBox.Height);
             controller.Eating();
-            controller.EvolutionOfCells(controller.cells);
+            controller.Evolution();
+            controller.AddEat(GameZonePictureBox.Width, GameZonePictureBox.Height);
+            RefreshData();
+            GameZonePictureBox.Refresh();
+            label1.Text = $"Количество клеток {controller.cells.Count} из {CountOfCells}";
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
@@ -117,14 +105,14 @@ namespace SimulatorOfLive.View
         }
         private void GameZonePictureBox_MouseClick(object sender, MouseEventArgs e)
         {
-            if (timer1.Enabled)
-            {
-                if (e.Button == MouseButtons.Left)
-                {
-                    controller.AddingDeletingCellsThroughMouse(e.Location.X, e.Location.Y, controller.cells);
-                    RefreshCells(controller.cells);
-                }
-            }
+            //if (timer1.Enabled)
+            //{
+            //    if (e.Button == MouseButtons.Left)
+            //    {
+            //        controller.AddingDeletingCellsThroughMouse(e.Location.X, e.Location.Y, controller.cells);
+            //        RefreshCells(controller.cells);
+            //    }
+            //}
         }
     }
 }
