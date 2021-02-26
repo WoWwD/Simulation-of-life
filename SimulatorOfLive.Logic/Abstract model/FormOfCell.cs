@@ -4,19 +4,17 @@ namespace SimulatorOfLive.Logic.Abstract_model
 {
     public abstract class FormOfCell
     {
-        public static Random rnd = new Random();
+        public abstract byte RegionOfEating { get; }
         public abstract byte HP { get; set; }
         public abstract int CountOfEating { get; set; } // счётчик съеденной еды
-        public abstract int Speed { get; } // скорость передвижения клетки
-        public abstract int RegionOfEating { get; } // Область приема пищи
-        public abstract int Width { get; } // ширина клетки
-        public abstract int Height { get; } // высота клетки
+        public abstract byte Speed { get; } // скорость передвижения клетки
+        public abstract int Overview { get; } // обзор клетки
+        public abstract byte Width { get; } // ширина клетки
+        public abstract byte Height { get; } // высота клетки
         public abstract int X { get; set; } // расположение клетки по оси X
         public abstract int Y { get; set; } // расположение клетки по оси Y
-        public virtual void Move(int MaxWidthField, int MaxHeightField, int SpeedOfGame)
+        public virtual void Move(int MaxWidthField, int MaxHeightField, int DirectionOfMove)
         {
-            int DirectionOfMove;
-            DirectionOfMove = rnd.Next(SpeedOfGame);
             /* Движение вправо */
             if (DirectionOfMove == 1)
             {
@@ -53,47 +51,59 @@ namespace SimulatorOfLive.Logic.Abstract_model
                     Y += Speed;
                 }
             }
-            /* Движение по диагонали вверх + вправо */
+            /* Движение по первой четверти */
             if (DirectionOfMove == 5)
             {
                 X += Speed;
                 Y -= Speed;
-                if (X >= MaxWidthField || Y <= 0)
+                if (X >= MaxWidthField)
                 {
                     X -= Speed;
+                }
+                if (Y <= 0)
+                {
                     Y += Speed;
                 }
             }
-            /* Движение по диагонали вниз + влево */
+            /* Движение по второй четверти */
             if (DirectionOfMove == 6)
             {
                 X -= Speed;
                 Y += Speed;
-                if (X <= 0 || Y >= MaxHeightField)
+                if (X <= 0)
                 {
                     X += Speed;
+                }
+                if (Y >= MaxHeightField)
+                {
                     Y -= Speed;
                 }
             }
-            /* Движение по диагонали вверх + влево */
+            /* Движение по третьей четверти */
             if (DirectionOfMove == 7)
             {
                 X -= Speed;
                 Y -= Speed;
-                if (X <= 0 || Y <= 0)
+                if (X <= 0)
                 {
                     X += Speed;
+                }
+                if (Y <= 0)
+                {
                     Y += Speed;
                 }
             }
-            /* Движение по диагонали вниз + вправо */
+            /* Движение по четвертой четверти */
             if (DirectionOfMove == 8)
             {
                 X += Speed;
                 Y += Speed;
-                if (X >= MaxWidthField || Y >= MaxHeightField)
+                if (X >= MaxWidthField)
                 {
                     X -= Speed;
+                }
+                if (Y >= MaxHeightField)
+                {
                     Y -= Speed;
                 }
             }

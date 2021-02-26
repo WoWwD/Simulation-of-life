@@ -4,19 +4,27 @@ using SimulatorOfLive.Logic.Model;
 using SimulatorOfLive.Logic.Model.Cell;
 using System;
 using System.Drawing;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SimulatorOfLive.View
 {
     public partial class Form1 : Form
     {
-        private const int CountOfCells = 300;
-        private Graphics graphics;
         private static Controller controller = new Controller();
+        private const int CountOfCells = 500;
+        private Graphics graphics;
         public Form1()
         {
             InitializeComponent();
             controller.EditSpeedOfGame(243);
+            controller.AddFirstCells(CountOfCells, GameZonePictureBox.Width, GameZonePictureBox.Height);
+            GameZonePictureBox.Image = new Bitmap(GameZonePictureBox.Width, GameZonePictureBox.Height);
+            graphics = Graphics.FromImage(GameZonePictureBox.Image);
+            graphics.Clear(Color.LightGray);
+           
+            RefreshData();
+            
         }
         private void RefreshData()
         {
@@ -40,7 +48,7 @@ namespace SimulatorOfLive.View
                 }
                 if (cell is HerbivoreMediumCell)
                 {
-                    graphics.FillEllipse(Brushes.DarkSeaGreen, cell.X, cell.Y, cell.Width, cell.Height);
+                    graphics.FillEllipse(Brushes.DarkOliveGreen, cell.X, cell.Y, cell.Width, cell.Height);
                 }
                 if (cell is HerbivoreHighCell)
                 {
@@ -54,10 +62,7 @@ namespace SimulatorOfLive.View
         }
         private void StartGameButton_Click(object sender, EventArgs e)
         {
-            StartGameButton.Enabled = false;
-            controller.AddFirstCells(CountOfCells, GameZonePictureBox.Width, GameZonePictureBox.Height);
-            GameZonePictureBox.Image = new Bitmap(GameZonePictureBox.Width, GameZonePictureBox.Height);
-            graphics = Graphics.FromImage(GameZonePictureBox.Image);
+            StartGameButton.Enabled = false;    
             timer1.Start();
         }
         private void ResetGameButton_Click(object sender, EventArgs e)
@@ -71,11 +76,11 @@ namespace SimulatorOfLive.View
         private void timer1_Tick(object sender, EventArgs e)
         {
             graphics.Clear(Color.LightGray);
+            RefreshData();
             controller.MoveCells(GameZonePictureBox.Width, GameZonePictureBox.Height);
             controller.Eating();
             controller.Evolution();
             controller.AddEat(GameZonePictureBox.Width, GameZonePictureBox.Height);
-            RefreshData();
             GameZonePictureBox.Refresh();
             label1.Text = $"Количество клеток {controller.cells.Count} из {CountOfCells}";
         }
