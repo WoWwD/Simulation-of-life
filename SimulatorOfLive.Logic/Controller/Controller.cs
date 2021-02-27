@@ -74,10 +74,10 @@ namespace SimulatorOfLive.Logic.Controller
             int viewRight, viewLeft, viewUp, viewDown, RegionOfEatingLeft, RegionOfEatingRight, RegionOfEatingUp, RegionOfEatingDown, a;
             foreach (var cell in cells.ToArray())
             {
-                RegionOfEatingRight = cell.X + cell.RegionOfEating;
-                RegionOfEatingLeft = cell.X - cell.RegionOfEating;
-                RegionOfEatingUp = cell.Y - cell.RegionOfEating;
-                RegionOfEatingDown = cell.Y + cell.RegionOfEating;
+                //RegionOfEatingRight = cell.X + cell.RegionOfEating;
+                //RegionOfEatingLeft = cell.X - cell.RegionOfEating;
+                //RegionOfEatingUp = cell.Y - cell.RegionOfEating;
+                //RegionOfEatingDown = cell.Y + cell.RegionOfEating;
                 viewRight = cell.X + cell.Overview;
                 viewLeft = cell.X - cell.Overview;
                 viewUp = cell.Y - cell.Overview;
@@ -93,7 +93,7 @@ namespace SimulatorOfLive.Logic.Controller
                         /* цель справа на одной высоте */
                         else if (e.X >= cell.X && e.X <= viewRight && e.Y == cell.Y)
                         {
-                            if (e.X >= cell.X && e.X <= RegionOfEatingRight)
+                            if (e.X == cell.X) // e.X >= cell.X && e.X <= RegionOfEatingRight
                             {
                                 //cell.X = e.X;
                                 //cell.Y = e.Y;
@@ -112,7 +112,7 @@ namespace SimulatorOfLive.Logic.Controller
                         /* цель слева на одной высоте */
                         else if (e.X <= cell.X &&  e.X >= viewLeft && e.Y == cell.Y)
                         {
-                            if (e.X <= cell.X && e.X >= RegionOfEatingLeft)
+                            if (e.X == cell.X) // e.X <= cell.X && e.X >= RegionOfEatingLeft
                             {
                                 //cell.X = e.X;
                                 //cell.Y = e.Y;
@@ -131,7 +131,7 @@ namespace SimulatorOfLive.Logic.Controller
                         /* цель снизу на одной ширине */
                         else if (e.Y >= cell.Y && e.Y <= viewDown && e.X == cell.X)
                         {
-                            if (e.Y >= cell.Y && e.Y <= RegionOfEatingDown) 
+                            if (e.Y == cell.Y) // e.Y >= cell.Y && e.Y <= RegionOfEatingDown
                             {
                                 //cell.X = e.X;
                                 //cell.Y = e.Y;
@@ -150,7 +150,7 @@ namespace SimulatorOfLive.Logic.Controller
                         /* цель сверху на одном X */
                         else if (e.Y <= cell.Y && e.Y >= viewUp && e.X == cell.X)
                         {
-                            if (e.Y <= cell.Y && e.Y >= RegionOfEatingUp)
+                            if (e.Y == cell.Y) // e.Y <= cell.Y && e.Y >= RegionOfEatingUp
                             {
                                 //cell.X = e.X;
                                 //cell.Y = e.Y;
@@ -169,7 +169,7 @@ namespace SimulatorOfLive.Logic.Controller
                         /* цель в первой четверти */
                         else if ((e.X >= cell.X && e.X <= viewRight) && (e.Y <= cell.Y && e.Y >= viewUp))
                         {
-                            if ((e.X >= cell.X && e.X <= RegionOfEatingRight) && (e.Y <= cell.Y && e.Y >= RegionOfEatingUp))
+                            if ((e.X == cell.X) && (e.Y == cell.Y)) // (e.X >= cell.X && e.X <= RegionOfEatingRight) && (e.Y <= cell.Y && e.Y >= RegionOfEatingUp)
                             {
                                 //cell.X = e.X;
                                 //cell.Y = e.Y;
@@ -189,7 +189,7 @@ namespace SimulatorOfLive.Logic.Controller
                         /* цель во второй четверти */
                         else if ((e.X <= cell.X && e.X >= viewLeft) && (e.Y <= cell.Y && e.Y >= viewUp))
                         {
-                            if ((e.X <= cell.X && e.X >= RegionOfEatingLeft) && (e.Y <= cell.Y && e.Y >= RegionOfEatingUp))
+                            if ((e.X == cell.X) && (e.Y == cell.Y)) // (e.X <= cell.X && e.X >= RegionOfEatingLeft) && (e.Y <= cell.Y && e.Y >= RegionOfEatingUp)
                             {
                                 //cell.X = e.X;
                                 //cell.Y = e.Y;
@@ -209,7 +209,7 @@ namespace SimulatorOfLive.Logic.Controller
                         /* цель в третьей четверти */
                         else if ((e.X <= cell.X && e.X >= viewLeft) && (e.Y >= cell.Y && e.Y <= viewDown))
                         {
-                            if ((e.X <= cell.X && e.X >= RegionOfEatingLeft) && (e.Y >= cell.Y && e.Y <= RegionOfEatingDown))
+                            if ((e.X == cell.X) && (e.Y == cell.Y)) // (e.X <= cell.X && e.X >= RegionOfEatingLeft) && (e.Y >= cell.Y && e.Y <= RegionOfEatingDown)
                             {
                                 //cell.X = e.X;
                                 //cell.Y = e.Y;
@@ -229,7 +229,7 @@ namespace SimulatorOfLive.Logic.Controller
                         /* цель в четвертой четверти */
                         else if ((e.X >= cell.X && e.X <= viewRight) && (e.Y >= cell.Y && e.Y <= viewDown))
                         {
-                            if ((e.X <= cell.X && e.X >= RegionOfEatingLeft) && (e.Y <= RegionOfEatingDown && e.Y <= cell.Y))
+                            if ((e.X == cell.X) && (e.Y == cell.Y)) // (e.X <= cell.X && e.X >= RegionOfEatingLeft) && (e.Y <= RegionOfEatingDown && e.Y <= cell.Y)
                             {
                                 //cell.X = e.X;
                                 //cell.Y = e.Y;

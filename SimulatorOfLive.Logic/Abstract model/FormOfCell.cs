@@ -5,7 +5,6 @@ namespace SimulatorOfLive.Logic.Abstract_model
     public abstract class FormOfCell
     {
         public abstract bool PathIsClear { get; set; }
-        public abstract byte RegionOfEating { get; }
         public abstract byte HP { get; set; }
         public abstract int CountOfEating { get; set; } // счётчик съеденной еды
         public abstract byte Speed { get; } // скорость передвижения клетки

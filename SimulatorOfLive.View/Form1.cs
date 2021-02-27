@@ -13,7 +13,7 @@ namespace SimulatorOfLive.View
     {
         private static Controller controller = new Controller();
         private static Pen pen = new Pen(Color.Black, 1);
-        private const int CountOfCells = 200;
+        private const int CountOfCells = 10;
         private Graphics graphics;
         public Form1()
         {
