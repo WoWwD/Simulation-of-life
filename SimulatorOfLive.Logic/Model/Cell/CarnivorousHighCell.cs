@@ -5,7 +5,9 @@ namespace SimulatorOfLive.Logic.Model
     public class CarnivorousHighCell: FormOfCell
     {
         private byte _HP = 4;
-        private int _CountOfEating;
+        private int _CountOfEating = 0;
+        private bool _PathIsClear = true;
+        public override bool PathIsClear { get { return _PathIsClear; } set { _PathIsClear = value; } }
         public override byte RegionOfEating { get { return 5; } }
         public override byte HP { get { return _HP; } set { _HP = value; } }
         public override int CountOfEating { get { return _CountOfEating; } set { _CountOfEating = value; } }

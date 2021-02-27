@@ -12,7 +12,8 @@ namespace SimulatorOfLive.View
     public partial class Form1 : Form
     {
         private static Controller controller = new Controller();
-        private const int CountOfCells = 500;
+        private static Pen pen = new Pen(Color.Black, 1);
+        private const int CountOfCells = 200;
         private Graphics graphics;
         public Form1()
         {
@@ -45,6 +46,11 @@ namespace SimulatorOfLive.View
                 if (cell is HerbivoreLowCell)
                 {
                     graphics.FillEllipse(Brushes.DarkGreen, cell.X, cell.Y, cell.Width, cell.Height);
+                    //float x = cell.X - cell.Overview / 2;
+                    //float y = cell.Y - cell.Overview / 2;
+                    //float width = 2 * cell.Overview / 2;
+                    //float height = 2 * cell.Overview / 2;
+                    //graphics.DrawEllipse(pen, x, y, width, height);
                 }
                 if (cell is HerbivoreMediumCell)
                 {
@@ -77,10 +83,11 @@ namespace SimulatorOfLive.View
         {
             graphics.Clear(Color.LightGray);
             RefreshData();
+            controller.AddEat(GameZonePictureBox.Width, GameZonePictureBox.Height);
             controller.MoveCells(GameZonePictureBox.Width, GameZonePictureBox.Height);
             controller.Eating();
             controller.Evolution();
-            controller.AddEat(GameZonePictureBox.Width, GameZonePictureBox.Height);
+            
             GameZonePictureBox.Refresh();
             label1.Text = $"Количество клеток {controller.cells.Count} из {CountOfCells}";
         }
@@ -110,14 +117,14 @@ namespace SimulatorOfLive.View
         }
         private void GameZonePictureBox_MouseClick(object sender, MouseEventArgs e)
         {
-            //if (timer1.Enabled)
-            //{
-            //    if (e.Button == MouseButtons.Left)
-            //    {
-            //        controller.AddingDeletingCellsThroughMouse(e.Location.X, e.Location.Y, controller.cells);
-            //        RefreshCells(controller.cells);
-            //    }
-            //}
+            if (timer1.Enabled)
+            {
+                if (e.Button == MouseButtons.Left)
+                {
+                    controller.AddingDeletingCellsThroughMouse(e.Location.X, e.Location.Y, controller.cells);
+                    RefreshData();
+                }
+            }
         }
     }
 }

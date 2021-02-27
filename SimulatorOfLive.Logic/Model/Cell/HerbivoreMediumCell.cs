@@ -5,7 +5,9 @@ namespace SimulatorOfLive.Logic.Model.Cell
     public class HerbivoreMediumCell: FormOfCell
     {
         private byte _HP = 2;
-        private int _CountOfEating;
+        private int _CountOfEating = 0;
+        private bool _PathIsClear = true;
+        public override bool PathIsClear { get { return _PathIsClear; } set { _PathIsClear = value; } }
         public override byte RegionOfEating { get { return 1; } }
         public override byte HP { get { return _HP; } set { _HP = value; } }
         public override int CountOfEating { get { return _CountOfEating; } set { _CountOfEating = value; } }
