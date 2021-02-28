@@ -4,11 +4,12 @@ namespace SimulatorOfLive.Logic.Model
 {
     public class CarnivorousLowCell : FormOfCell
     {
-        private byte _HP = 2;
+        private byte _HitPoint = 2;
         private int _CountOfEating = 0;
         private bool _PathIsClear = true;
+        public override byte RegionOfEating { get { return 2; } }
         public override bool PathIsClear { get { return _PathIsClear; } set { _PathIsClear = value; } }
-        public override byte HP { get { return _HP; } set { _HP = value; } }
+        public override byte HitPoint { get { return _HitPoint; } set { _HitPoint = value; } }
         public override int CountOfEating { get { return _CountOfEating; } set { _CountOfEating = value; } }
         public override byte Speed { get { return 6; } }
         public override int Overview { get { return 12; } }

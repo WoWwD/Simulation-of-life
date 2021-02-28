@@ -13,12 +13,13 @@ namespace SimulatorOfLive.View
     {
         private static Controller controller = new Controller();
         private static Pen pen = new Pen(Color.Black, 1);
-        private const int CountOfCells = 10;
+        private const int CountOfCells = 500;
         private Graphics graphics;
         public Form1()
         {
             InitializeComponent();
-            controller.EditSpeedOfGame(243);
+            
+            //controller.EditSpeedOfGame(243);
             controller.AddFirstCells(CountOfCells, GameZonePictureBox.Width, GameZonePictureBox.Height);
             GameZonePictureBox.Image = new Bitmap(GameZonePictureBox.Width, GameZonePictureBox.Height);
             graphics = Graphics.FromImage(GameZonePictureBox.Image);
@@ -68,6 +69,7 @@ namespace SimulatorOfLive.View
         }
         private void StartGameButton_Click(object sender, EventArgs e)
         {
+            timer1.Interval = 500;
             StartGameButton.Enabled = false;    
             timer1.Start();
         }
@@ -96,22 +98,22 @@ namespace SimulatorOfLive.View
         {
             if (trackBar1.Value == 1)
             {
-                controller.EditSpeedOfGame(243);
+                timer1.Interval = 500;
                 SpeedOfGamesLabel.Text = $"Скорость игры: {trackBar1.Value}x";
             }
             if (trackBar1.Value == 2)
             {
-                controller.EditSpeedOfGame(81);
+                timer1.Interval = 100;
                 SpeedOfGamesLabel.Text = $"Скорость игры: {trackBar1.Value}x";
             }
             if (trackBar1.Value == 3)
             {
-                controller.EditSpeedOfGame(27);
+                timer1.Interval = 50;
                 SpeedOfGamesLabel.Text = $"Скорость игры: {trackBar1.Value}x";
             }
             if (trackBar1.Value == 4)
             {
-                controller.EditSpeedOfGame(9);
+                timer1.Interval = 10;
                 SpeedOfGamesLabel.Text = $"Скорость игры: {trackBar1.Value}x";
             }
         }
@@ -121,7 +123,12 @@ namespace SimulatorOfLive.View
             {
                 if (e.Button == MouseButtons.Left)
                 {
-                    controller.AddingDeletingCellsThroughMouse(e.Location.X, e.Location.Y, controller.cells);
+                    controller.AddCellsThroughMouse(e.Location.X, e.Location.Y);
+                    RefreshData();
+                }
+                if (e.Button == MouseButtons.Right)
+                {
+                    controller.AddEatThroughMouse(e.Location.X, e.Location.Y);
                     RefreshData();
                 }
             }

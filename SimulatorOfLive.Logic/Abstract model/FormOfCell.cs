@@ -1,11 +1,10 @@
-﻿using System;
-
-namespace SimulatorOfLive.Logic.Abstract_model
+﻿namespace SimulatorOfLive.Logic.Abstract_model
 {
     public abstract class FormOfCell
     {
+        public abstract byte RegionOfEating { get; }
         public abstract bool PathIsClear { get; set; }
-        public abstract byte HP { get; set; }
+        public abstract byte HitPoint { get; set; }
         public abstract int CountOfEating { get; set; } // счётчик съеденной еды
         public abstract byte Speed { get; } // скорость передвижения клетки
         public abstract int Overview { get; } // обзор клетки
@@ -110,6 +109,11 @@ namespace SimulatorOfLive.Logic.Abstract_model
                     }
                 }
             }
+            else
+            {
+                PathIsClear = true;
+            }
+            
         }
         public FormOfCell(int X, int Y)
         {
