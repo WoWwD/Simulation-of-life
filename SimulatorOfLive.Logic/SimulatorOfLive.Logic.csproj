@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Abstract model\FormOfCell.cs" />
     <Compile Include="Controller\Controller.cs" />
+    <Compile Include="Controller\Creatures\Cell.cs" />
     <Compile Include="Model\Cell\HerbivoreHighCell.cs" />
     <Compile Include="Model\Cell\OmnivoreHighCell.cs" />
     <Compile Include="Model\Cell\OmnivoreLowCell.cs" />
@@ -53,6 +54,7 @@
     <Compile Include="Model\Cell\CarnivorousLowCell.cs" />
     <Compile Include="Model\Cell\CarnivorousMediumCell.cs" />
     <Compile Include="Model\Cell\HerbivoreLowCell.cs" />
+    <Compile Include="Model\SettingsGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

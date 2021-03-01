@@ -2,16 +2,16 @@
 {
     public abstract class FormOfCell
     {
-        public abstract byte RegionOfEating { get; }
-        public abstract bool PathIsClear { get; set; }
-        public abstract byte HitPoint { get; set; }
+        public abstract byte RegionOfEating { get; } // область поедания
+        public abstract bool PathIsClear { get; set; } // свободен ли путь для клетки
+        public abstract byte HitPoint { get; set; } // количество жизней
         public abstract int CountOfEating { get; set; } // счётчик съеденной еды
         public abstract byte Speed { get; } // скорость передвижения клетки
         public abstract int Overview { get; } // обзор клетки
         public abstract byte Width { get; } // ширина клетки
         public abstract byte Height { get; } // высота клетки
-        public abstract int X { get; set; } // расположение клетки по оси X
-        public abstract int Y { get; set; } // расположение клетки по оси Y
+        public int X { get; set; } // расположение клетки по оси X
+        public int Y { get; set; } // расположение клетки по оси Y
         public virtual void Move(int MaxWidthField, int MaxHeightField, int DirectionOfMove)
         {
             if (PathIsClear == true)
@@ -114,6 +114,14 @@
                 PathIsClear = true;
             }
             
+        } // метод движения клетки
+        public virtual void Eating()
+        {
+            CountOfEating++;
+        }
+        public virtual void ReceiveDamage()
+        {
+            HitPoint--;
         }
         public FormOfCell(int X, int Y)
         {

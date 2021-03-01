@@ -1,8 +1,10 @@
 ﻿using SimulatorOfLive.Logic.Abstract_model;
 using SimulatorOfLive.Logic.Controller;
+using SimulatorOfLive.Logic.Controller.Creatures;
 using SimulatorOfLive.Logic.Model;
 using SimulatorOfLive.Logic.Model.Cell;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
@@ -30,7 +32,7 @@ namespace SimulatorOfLive.View
         }
         private void RefreshData()
         {
-            foreach (FormOfCell cell in controller.cells)
+            foreach (var cell in controller.cells.cells)
             {
                 if (cell is CarnivorousLowCell)
                 {
@@ -87,11 +89,11 @@ namespace SimulatorOfLive.View
             RefreshData();
             controller.AddEat(GameZonePictureBox.Width, GameZonePictureBox.Height);
             controller.MoveCells(GameZonePictureBox.Width, GameZonePictureBox.Height);
-            controller.Eating();
-            controller.Evolution();
+            controller.Eating(GameZonePictureBox.Width, GameZonePictureBox.Height);
+            controller.EvolutionCells();
             
             GameZonePictureBox.Refresh();
-            label1.Text = $"Количество клеток {controller.cells.Count} из {CountOfCells}";
+            label1.Text = $"Количество клеток {controller.cells.cells.Count} из {CountOfCells}";
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
