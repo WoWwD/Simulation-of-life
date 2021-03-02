@@ -30,14 +30,27 @@ namespace SimulatorOfLive.Logic.Controller
         }
         public void AddEat(int MaxWidthField, int MaxHeightField)
         {
-            if (rnd.Next(30) == 1)
+            if (rnd.Next(20) == 1)
             {
                 eat.Add(new Eat(rnd.Next(MaxWidthField), rnd.Next(MaxHeightField)));
             }
         }
+        public bool Division()
+        {
+            var r = cells.Division();
+            if (r == true)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            
+        }
         public void AddCellsThroughMouse(int X, int Y)
         {
-            cells.AddCell(new CarnivorousLowCell(X, Y));
+            cells.AddCell(new CarnivorousLowCell(X, Y, SettingsGame.guid.ToString()));
         }
         public void AddEatThroughMouse(int X, int Y)
         {

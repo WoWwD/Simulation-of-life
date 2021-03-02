@@ -13,12 +13,13 @@ namespace SimulatorOfLive.Logic.Model
         public override int CountOfEating { get { return _CountOfEating; } set { _CountOfEating = value; } }
         public override byte Speed => 2;
         public override int Overview => 64;
-        public override byte Width => 10;
-        public override byte Height => 10;
-        public CarnivorousHighCell(int X, int Y) : base(X, Y)
+        public override byte Width => 8;
+        public override byte Height => 8;
+        public CarnivorousHighCell(int X, int Y, string ID) : base(X, Y, ID)
         {
             this.X = X;
             this.Y = Y;
+            this.ID = ID;
         }
     }
 }

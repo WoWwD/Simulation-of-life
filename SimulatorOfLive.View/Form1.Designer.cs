@@ -36,9 +36,14 @@ namespace SimulatorOfLive.View
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.GameZonePictureBox = new System.Windows.Forms.PictureBox();
+            this.CountOfDivisionLabel = new System.Windows.Forms.Label();
+            this.carni = new System.Windows.Forms.Label();
+            this.omni = new System.Windows.Forms.Label();
+            this.herbi = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.SpeedOfGamesLabel = new System.Windows.Forms.Label();
+            this.IdCellLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -99,6 +104,11 @@ namespace SimulatorOfLive.View
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.BackColor = System.Drawing.Color.White;
+            this.splitContainer1.Panel2.Controls.Add(this.IdCellLabel);
+            this.splitContainer1.Panel2.Controls.Add(this.CountOfDivisionLabel);
+            this.splitContainer1.Panel2.Controls.Add(this.carni);
+            this.splitContainer1.Panel2.Controls.Add(this.omni);
+            this.splitContainer1.Panel2.Controls.Add(this.herbi);
             this.splitContainer1.Panel2.Controls.Add(this.label1);
             this.splitContainer1.Panel2.Controls.Add(this.trackBar1);
             this.splitContainer1.Panel2.Controls.Add(this.SpeedOfGamesLabel);
@@ -120,6 +130,42 @@ namespace SimulatorOfLive.View
             this.GameZonePictureBox.TabStop = false;
             this.GameZonePictureBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.GameZonePictureBox_MouseClick);
             // 
+            // CountOfDivisionLabel
+            // 
+            this.CountOfDivisionLabel.AutoSize = true;
+            this.CountOfDivisionLabel.Location = new System.Drawing.Point(327, 111);
+            this.CountOfDivisionLabel.Name = "CountOfDivisionLabel";
+            this.CountOfDivisionLabel.Size = new System.Drawing.Size(162, 17);
+            this.CountOfDivisionLabel.TabIndex = 10;
+            this.CountOfDivisionLabel.Text = "Количество делений: 0";
+            // 
+            // carni
+            // 
+            this.carni.AutoSize = true;
+            this.carni.Location = new System.Drawing.Point(327, 40);
+            this.carni.Name = "carni";
+            this.carni.Size = new System.Drawing.Size(99, 17);
+            this.carni.TabIndex = 9;
+            this.carni.Text = "Плотоядные: ";
+            // 
+            // omni
+            // 
+            this.omni.AutoSize = true;
+            this.omni.Location = new System.Drawing.Point(327, 74);
+            this.omni.Name = "omni";
+            this.omni.Size = new System.Drawing.Size(82, 17);
+            this.omni.TabIndex = 8;
+            this.omni.Text = "Всеядные: ";
+            // 
+            // herbi
+            // 
+            this.herbi.AutoSize = true;
+            this.herbi.Location = new System.Drawing.Point(327, 57);
+            this.herbi.Name = "herbi";
+            this.herbi.Size = new System.Drawing.Size(98, 17);
+            this.herbi.TabIndex = 7;
+            this.herbi.Text = "Травоядные: ";
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -132,7 +178,7 @@ namespace SimulatorOfLive.View
             // trackBar1
             // 
             this.trackBar1.LargeChange = 1;
-            this.trackBar1.Location = new System.Drawing.Point(1058, 17);
+            this.trackBar1.Location = new System.Drawing.Point(1361, 18);
             this.trackBar1.Maximum = 4;
             this.trackBar1.Minimum = 1;
             this.trackBar1.Name = "trackBar1";
@@ -145,11 +191,20 @@ namespace SimulatorOfLive.View
             // 
             this.SpeedOfGamesLabel.AutoSize = true;
             this.SpeedOfGamesLabel.BackColor = System.Drawing.SystemColors.Window;
-            this.SpeedOfGamesLabel.Location = new System.Drawing.Point(1087, 76);
+            this.SpeedOfGamesLabel.Location = new System.Drawing.Point(1390, 77);
             this.SpeedOfGamesLabel.Name = "SpeedOfGamesLabel";
             this.SpeedOfGamesLabel.Size = new System.Drawing.Size(126, 17);
             this.SpeedOfGamesLabel.TabIndex = 4;
             this.SpeedOfGamesLabel.Text = "Скорость игры: 1x";
+            // 
+            // IdCellLabel
+            // 
+            this.IdCellLabel.AutoSize = true;
+            this.IdCellLabel.Location = new System.Drawing.Point(327, 91);
+            this.IdCellLabel.Name = "IdCellLabel";
+            this.IdCellLabel.Size = new System.Drawing.Size(354, 17);
+            this.IdCellLabel.TabIndex = 11;
+            this.IdCellLabel.Text = "ID клетки с самым большим количеством потомков: ";
             // 
             // Form1
             // 
@@ -182,6 +237,11 @@ namespace SimulatorOfLive.View
         private System.Windows.Forms.Label SpeedOfGamesLabel;
         private System.Windows.Forms.TrackBar trackBar1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label carni;
+        private System.Windows.Forms.Label omni;
+        private System.Windows.Forms.Label herbi;
+        private System.Windows.Forms.Label CountOfDivisionLabel;
+        private System.Windows.Forms.Label IdCellLabel;
     }
 }
 

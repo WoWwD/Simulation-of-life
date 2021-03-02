@@ -2,6 +2,7 @@
 {
     public abstract class FormOfCell
     {
+        public string ID { get; set; }
         public abstract byte RegionOfEating { get; } // область поедания
         public abstract bool PathIsClear { get; set; } // свободен ли путь для клетки
         public abstract byte HitPoint { get; set; } // количество жизней
@@ -123,10 +124,11 @@
         {
             HitPoint--;
         }
-        public FormOfCell(int X, int Y)
+        public FormOfCell(int X, int Y, string ID)
         {
             this.X = X;
             this.Y = Y;
+            this.ID = ID;
         }
     }
 }

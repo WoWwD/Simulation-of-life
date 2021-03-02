@@ -4,7 +4,7 @@ namespace SimulatorOfLive.Logic.Model
 {
     public class HerbivoreLowCell : FormOfCell
     {
-        private byte _HitPoint = 2;
+        private byte _HitPoint = 3;
         private int _CountOfEating = 0;
         private bool _PathIsClear = true;
         public override byte RegionOfEating => Speed;
@@ -13,12 +13,13 @@ namespace SimulatorOfLive.Logic.Model
         public override int CountOfEating { get { return _CountOfEating; } set { _CountOfEating = value; } }
         public override byte Speed => 12;
         public override int Overview => 16;
-        public override byte Width => 6;
-        public override byte Height => 6;
-        public HerbivoreLowCell(int X, int Y) : base(X, Y)
+        public override byte Width => 4;
+        public override byte Height => 4;
+        public HerbivoreLowCell(int X, int Y, string ID) : base(X, Y, ID)
         {
             this.X = X;
             this.Y = Y;
+            this.ID = ID;
         }
     }
 }
