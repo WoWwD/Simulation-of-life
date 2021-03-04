@@ -2,7 +2,7 @@
 {
     public abstract class FormOfCell
     {
-        public string ID { get; set; }
+        public string ID { get; set; } // уникальный идентификатор клетки
         public abstract byte RegionOfEating { get; } // область поедания
         public abstract bool PathIsClear { get; set; } // свободен ли путь для клетки
         public abstract byte HitPoint { get; set; } // количество жизней
@@ -115,11 +115,11 @@
                 PathIsClear = true;
             }
             
-        } // метод движения клетки
+        } // движение клетки
         public virtual void Eating()
         {
             CountOfEating++;
-        }
+        } 
         public virtual void ReceiveDamage()
         {
             HitPoint--;

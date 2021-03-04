@@ -48,6 +48,10 @@ namespace SimulatorOfLive.Logic.Controller
             }
             
         }
+        public void Run(int MaxWidthField, int MaxHeightField)
+        {
+            cells.Run(MaxWidthField, MaxHeightField);
+        }
         public void AddCellsThroughMouse(int X, int Y)
         {
             cells.AddCell(new CarnivorousLowCell(X, Y, SettingsGame.guid.ToString()));
@@ -55,6 +59,10 @@ namespace SimulatorOfLive.Logic.Controller
         public void AddEatThroughMouse(int X, int Y)
         {
             eat.Add(new Eat(X, Y));
+        }
+        public void DeleteCells()
+        {
+            cells.cells.Clear();
         }
     }
 }

@@ -62,15 +62,13 @@ public partial class Form1 : Form
         public Form1()
         {
             InitializeComponent();
-            
-            //controller.EditSpeedOfGame(243);
+            PauseGameButton.Enabled = false;
+            timer1.Interval = 500;
             controller.AddFirstCells(SettingsGame.CountOfCells, GameZonePictureBox.Width, GameZonePictureBox.Height);
             GameZonePictureBox.Image = new Bitmap(GameZonePictureBox.Width, GameZonePictureBox.Height);
             graphics = Graphics.FromImage(GameZonePictureBox.Image);
             graphics.Clear(Color.LightGray);
-           
-            RefreshData();
-            
+            RefreshData();  
         }
         private void RefreshData()
         {
@@ -118,17 +116,25 @@ public partial class Form1 : Form
         }
         private void StartGameButton_Click(object sender, EventArgs e)
         {
-            timer1.Interval = 500;
+            PauseGameButton.Enabled = true;
             StartGameButton.Enabled = false;    
             timer1.Start();
         }
         private void ResetGameButton_Click(object sender, EventArgs e)
         {
-            
+            timer1.Stop();
+            graphics.Clear(Color.LightGray);
+            controller.DeleteCells();
+            controller.AddFirstCells(SettingsGame.CountOfCells, GameZonePictureBox.Width, GameZonePictureBox.Height);
+            RefreshData();
+            GameZonePictureBox.Refresh();
+            StartGameButton.Enabled = true;
+            PauseGameButton.Enabled = false;
         }
         private void PauseGameButton_Click(object sender, EventArgs e)
         {
-            
+            timer1.Stop();
+            StartGameButton.Enabled = true;
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -136,6 +142,7 @@ public partial class Form1 : Form
             RefreshData();
             controller.AddEat(GameZonePictureBox.Width, GameZonePictureBox.Height);
             controller.MoveCells(GameZonePictureBox.Width, GameZonePictureBox.Height);
+            controller.Run(GameZonePictureBox.Width, GameZonePictureBox.Height);
             controller.Eating(GameZonePictureBox.Width, GameZonePictureBox.Height);
             controller.EvolutionCells();
             var r = controller.Division();
@@ -152,7 +159,6 @@ public partial class Form1 : Form
             Tick += timer1.Interval;
             GameZonePictureBox.Refresh();
         }
-
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             if (trackBar1.Value == 1)

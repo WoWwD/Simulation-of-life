@@ -4,27 +4,35 @@ namespace SimulatorOfLive.Logic.Model
 {
     public static class SettingsGame
     {
+        public static readonly Random rnd = new Random();
         public static Guid guid = Guid.NewGuid();
-        public static int CountOfCells = 500;
-        public static int ChanceOfEvolutionCarnivorousLowCell = 10;
-        public static int ChanceOfEvolutionCarnivorousMediumCell = 10;
-        // public static int ChanceOfEvolutionCarnivorousHighCell = 10;
-        public static int ChanceOfEvolutionHerbivoreLowCell = 10;
-        public static int ChanceOfEvolutionHerbivoreMediumCell = 10;
-        // public static int ChanceOfEvolutionHerbivoreHighCell = 10;
-        public static int ChanceOfEvolutionOmnivoreLowCell = 10;
-        public static int ChanceOfEvolutionOmnivoreMediumCell = 10;
-        // public static int ChanceOfEvolutionOmnivoreHighCell = 10;
-        public static int ChanceOfPursuit = 100;
-        public static int ChanceOfDivision = 500;
-        public static Random rnd = new Random();
-        public static int SpeedOfGame = 9;
-        public static double CountOfCarnivoriusCell = 0.7;
-        public static double CountOfHerbivoreCells = 0.2;
-        public static double CountOfOmnivoreCell = 0.1;
-        public static object GetID()
+        public static int CountOfCells = 500; // Количество начальных клеток
+
+        #region Эволюция клеток
+        public static int ChanceOfEvolutionCarnivorousLowCell = 10; // Шанс плотоядной клетки низкого уровня эволюционировать
+        public static int ChanceOfEvolutionCarnivorousMediumCell = 10; // Шанс плотоядной клетки среднего уровня эволюционировать
+        // public static int ChanceOfEvolutionCarnivorousHighCell = 10; // Шанс плотоядной клетки высшего уровня эволюционировать
+        public static int ChanceOfEvolutionHerbivoreLowCell = 10; // Шанс травоядной клетки низкого уровня эволюционировать
+        public static int ChanceOfEvolutionHerbivoreMediumCell = 10; // Шанс травоядной клетки среднего уровня эволюционировать
+        // public static int ChanceOfEvolutionHerbivoreHighCell = 10; // Шанс травоядной клетки высшего уровня эволюционировать
+        public static int ChanceOfEvolutionOmnivoreLowCell = 10; // Шанс всеядной клетки низкого уровня эволюционировать
+        public static int ChanceOfEvolutionOmnivoreMediumCell = 10; // Шанс всеядной клетки низкого уровня эволюционировать
+        // public static int ChanceOfEvolutionOmnivoreHighCell = 10; // Шанс всеядной клетки высшего уровня эволюционировать
+        #endregion
+        public static int ChanceOfPursuit = 100; // Шанс преследования цели клеткой
+        public static int ChanceOfRun = 10; // Шанс побега клетки от вражеской
+        public static int ChanceOfDivision = 25; // Шанс деления клетки
+        public static int SpeedOfGame = 9; // Скорость игры. Чем больше, тем медленнее.
+        public static double CountOfCarnivoriusCell = 0.4; // Доля (% от общего количества клеток) плотоядных клеток в начале
+        public static double CountOfHerbivoreCells = 0.4; // Доля (% от общего количества клеток) травоядных клеток в начале
+        public static double CountOfOmnivoreCell = 0.2; // Доля (% от общего количества клеток) всеядных клеток в начале
+        public static object GetID() 
         {
             return guid = Guid.NewGuid();
+        }
+        public static int RndNumber(int param)
+        {
+            return rnd.Next(param);
         }
     }
 }
