@@ -1,4 +1,7 @@
-﻿namespace SimulatorOfLive.Logic.Abstract_model
+﻿using SimulatorOfLive.Logic.Model;
+using System.Collections.Generic;
+
+namespace SimulatorOfLive.Logic.Abstract_model
 {
     public abstract class FormOfCell
     {
@@ -116,13 +119,186 @@
             }
             
         } // движение клетки
-        public virtual void Eating()
+        public virtual bool Eating<T>(int MaxWidthField, int MaxHeightField, T cell) where T: FormOfCell
         {
-            CountOfEating++;
-        } 
-        public virtual void ReceiveDamage()
+            int viewRight, viewLeft, viewUp, viewDown, RegionOfEatingLeft, RegionOfEatingRight, RegionOfEatingUp, RegionOfEatingDown;
+            RegionOfEatingRight = X + RegionOfEating;
+            RegionOfEatingLeft = X - RegionOfEating;
+            RegionOfEatingUp = Y - RegionOfEating;
+            RegionOfEatingDown = Y + RegionOfEating;
+            viewRight = X + Overview;
+            viewLeft = X - Overview;
+            viewUp = Y - Overview;
+            viewDown = Y + Overview;
+            /* цель справа на одной высоте */
+            if (cell.X >= X && cell.X <= viewRight && cell.Y == Y)
+            {
+                if (cell.X >= X && cell.X <= RegionOfEatingRight)
+                {
+                    if (cell.HitPoint <= 0)
+                    {
+                        CountOfEating++;
+                        return true;
+                    }
+                    else
+                    {
+                        cell.HitPoint--;
+                    }
+                }
+                else
+                {
+                    Pursuit(MaxWidthField, MaxHeightField, 1);
+                }
+            }
+            /* цель слева на одной высоте*/
+            if (cell.X <= X && cell.X >= viewLeft && cell.Y == Y)
+            {
+                if (cell.X <= X && cell.X >= RegionOfEatingLeft)
+                {
+                    if (cell.HitPoint <= 0)
+                    {
+                        CountOfEating++;
+                        return true;
+                    }
+                    else
+                    {
+                        cell.HitPoint--;
+                    }
+                }
+                else
+                {
+                    Pursuit(MaxWidthField, MaxHeightField, 2);
+                }
+            }
+            /* цель снизу на одной ширине */
+            if (cell.Y >= Y && cell.Y <= viewDown && cell.X == X)
+            {
+                if (cell.Y >= Y && cell.Y <= RegionOfEatingDown)
+                {
+                    if (cell.HitPoint <= 0)
+                    {
+                        CountOfEating++;
+                        return true;
+                    }
+                    else
+                    {
+                        cell.HitPoint--;
+                    }
+                }
+                else
+                {
+                    Pursuit(MaxWidthField, MaxHeightField, 3);
+                }
+            }
+            /* цель сверху на одной ширине */
+            if (cell.Y <= Y && cell.Y >= viewUp && cell.X == X)
+            {
+                if (cell.Y <= Y && cell.Y >= RegionOfEatingUp)
+                {
+                    if (cell.HitPoint <= 0)
+                    {
+                        CountOfEating++;
+                        return true;
+                    }
+                    else
+                    {
+                        cell.HitPoint--;
+                    }
+                }
+                else
+                {
+                    Pursuit(MaxWidthField, MaxHeightField, 4);
+                }
+            }
+            /* цель в первой четверти */
+            if ((cell.X >= X && cell.X <= viewRight) && (cell.Y <= Y && cell.Y >= viewUp))
+            {
+                if ((cell.X >= X && cell.X <= RegionOfEatingRight) && (cell.Y <= Y && cell.Y >= RegionOfEatingUp))
+                {
+                    if (cell.HitPoint <= 0)
+                    {
+                        CountOfEating++;
+                        return true;
+                    }
+                    else
+                    {
+                        cell.HitPoint--;
+                    }
+                }
+                else
+                {
+                    Pursuit(MaxWidthField, MaxHeightField, 5);
+                }
+            }
+            /* цель во второй четверти */
+            if ((cell.X <= X && cell.X >= viewLeft) && (cell.Y <= Y && cell.Y >= viewUp))
+            {
+                if ((cell.X <= X && cell.X >= RegionOfEatingLeft) && (cell.Y <= Y && cell.Y >= RegionOfEatingUp))
+                {
+                    if (cell.HitPoint <= 0)
+                    {
+                        CountOfEating++;
+                        return true;
+                    }
+                    else
+                    {
+                        cell.HitPoint--;
+                    }
+                }
+                else
+                {
+                    Pursuit(MaxWidthField, MaxHeightField, 6);
+                }
+            }
+            /* цель в третьей четверти */
+            if ((cell.X <= X && cell.X >= viewLeft) && (cell.Y >= Y && cell.Y <= viewDown))
+            {
+                if ((cell.X <= X && cell.X >= RegionOfEatingLeft) && (cell.Y >= Y && cell.Y <= RegionOfEatingDown))
+                {
+                    if (cell.HitPoint <= 0)
+                    {
+                        CountOfEating++;
+                        return true;
+                    }
+                    else
+                    {
+                        cell.HitPoint--;
+                    }
+                }
+                else
+                {
+                    Pursuit(MaxWidthField, MaxHeightField, 7);
+                }
+            }
+            /* цель в четвертой четверти */
+            if ((cell.X >= X && cell.X <= viewRight) && (cell.Y >= Y && cell.Y <= viewDown))
+            {
+                if ((cell.X >= X && cell.X <= RegionOfEatingRight) && (cell.Y >= Y && cell.Y <= RegionOfEatingDown))
+                {
+                    if (cell.HitPoint <= 0)
+                    {
+                        CountOfEating++;
+                        return true;
+                    }
+                    else
+                    {
+                        cell.HitPoint--;
+                    }
+                }
+                else
+                {
+                    Pursuit(MaxWidthField, MaxHeightField, 8);
+                }
+            }
+            return false;
+        }
+        public virtual void Pursuit(int MaxWidthField, int MaxHeightField, int DirectionOfMove)
         {
-            HitPoint--;
+            if (SettingsGame.rnd.Next(SettingsGame.ChanceOfPursuit) == 1)
+            {
+                Move(MaxWidthField, MaxHeightField, DirectionOfMove);
+                PathIsClear = false;
+            }
         }
         public FormOfCell(int X, int Y, string ID)
         {
