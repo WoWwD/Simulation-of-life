@@ -18,12 +18,9 @@ namespace SimulatorOfLive.View
         {
             InitializeComponent();
             PauseGameButton.Enabled = false;
-            timer1.Interval = 500;
-            controller.AddFirstCells(SettingsGame.CountOfCells, GameZonePictureBox.Width, GameZonePictureBox.Height);
             GameZonePictureBox.Image = new Bitmap(GameZonePictureBox.Width, GameZonePictureBox.Height);
             graphics = Graphics.FromImage(GameZonePictureBox.Image);
-            graphics.Clear(Color.LightGray);
-            RefreshData();  
+            timer1.Interval = 500;
         }
         private void RefreshData()
         {
@@ -74,17 +71,6 @@ namespace SimulatorOfLive.View
             PauseGameButton.Enabled = true;
             StartGameButton.Enabled = false;    
             timer1.Start();
-        }
-        private void ResetGameButton_Click(object sender, EventArgs e)
-        {
-            timer1.Stop();
-            graphics.Clear(Color.LightGray);
-            controller.DeleteCells();
-            controller.AddFirstCells(SettingsGame.CountOfCells, GameZonePictureBox.Width, GameZonePictureBox.Height);
-            RefreshData();
-            GameZonePictureBox.Refresh();
-            StartGameButton.Enabled = true;
-            PauseGameButton.Enabled = false;
         }
         private void PauseGameButton_Click(object sender, EventArgs e)
         {
@@ -152,6 +138,27 @@ namespace SimulatorOfLive.View
                     RefreshData();
                 }
             }
+        }
+
+        private void SaveGameButton_Click(object sender, EventArgs e)
+        {
+            controller.Serializable();
+        }
+        private void LoadGameButton_Click(object sender, EventArgs e)
+        {
+            controller.DeSerializable();
+            graphics.Clear(Color.LightGray);
+            RefreshData();
+            GameZonePictureBox.Refresh();
+        }
+
+        private void NewGameButton_Click(object sender, EventArgs e)
+        {
+            graphics.Clear(Color.LightGray);
+            controller.StartNewGame();
+            controller.AddFirstCells(SettingsGame.CountOfCells, GameZonePictureBox.Width, GameZonePictureBox.Height);
+            RefreshData();
+            GameZonePictureBox.Refresh();
         }
     }
 }

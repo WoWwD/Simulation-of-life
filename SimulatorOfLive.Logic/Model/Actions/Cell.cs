@@ -2,6 +2,7 @@
 using SimulatorOfLive.Logic.Model;
 using SimulatorOfLive.Logic.Model.Cell;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace SimulatorOfLive.Logic.Controller.Creatures
 {

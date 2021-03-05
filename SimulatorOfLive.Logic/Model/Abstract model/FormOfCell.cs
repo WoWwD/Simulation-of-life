@@ -1,19 +1,40 @@
 ﻿using SimulatorOfLive.Logic.Model;
+using SimulatorOfLive.Logic.Model.Cell;
+using System.Xml.Serialization;
 
 namespace SimulatorOfLive.Logic.Abstract_model
 {
+    [XmlInclude(typeof(CarnivorousLowCell))]
+    [XmlInclude(typeof(CarnivorousMediumCell))]
+    [XmlInclude(typeof(CarnivorousHighCell))]
+    [XmlInclude(typeof(HerbivoreLowCell))]
+    [XmlInclude(typeof(HerbivoreMediumCell))]
+    [XmlInclude(typeof(HerbivoreHighCell))]
+    [XmlInclude(typeof(OmnivoreLowCell))]
+    [XmlInclude(typeof(OmnivoreMediumCell))]
+    [XmlInclude(typeof(OmnivoreHighCell))]
     public abstract class FormOfCell
     {
-        public string ID { get; } // уникальный идентификатор клетки
+        public string ID { get; set; } // уникальный идентификатор клетки
+        
         public abstract byte RegionOfEating { get; } // область поедания
+       
         public abstract bool PathIsClear { get; set; } // свободен ли путь для клетки
+       
         public abstract byte HitPoint { get; set; } // количество жизней
+       
         public abstract int CountOfEating { get; set; } // счётчик съеденной еды
+      
         public abstract byte Speed { get; } // скорость передвижения клетки
+     
         public abstract int Overview { get; } // обзор клетки
+        
         public abstract byte Width { get; } // ширина клетки
+       
         public abstract byte Height { get; } // высота клетки
+       
         public int X { get; set; } // расположение клетки по оси X
+        
         public int Y { get; set; } // расположение клетки по оси Y
         public virtual void Move(int MaxWidthField, int MaxHeightField, int DirectionOfMove)
         {
@@ -485,6 +506,7 @@ namespace SimulatorOfLive.Logic.Abstract_model
                 Move(MaxWidthField, MaxHeightField, 5);
             }
         }
+        public FormOfCell() { }
         public FormOfCell(int X, int Y, string ID)
         {
             this.X = X;

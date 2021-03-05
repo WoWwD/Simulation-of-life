@@ -3,14 +3,20 @@ using SimulatorOfLive.Logic.Controller.Creatures;
 using SimulatorOfLive.Logic.Model;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace SimulatorOfLive.Logic.Controller
 {
     public class Controller
     {
         public static Random rnd = new Random();
-        public Cell<FormOfCell> cells= new Cell<FormOfCell>();
+        public Cell<FormOfCell> cells;
         public List<Eat> eat = new List<Eat>();
+        public void StartNewGame()
+        {
+            cells = new Cell<FormOfCell>();
+        }
         public void AddFirstCells(int count, int MaxWidthField, int MaxHeightField)
         {
             cells.AddFirstCells(count, MaxWidthField, MaxHeightField);
@@ -61,6 +67,27 @@ namespace SimulatorOfLive.Logic.Controller
         public void DeleteCells()
         {
             cells.cells.Clear();
+        }
+        public void Serializable()
+        {
+            var xml = new XmlSerializer(typeof(Cell<FormOfCell>));
+            using (var file = new FileStream("SaveGame.xml", FileMode.Create))
+            {
+                xml.Serialize(file, cells);
+            }
+        }
+        public void DeSerializable()
+        {
+            StartNewGame();
+            var xml = new XmlSerializer(typeof(Cell<FormOfCell>));
+            using (var file = new FileStream("SaveGame.xml", FileMode.Open))
+            {
+                var deser = xml.Deserialize(file) as Cell<FormOfCell>;
+                foreach (var cell in deser.cells)
+                {
+                    cells.AddCell(cell);
+                }
+            }
         }
     }
 }

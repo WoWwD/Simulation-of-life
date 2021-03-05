@@ -1,4 +1,5 @@
 ﻿using SimulatorOfLive.Logic.Abstract_model;
+using System;
 
 namespace SimulatorOfLive.Logic.Model
 {
@@ -15,6 +16,7 @@ namespace SimulatorOfLive.Logic.Model
         public override int Overview => 64;
         public override byte Width => 9;
         public override byte Height => 9;
+        public CarnivorousHighCell() { }
         public CarnivorousHighCell(int X, int Y, string ID) : base(X, Y, ID)
         {
             this.X = X;
