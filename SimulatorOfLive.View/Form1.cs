@@ -1,58 +1,13 @@
-﻿using SimulatorOfLive.Logic.Abstract_model;
-using SimulatorOfLive.Logic.Controller;
-using SimulatorOfLive.Logic.Controller.Creatures;
+﻿using SimulatorOfLive.Logic.Controller;
 using SimulatorOfLive.Logic.Model;
 using SimulatorOfLive.Logic.Model.Cell;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace SimulatorOfLive.View
-{
-//    if (cell is CarnivorousLowCell)
-//                {
-//                    graphics.FillEllipse(Brushes.DarkRed, cell.X, cell.Y, cell.Width, cell.Height);
-//                }
-//if (cell is CarnivorousMediumCell)
-//{
-//    graphics.FillEllipse(Brushes.Red, cell.X, cell.Y, cell.Width, cell.Height);
-//}
-//if (cell is CarnivorousHighCell)
-//{
-//    graphics.FillEllipse(Brushes.OrangeRed, cell.X, cell.Y, cell.Width, cell.Height);
-//}
-//if (cell is HerbivoreLowCell)
-//{
-//    graphics.FillEllipse(Brushes.DarkGreen, cell.X, cell.Y, cell.Width, cell.Height);
-//    //float x = cell.X - cell.Overview / 2;
-//    //float y = cell.Y - cell.Overview / 2;
-//    //float width = 2 * cell.Overview / 2;
-//    //float height = 2 * cell.Overview / 2;
-//    //graphics.DrawEllipse(pen, x, y, width, height);
-//}
-//if (cell is HerbivoreMediumCell)
-//{
-//    graphics.FillEllipse(Brushes.DarkOliveGreen, cell.X, cell.Y, cell.Width, cell.Height);
-//}
-//if (cell is HerbivoreHighCell)
-//{
-//    graphics.FillEllipse(Brushes.Green, cell.X, cell.Y, cell.Width, cell.Height);
-//}
-//if (cell is OmnivoreLowCell)
-//{
-//    graphics.FillEllipse(Brushes.DarkBlue, cell.X, cell.Y, cell.Width, cell.Height);
-//}
-//if (cell is OmnivoreMediumCell)
-//{
-//    graphics.FillEllipse(Brushes.Blue, cell.X, cell.Y, cell.Width, cell.Height);
-//}
-//if (cell is OmnivoreHighCell)
-//{
-//    graphics.FillEllipse(Brushes.BlueViolet, cell.X, cell.Y, cell.Width, cell.Height);
-//}
-public partial class Form1 : Form
+{   
+    public partial class Form1 : Form
     {
         private static Controller controller = new Controller();
         private static Pen pen = new Pen(Color.Black, 1);

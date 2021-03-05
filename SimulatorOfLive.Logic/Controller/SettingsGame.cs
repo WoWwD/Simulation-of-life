@@ -19,10 +19,13 @@ namespace SimulatorOfLive.Logic.Model
         public static int ChanceOfEvolutionOmnivoreMediumCell = 10; // Шанс всеядной клетки низкого уровня эволюционировать
         // public static int ChanceOfEvolutionOmnivoreHighCell = 10; // Шанс всеядной клетки высшего уровня эволюционировать
         #endregion
-        public static int ChanceOfPursuit = 100; // Шанс преследования цели клеткой
-        public static int ChanceOfRun = 10; // Шанс побега клетки от вражеской
-        public static int ChanceOfDivision = 25; // Шанс деления клетки
+
+        public static int ChanceOfPursuit = 50; // Шанс преследования цели клеткой
+        public static int ChanceOfRun = 50; // Шанс побега клетки от вражеской
+        public static int ChanceOfDivision = 50; // Шанс деления клетки
+
         public static int SpeedOfGame = 9; // Скорость игры. Чем больше, тем медленнее.
+
         public static double CountOfCarnivoriusCell = 0.4; // Доля (% от общего количества клеток) плотоядных клеток в начале
         public static double CountOfHerbivoreCells = 0.4; // Доля (% от общего количества клеток) травоядных клеток в начале
         public static double CountOfOmnivoreCell = 0.2; // Доля (% от общего количества клеток) всеядных клеток в начале

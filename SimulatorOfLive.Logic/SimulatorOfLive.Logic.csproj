@@ -54,7 +54,7 @@
     <Compile Include="Model\Creater\Cell\CarnivorousLowCell.cs" />
     <Compile Include="Model\Creater\Cell\CarnivorousMediumCell.cs" />
     <Compile Include="Model\Creater\Cell\HerbivoreLowCell.cs" />
-    <Compile Include="Model\SettingsGame.cs" />
+    <Compile Include="Controller\SettingsGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

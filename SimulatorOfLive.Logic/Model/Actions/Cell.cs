@@ -14,161 +14,21 @@ namespace SimulatorOfLive.Logic.Controller.Creatures
         }
         public void Eating(int MaxWidthField, int MaxHeightField, List<Eat> eat)
         {
-            int viewRight, viewLeft, viewUp, viewDown, RegionOfEatingLeft, RegionOfEatingRight, RegionOfEatingUp, RegionOfEatingDown, index;
+            int index;
             foreach (var cell in cells.ToArray())
             {
-                RegionOfEatingRight = cell.X + cell.RegionOfEating;
-                RegionOfEatingLeft = cell.X - cell.RegionOfEating;
-                RegionOfEatingUp = cell.Y - cell.RegionOfEating;
-                RegionOfEatingDown = cell.Y + cell.RegionOfEating;
-                viewRight = cell.X + cell.Overview;
-                viewLeft = cell.X - cell.Overview;
-                viewUp = cell.Y - cell.Overview;
-                viewDown = cell.Y + cell.Overview;
-
                 #region Травоядные
                 if (cell is HerbivoreLowCell || cell is HerbivoreMediumCell || cell is HerbivoreHighCell)
                 {
-                    //foreach (var e in eat.ToArray())
-                    //{
-                    //    /* цель справа на одной высоте */
-                    //    if (e.X >= cell.X && e.X <= viewRight && e.Y == cell.Y)
-                    //    {
-                    //        if (e.X >= cell.X && e.X <= RegionOfEatingRight)
-                    //        {
-                    //            eat.RemoveAll(c => c == e);
-                    //            cell.Eating();
-                    //            cell.PathIsClear = true;
-                    //            break;
-
-                    //        }
-                    //        else
-                    //        {
-                    //            cell.Move(MaxWidthField, MaxHeightField, 1);
-                    //            cell.PathIsClear = false;
-                    //            break;
-                    //        }
-                    //    }
-                    //    /* цель слева на одной высоте */
-                    //    if (e.X <= cell.X && e.X >= viewLeft && e.Y == cell.Y)
-                    //    {
-                    //        if (e.X <= cell.X && e.X >= RegionOfEatingLeft)
-                    //        {
-                    //            eat.RemoveAll(c => c == e);
-                    //            cell.Eating();
-                    //            cell.PathIsClear = true;
-                    //            break;
-                    //        }
-                    //        else
-                    //        {
-                    //            cell.Move(MaxWidthField, MaxHeightField, 2);
-                    //            cell.PathIsClear = false;
-                    //            break;
-                    //        }
-                    //    }
-                    //    /* цель снизу на одной ширине */
-                    //    if (e.Y >= cell.Y && e.Y <= viewDown && e.X == cell.X)
-                    //    {
-                    //        if (e.Y >= cell.Y && e.Y <= RegionOfEatingDown)
-                    //        {
-                    //            eat.RemoveAll(c => c == e);
-                    //            cell.Eating();
-                    //            cell.PathIsClear = true;
-                    //            break;
-                    //        }
-                    //        else
-                    //        {
-                    //            cell.Move(MaxWidthField, MaxHeightField, 3);
-                    //            cell.PathIsClear = false;
-                    //            break;
-                    //        }
-                    //    }
-                    //    /* цель сверху на одной ширине */
-                    //    if (e.Y <= cell.Y && e.Y >= viewUp && e.X == cell.X)
-                    //    {
-                    //        if (e.Y <= cell.Y && e.Y >= RegionOfEatingUp)
-                    //        {
-                    //            eat.RemoveAll(c => c == e);
-                    //            cell.Eating();
-                    //            cell.PathIsClear = true;
-                    //            break;
-                    //        }
-                    //        else
-                    //        {
-                    //            cell.Move(MaxWidthField, MaxHeightField, 4);
-                    //            cell.PathIsClear = false;
-                    //            break;
-                    //        }
-                    //    }
-                    //    /* цель в первой четверти */
-                    //    if ((e.X >= cell.X && e.X <= viewRight) && (e.Y <= cell.Y && e.Y >= viewUp))
-                    //    {
-                    //        if ((e.X >= cell.X && e.X <= RegionOfEatingRight) && (e.Y <= cell.Y && e.Y >= RegionOfEatingUp))
-                    //        {
-                    //            eat.RemoveAll(c => c == e);
-                    //            cell.Eating();
-                    //            cell.PathIsClear = true;
-                    //            break;
-                    //        }
-                    //        else
-                    //        {
-                    //            cell.Move(MaxWidthField, MaxHeightField, 5);
-                    //            cell.PathIsClear = false;
-                    //            break;
-                    //        }
-                    //    }
-                    //    /* цель во второй четверти */
-                    //    if ((e.X <= cell.X && e.X >= viewLeft) && (e.Y <= cell.Y && e.Y >= viewUp))
-                    //    {
-                    //        if ((e.X <= cell.X && e.X >= RegionOfEatingLeft) && (e.Y <= cell.Y && e.Y >= RegionOfEatingUp))
-                    //        {
-                    //            eat.RemoveAll(c => c == e);
-                    //            cell.Eating();
-                    //            cell.PathIsClear = true;
-                    //            break;
-                    //        }
-                    //        else
-                    //        {
-                    //            cell.Move(MaxWidthField, MaxHeightField, 6);
-                    //            cell.PathIsClear = false;
-                    //            break;
-                    //        }
-                    //    }
-                    //    /* цель в третьей четверти */
-                    //    if ((e.X <= cell.X && e.X >= viewLeft) && (e.Y >= cell.Y && e.Y <= viewDown))
-                    //    {
-                    //        if ((e.X <= cell.X && e.X >= RegionOfEatingLeft) && (e.Y >= cell.Y && e.Y <= RegionOfEatingDown))
-                    //        {
-                    //            eat.RemoveAll(c => c == e);
-                    //            cell.Eating();
-                    //            cell.PathIsClear = true;
-                    //            break;
-                    //        }
-                    //        else
-                    //        {
-                    //            cell.Move(MaxWidthField, MaxHeightField, 7);
-                    //            cell.PathIsClear = false;
-                    //            break;
-                    //        }
-                    //    }
-                    //    /* цель в четвертой четверти */
-                    //    if ((e.X >= cell.X && e.X <= viewRight) && (e.Y >= cell.Y && e.Y <= viewDown))
-                    //    {
-                    //        if ((e.X >= cell.X && e.X <= RegionOfEatingRight) && (e.Y >= cell.Y && e.Y <= RegionOfEatingDown))
-                    //        {
-                    //            eat.RemoveAll(c => c == e);
-                    //            cell.Eating();
-                    //            cell.PathIsClear = true;
-                    //            break;
-                    //        }
-                    //        else
-                    //        {
-                    //            cell.Move(MaxWidthField, MaxHeightField, 8);
-                    //            cell.PathIsClear = false;
-                    //            break;
-                    //        }
-                    //    }
-                    //}
+                    foreach(var e in eat.ToArray())
+                    {
+                        var r = cell.EatingEat(MaxWidthField, MaxHeightField, e);
+                        if (r == true)
+                        {
+                            index = eat.LastIndexOf(e);
+                            eat.RemoveAt(index);
+                        }
+                    }
                 }
                 #endregion
 
@@ -181,7 +41,7 @@ namespace SimulatorOfLive.Logic.Controller.Creatures
                         {
                             continue;
                         }
-                        var r = cell.Eating(MaxWidthField, MaxHeightField, targetToEat);
+                        var r = cell.EatingCell(MaxWidthField, MaxHeightField, targetToEat);
                         if (r == true)
                         {
                             index = cells.LastIndexOf(targetToEat);
@@ -200,153 +60,22 @@ namespace SimulatorOfLive.Logic.Controller.Creatures
                         {
                             continue;
                         }
-                        var r = cell.Eating(MaxWidthField, MaxHeightField, targetToEat);
+                        var r = cell.EatingCell(MaxWidthField, MaxHeightField, targetToEat);
                         if (r == true)
                         {
                             index = cells.LastIndexOf(targetToEat);
                             cells.RemoveAt(index);
                         }
                     }
-                    //foreach (var e in eat.ToArray())
-                    //{
-                    //    /* цель справа на одной высоте */
-                    //    if (e.X >= cell.X && e.X <= viewRight && e.Y == cell.Y)
-                    //    {
-                    //        if (e.X >= cell.X && e.X <= RegionOfEatingRight)
-                    //        {
-                    //            eat.RemoveAll(c => c == e);
-                    //            cell.Eating();
-                    //            cell.PathIsClear = true;
-                    //            break;
-
-                    //        }
-                    //        else
-                    //        {
-                    //            cell.Move(MaxWidthField, MaxHeightField, 1);
-                    //            cell.PathIsClear = false;
-                    //            break;
-                    //        }
-                    //    }
-                    //    /* цель слева на одной высоте */
-                    //    if (e.X <= cell.X && e.X >= viewLeft && e.Y == cell.Y)
-                    //    {
-                    //        if (e.X <= cell.X && e.X >= RegionOfEatingLeft)
-                    //        {
-                    //            eat.RemoveAll(c => c == e);
-                    //            cell.Eating();
-                    //            cell.PathIsClear = true;
-                    //            break;
-                    //        }
-                    //        else
-                    //        {
-                    //            cell.Move(MaxWidthField, MaxHeightField, 2);
-                    //            cell.PathIsClear = false;
-                    //            break;
-                    //        }
-                    //    }
-                    //    /* цель снизу на одной ширине */
-                    //    if (e.Y >= cell.Y && e.Y <= viewDown && e.X == cell.X)
-                    //    {
-                    //        if (e.Y >= cell.Y && e.Y <= RegionOfEatingDown)
-                    //        {
-                    //            eat.RemoveAll(c => c == e);
-                    //            cell.Eating();
-                    //            cell.PathIsClear = true;
-                    //            break;
-                    //        }
-                    //        else
-                    //        {
-                    //            cell.Move(MaxWidthField, MaxHeightField, 3);
-                    //            cell.PathIsClear = false;
-                    //            break;
-                    //        }
-                    //    }
-                    //    /* цель сверху на одной ширине */
-                    //    if (e.Y <= cell.Y && e.Y >= viewUp && e.X == cell.X)
-                    //    {
-                    //        if (e.Y <= cell.Y && e.Y >= RegionOfEatingUp)
-                    //        {
-                    //            eat.RemoveAll(c => c == e);
-                    //            cell.Eating();
-                    //            cell.PathIsClear = true;
-                    //            break;
-                    //        }
-                    //        else
-                    //        {
-                    //            cell.Move(MaxWidthField, MaxHeightField, 4);
-                    //            cell.PathIsClear = false;
-                    //            break;
-                    //        }
-                    //    }
-                    //    /* цель в первой четверти */
-                    //    if ((e.X >= cell.X && e.X <= viewRight) && (e.Y <= cell.Y && e.Y >= viewUp))
-                    //    {
-                    //        if ((e.X >= cell.X && e.X <= RegionOfEatingRight) && (e.Y <= cell.Y && e.Y >= RegionOfEatingUp))
-                    //        {
-                    //            eat.RemoveAll(c => c == e);
-                    //            cell.Eating();
-                    //            cell.PathIsClear = true;
-                    //            break;
-                    //        }
-                    //        else
-                    //        {
-                    //            cell.Move(MaxWidthField, MaxHeightField, 5);
-                    //            cell.PathIsClear = false;
-                    //            break;
-                    //        }
-                    //    }
-                    //    /* цель во второй четверти */
-                    //    if ((e.X <= cell.X && e.X >= viewLeft) && (e.Y <= cell.Y && e.Y >= viewUp))
-                    //    {
-                    //        if ((e.X <= cell.X && e.X >= RegionOfEatingLeft) && (e.Y <= cell.Y && e.Y >= RegionOfEatingUp))
-                    //        {
-                    //            eat.RemoveAll(c => c == e);
-                    //            cell.Eating();
-                    //            cell.PathIsClear = true;
-                    //            break;
-                    //        }
-                    //        else
-                    //        {
-                    //            cell.Move(MaxWidthField, MaxHeightField, 6);
-                    //            cell.PathIsClear = false;
-                    //            break;
-                    //        }
-                    //    }
-                    //    /* цель в третьей четверти */
-                    //    if ((e.X <= cell.X && e.X >= viewLeft) && (e.Y >= cell.Y && e.Y <= viewDown))
-                    //    {
-                    //        if ((e.X <= cell.X && e.X >= RegionOfEatingLeft) && (e.Y >= cell.Y && e.Y <= RegionOfEatingDown))
-                    //        {
-                    //            eat.RemoveAll(c => c == e);
-                    //            cell.Eating();
-                    //            cell.PathIsClear = true;
-                    //            break;
-                    //        }
-                    //        else
-                    //        {
-                    //            cell.Move(MaxWidthField, MaxHeightField, 7);
-                    //            cell.PathIsClear = false;
-                    //            break;
-                    //        }
-                    //    }
-                    //    /* цель в четвертой четверти */
-                    //    if ((e.X >= cell.X && e.X <= viewRight) && (e.Y >= cell.Y && e.Y <= viewDown))
-                    //    {
-                    //        if ((e.X >= cell.X && e.X <= RegionOfEatingRight) && (e.Y >= cell.Y && e.Y <= RegionOfEatingDown))
-                    //        {
-                    //            eat.RemoveAll(c => c == e);
-                    //            cell.Eating();
-                    //            cell.PathIsClear = true;
-                    //            break;
-                    //        }
-                    //        else
-                    //        {
-                    //            cell.Move(MaxWidthField, MaxHeightField, 8);
-                    //            cell.PathIsClear = false;
-                    //            break;
-                    //        }
-                    //    }
-                    //}
+                    foreach (var e in eat.ToArray())
+                    {
+                        var r = cell.EatingEat(MaxWidthField, MaxHeightField, e);
+                        if (r == true)
+                        {
+                            index = eat.LastIndexOf(e);
+                            eat.RemoveAt(index);
+                        }
+                    }
                 }
                 #endregion
             }
@@ -552,13 +281,8 @@ namespace SimulatorOfLive.Logic.Controller.Creatures
         }
         public void Run(int MaxWidthField, int MaxHeightField)
         {
-            int viewRight, viewLeft, viewUp, viewDown;
             foreach (var cell in cells.ToArray())
             {
-                viewRight = cell.X + cell.Overview;
-                viewLeft = cell.X - cell.Overview;
-                viewUp = cell.Y - cell.Overview;
-                viewDown = cell.Y + cell.Overview;
                 if (cell is HerbivoreLowCell || cell is HerbivoreMediumCell || cell is HerbivoreHighCell)
                 {
                     foreach(var enemy in cells)
@@ -569,56 +293,8 @@ namespace SimulatorOfLive.Logic.Controller.Creatures
                         }
                         if (SettingsGame.rnd.Next(SettingsGame.ChanceOfRun) == 1)
                         {
-                            /* враг справа на одной высоте */
-                            if (enemy.X >= cell.X && enemy.X <= viewRight && enemy.Y == cell.Y)
-                            {
-                                cell.Move(MaxWidthField, MaxHeightField, 2);
-                                break;
-                            }
-                            /* враг слева на одной высоте */
-                            if (enemy.X <= cell.X && enemy.X >= viewLeft && enemy.Y == cell.Y)
-                            {
-                                cell.Move(MaxWidthField, MaxHeightField, 1);
-                                break;
-                            }
-                            /* враг снизу на одной ширине */
-                            if (enemy.Y >= cell.Y && enemy.Y <= viewDown && enemy.X == cell.X)
-                            {
-                                cell.Move(MaxWidthField, MaxHeightField, 4);
-                                break;
-                            }
-                            /* враг сверху на одной ширине */
-                            if (enemy.Y <= cell.Y && enemy.Y >= viewUp && enemy.X == cell.X)
-                            {
-                                cell.Move(MaxWidthField, MaxHeightField, 3);
-                                break;
-                            }
-                            /* враг в первой четверти */
-                            if ((enemy.X >= cell.X && enemy.X <= viewRight) && (enemy.Y <= cell.Y && enemy.Y >= viewUp))
-                            {
-                                cell.Move(MaxWidthField, MaxHeightField, 6);
-                                break;
-                            }
-                            /* враг во второй четверти */
-                            if ((enemy.X <= cell.X && enemy.X >= viewLeft) && (enemy.Y <= cell.Y && enemy.Y >= viewUp))
-                            {
-                                cell.Move(MaxWidthField, MaxHeightField, 7);
-                                break;
-                            }
-                            /* враг в третьей четверти */
-                            if ((enemy.X <= cell.X && enemy.X >= viewLeft) && (enemy.Y >= cell.Y && enemy.Y <= viewDown))
-                            {
-                                cell.Move(MaxWidthField, MaxHeightField, 4);
-                                break;
-                            }
-                            /* враг в четвертой четверти */
-                            if ((enemy.X >= cell.X && enemy.X <= viewRight) && (enemy.Y >= cell.Y && enemy.Y <= viewDown))
-                            {
-                                cell.Move(MaxWidthField, MaxHeightField, 5);
-                                break;
-                            }
+                            cell.Run(MaxWidthField, MaxHeightField, enemy);
                         }
-                        break;
                     }
                 }
                 else

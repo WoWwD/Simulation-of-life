@@ -1,7 +1,6 @@
 ﻿using SimulatorOfLive.Logic.Abstract_model;
 using SimulatorOfLive.Logic.Controller.Creatures;
 using SimulatorOfLive.Logic.Model;
-using SimulatorOfLive.Logic.Model.Cell;
 using System;
 using System.Collections.Generic;
 
@@ -46,7 +45,6 @@ namespace SimulatorOfLive.Logic.Controller
             {
                 return false;
             }
-            
         }
         public void Run(int MaxWidthField, int MaxHeightField)
         {
@@ -54,7 +52,7 @@ namespace SimulatorOfLive.Logic.Controller
         }
         public void AddCellsThroughMouse(int X, int Y)
         {
-            cells.AddCell(new CarnivorousLowCell(X, Y, SettingsGame.guid.ToString()));
+            cells.AddCell(new HerbivoreLowCell(X, Y, SettingsGame.guid.ToString()));
         }
         public void AddEatThroughMouse(int X, int Y)
         {
