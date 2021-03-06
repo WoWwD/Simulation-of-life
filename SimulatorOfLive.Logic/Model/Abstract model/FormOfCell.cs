@@ -1,4 +1,5 @@
 ﻿using SimulatorOfLive.Logic.Model;
+using SimulatorOfLive.Logic.Model.Abstract_model;
 using SimulatorOfLive.Logic.Model.Cell;
 using SimulatorOfLive.Logic.Model.Eat;
 using System.Xml.Serialization;
@@ -14,7 +15,7 @@ namespace SimulatorOfLive.Logic.Abstract_model
     [XmlInclude(typeof(OmnivoreLowCell))]
     [XmlInclude(typeof(OmnivoreMediumCell))]
     [XmlInclude(typeof(OmnivoreHighCell))]
-    public abstract class FormOfCell: ICreature
+    public abstract class FormOfCell: ICreature, ILocation
     {
         public string ID { get; set; } 
         public abstract byte Speed { get; }
@@ -25,8 +26,8 @@ namespace SimulatorOfLive.Logic.Abstract_model
         public abstract byte RegionOfEating { get; }
         public abstract int CountOfEating { get; set; } 
         public abstract bool PathIsClear { get; set; } // свободен ли путь для клетки
-        public int X { get; set; } // расположение клетки по оси X
-        public int Y { get; set; } // расположение клетки по оси Y
+        public int X { get ; set; }
+        public int Y { get ; set ; }
         public bool Eat<T>(int MaxWidthField, int MaxHeightField, T target) where T : FormOfCell 
         {
             int RegionOfEatingLeft, RegionOfEatingRight, RegionOfEatingUp, RegionOfEatingDown;
@@ -553,56 +554,7 @@ namespace SimulatorOfLive.Logic.Abstract_model
         {
             CountOfEating++;
         }
-        public int SearchOfTarget<T>(T target) where T: FormOfCell
-        {
-            int viewRight, viewLeft, viewUp, viewDown;
-            viewRight = X + Overview;
-            viewLeft = X - Overview;
-            viewUp = Y - Overview;
-            viewDown = Y + Overview;
-            /* цель справа на одной высоте*/
-            if (target.X >= X && target.X <= viewRight && target.Y == Y)
-            {
-                return 1;
-            }
-            /* цель слева на одной высоте*/
-            if (target.X <= X && target.X >= viewLeft && target.Y == Y)
-            {
-                return 2;
-            }
-            /* цель снизу на одной ширине */
-            if (target.Y >= Y && target.Y <= viewDown && target.X == X)
-            {
-                return 3;
-            }
-            /* цель сверху на одной ширине */
-            if (target.Y <= Y && target.Y >= viewUp && target.X == X)
-            {
-                return 4;
-            }
-            /* цель в первой четверти */
-            if ((target.X >= X && target.X <= viewRight) && (target.Y <= Y && target.Y >= viewUp))
-            {
-                return 5;
-            }
-            /* цель во второй четверти */
-            if ((target.X <= X && target.X >= viewLeft) && (target.Y <= Y && target.Y >= viewUp))
-            {
-                return 6;
-            }
-            /* цель в третьей четверти */
-            if ((target.X <= X && target.X >= viewLeft) && (target.Y >= Y && target.Y <= viewDown))
-            {
-                return 7;
-            }
-            /* цель в четвертой четверти */
-            if ((target.X >= X && target.X <= viewRight) && (target.Y >= Y && target.Y <= viewDown))
-            {
-                return 8;
-            }
-            return 0;
-        }
-        public int SearchOfTarget<T>(T target, bool a = true) where T : Eat
+        public int SearchOfTarget<T>(T target) where T: ILocation
         {
             int viewRight, viewLeft, viewUp, viewDown;
             viewRight = X + Overview;
