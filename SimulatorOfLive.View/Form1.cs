@@ -85,7 +85,7 @@ namespace SimulatorOfLive.View
             controller.MoveCells(GameZonePictureBox.Width, GameZonePictureBox.Height);
             controller.Run(GameZonePictureBox.Width, GameZonePictureBox.Height);
             controller.Eating(GameZonePictureBox.Width, GameZonePictureBox.Height);
-            controller.EvolutionCells();
+            controller.Evolution();
             var r = controller.Division();
             label1.Text = $"Количество клеток {controller.cells.Count} из {SettingsGame.CountOfCells}";
             if((Tick % 2000) == 0)

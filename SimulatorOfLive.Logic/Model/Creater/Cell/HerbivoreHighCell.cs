@@ -4,7 +4,7 @@ namespace SimulatorOfLive.Logic.Model.Cell
 {
     public class HerbivoreHighCell: FormOfCell
     {
-        private byte _HitPoint = 8;
+        private byte _HitPoint = 10;
         private int _CountOfEating = 0;
         private bool _PathIsClear = true;
         public override byte RegionOfEating => (byte)(Speed / 2);
@@ -12,7 +12,7 @@ namespace SimulatorOfLive.Logic.Model.Cell
         public override byte HitPoint { get { return _HitPoint; } set { _HitPoint = value; } }
         public override int CountOfEating { get { return _CountOfEating; } set { _CountOfEating = value; } }
         public override byte Speed => 2;
-        public override int Overview => 96;
+        public override byte Overview => 96;
         public override byte Width => 9;
         public override byte Height => 9;
         public override bool IsEvolution()

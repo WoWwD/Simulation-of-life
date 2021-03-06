@@ -5,7 +5,7 @@ namespace SimulatorOfLive.Logic.Model.Cell
 {
     public class OmnivoreLowCell: FormOfCell
     {
-        private byte _HitPoint = 4;
+        private byte _HitPoint = 6;
         private int _CountOfEating = 0;
         private bool _PathIsClear = true;
         public override byte RegionOfEating => (byte)(Speed / 2);
@@ -13,7 +13,7 @@ namespace SimulatorOfLive.Logic.Model.Cell
         public override byte HitPoint { get { return _HitPoint; } set { _HitPoint = value; } }
         public override int CountOfEating { get { return _CountOfEating; } set { _CountOfEating = value; } }
         public override byte Speed => 6;
-        public override int Overview => 12;
+        public override byte Overview => 12;
         public override byte Width => 5;
         public override byte Height => 5;
         public override bool IsEvolution()

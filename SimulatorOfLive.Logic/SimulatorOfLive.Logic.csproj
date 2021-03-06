@@ -55,6 +55,7 @@
     <Compile Include="Model\Creater\Cell\HerbivoreLowCell.cs" />
     <Compile Include="Controller\SettingsGame.cs" />
     <Compile Include="Model\Eat\Eat.cs" />
+    <Compile Include="Model\Abstract model\ICreature.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

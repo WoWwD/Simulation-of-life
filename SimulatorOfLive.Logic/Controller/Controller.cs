@@ -75,7 +75,7 @@ namespace SimulatorOfLive.Logic.Controller
                             {
                                 continue;
                             }
-                            var r = cell.Damage(MaxWidthField, MaxHeightField, enemy);
+                            var r = cell.Damage(enemy);
                             if (r == true)
                             {
                                 break;
@@ -84,7 +84,7 @@ namespace SimulatorOfLive.Logic.Controller
                     }
                     foreach (var e in eat.ToArray())
                     {
-                        var r = cell.Eating(MaxWidthField, MaxHeightField, e);
+                        var r = cell.Eat(MaxWidthField, MaxHeightField, e);
                         if (r == true)
                         {
                             index = eat.LastIndexOf(e);
@@ -103,7 +103,7 @@ namespace SimulatorOfLive.Logic.Controller
                         {
                             continue;
                         }
-                        var r = cell.Eating(MaxWidthField, MaxHeightField, targetToEat);
+                        var r = cell.Eat(MaxWidthField, MaxHeightField, targetToEat);
                         if (r == true)
                         {
                             index = cells.LastIndexOf(targetToEat);
@@ -122,7 +122,7 @@ namespace SimulatorOfLive.Logic.Controller
                         {
                             continue;
                         }
-                        var r = cell.Eating(MaxWidthField, MaxHeightField, targetToEat);
+                        var r = cell.Eat(MaxWidthField, MaxHeightField, targetToEat);
                         if (r == true)
                         {
                             index = cells.LastIndexOf(targetToEat);
@@ -131,7 +131,7 @@ namespace SimulatorOfLive.Logic.Controller
                     }
                     foreach (var e in eat.ToArray())
                     {
-                        var r = cell.Eating(MaxWidthField, MaxHeightField, e);
+                        var r = cell.Eat(MaxWidthField, MaxHeightField, e);
                         if (r == true)
                         {
                             index = eat.LastIndexOf(e);
@@ -142,9 +142,9 @@ namespace SimulatorOfLive.Logic.Controller
                 #endregion
             }
         }
-        public void EvolutionCells()
+        public void Evolution()
         {
-            foreach (var cell in cells.ToArray())
+            foreach (FormOfCell cell in cells.ToArray())
             {
                 if (cell is CarnivorousLowCell)
                 {
