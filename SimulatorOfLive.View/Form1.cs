@@ -24,7 +24,7 @@ namespace SimulatorOfLive.View
         }
         private void RefreshData()
         {
-            foreach (var cell in controller.cells.cells)
+            foreach (var cell in controller.cells)
             {
                 if (cell is CarnivorousLowCell || cell is CarnivorousMediumCell || cell is CarnivorousHighCell)
                 {
@@ -47,23 +47,23 @@ namespace SimulatorOfLive.View
         private void CountCells()
         {
             double c = 0, h = 0, o = 0;
-            for (int i = 0; i < controller.cells.cells.Count; i++)
+            for (int i = 0; i < controller.cells.Count; i++)
             {
-                if (controller.cells.cells[i] is CarnivorousLowCell || controller.cells.cells[i] is CarnivorousMediumCell || controller.cells.cells[i] is CarnivorousHighCell)
+                if (controller.cells[i] is CarnivorousLowCell || controller.cells[i] is CarnivorousMediumCell || controller.cells[i] is CarnivorousHighCell)
                 {
                     c++;
                 }
-                if (controller.cells.cells[i] is HerbivoreLowCell || controller.cells.cells[i] is HerbivoreMediumCell || controller.cells.cells[i] is HerbivoreHighCell)
+                if (controller.cells[i] is HerbivoreLowCell || controller.cells[i] is HerbivoreMediumCell || controller.cells[i] is HerbivoreHighCell)
                 {
                     h++;
                 }
-                if (controller.cells.cells[i] is OmnivoreLowCell || controller.cells.cells[i] is OmnivoreMediumCell || controller.cells.cells[i] is OmnivoreHighCell)
+                if (controller.cells[i] is OmnivoreLowCell || controller.cells[i] is OmnivoreMediumCell || controller.cells[i] is OmnivoreHighCell)
                 {
                     o++;
                 }
-                carni.Text = $"Плотоядные: {Math.Round(c / controller.cells.cells.Count, 3)* 100}%";
-                herbi.Text = $"Травоядные: {Math.Round(h / controller.cells.cells.Count, 3) * 100}%";
-                omni.Text = $"Всеядные: {Math.Round(o / controller.cells.cells.Count, 3) * 100}%";
+                carni.Text = $"Плотоядные: {Math.Round(c / controller.cells.Count, 3)* 100}%";
+                herbi.Text = $"Травоядные: {Math.Round(h / controller.cells.Count, 3) * 100}%";
+                omni.Text = $"Всеядные: {Math.Round(o / controller.cells.Count, 3) * 100}%";
             }
         }
         private void StartGameButton_Click(object sender, EventArgs e)
@@ -87,7 +87,7 @@ namespace SimulatorOfLive.View
             controller.Eating(GameZonePictureBox.Width, GameZonePictureBox.Height);
             controller.EvolutionCells();
             var r = controller.Division();
-            label1.Text = $"Количество клеток {controller.cells.cells.Count} из {SettingsGame.CountOfCells}";
+            label1.Text = $"Количество клеток {controller.cells.Count} из {SettingsGame.CountOfCells}";
             if((Tick % 2000) == 0)
             {
                 CountCells();

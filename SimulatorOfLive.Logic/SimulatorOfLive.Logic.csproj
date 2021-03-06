@@ -44,18 +44,17 @@
   <ItemGroup>
     <Compile Include="Model\Abstract model\FormOfCell.cs" />
     <Compile Include="Controller\Controller.cs" />
-    <Compile Include="Model\Actions\Cell.cs" />
     <Compile Include="Model\Creater\Cell\HerbivoreHighCell.cs" />
     <Compile Include="Model\Creater\Cell\OmnivoreHighCell.cs" />
     <Compile Include="Model\Creater\Cell\OmnivoreLowCell.cs" />
     <Compile Include="Model\Creater\Cell\OmnivoreMediumCell.cs" />
     <Compile Include="Model\Creater\Cell\HerbivoreMediumCell.cs" />
-    <Compile Include="Model\Eat.cs" />
     <Compile Include="Model\Creater\Cell\CarnivorousHighCell.cs" />
     <Compile Include="Model\Creater\Cell\CarnivorousLowCell.cs" />
     <Compile Include="Model\Creater\Cell\CarnivorousMediumCell.cs" />
     <Compile Include="Model\Creater\Cell\HerbivoreLowCell.cs" />
     <Compile Include="Controller\SettingsGame.cs" />
+    <Compile Include="Model\Eat\Eat.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

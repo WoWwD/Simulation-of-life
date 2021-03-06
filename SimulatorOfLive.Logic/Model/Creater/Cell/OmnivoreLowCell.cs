@@ -16,6 +16,17 @@ namespace SimulatorOfLive.Logic.Model.Cell
         public override int Overview => 12;
         public override byte Width => 5;
         public override byte Height => 5;
+        public override bool IsEvolution()
+        {
+            if (CountOfEating >= SettingsGame.CountOfEatForEvolutionOmnivoreLowCell)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public OmnivoreLowCell() { }
         public OmnivoreLowCell(int X, int Y, string ID) : base(X, Y, ID)
         {

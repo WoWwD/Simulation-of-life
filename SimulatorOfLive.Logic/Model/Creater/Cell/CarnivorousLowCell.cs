@@ -15,6 +15,17 @@ namespace SimulatorOfLive.Logic.Model
         public override int Overview => 12;
         public override byte Width => 5;
         public override byte Height => 5;
+        public override bool IsEvolution()
+        {
+            if (CountOfEating >= SettingsGame.CountOfEatForEvolutionCarnivorousLowCell)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public CarnivorousLowCell() { }
         public CarnivorousLowCell(int X, int Y, string ID) : base(X, Y, ID)
         {

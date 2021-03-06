@@ -1,5 +1,6 @@
 ﻿using SimulatorOfLive.Logic.Model;
 using SimulatorOfLive.Logic.Model.Cell;
+using SimulatorOfLive.Logic.Model.Eat;
 using System.Xml.Serialization;
 
 namespace SimulatorOfLive.Logic.Abstract_model
@@ -491,6 +492,92 @@ namespace SimulatorOfLive.Logic.Abstract_model
                 Move(MaxWidthField, MaxHeightField, 5);
             }
         }
+        public bool Damage<T>(int MaxWidthField, int MaxHeightField, T cell) where T: FormOfCell
+        {
+            int viewRight, viewLeft, viewUp, viewDown, RegionOfEatingLeft, RegionOfEatingRight, RegionOfEatingUp, RegionOfEatingDown;
+            RegionOfEatingRight = X + RegionOfEating;
+            RegionOfEatingLeft = X - RegionOfEating;
+            RegionOfEatingUp = Y - RegionOfEating;
+            RegionOfEatingDown = Y + RegionOfEating;
+            viewRight = X + Overview;
+            viewLeft = X - Overview;
+            viewUp = Y - Overview;
+            viewDown = Y + Overview;
+            /* цель справа на одной высоте */
+            if (cell.X >= X && cell.X <= viewRight && cell.Y == Y)
+            {
+                if (cell.X >= X && cell.X <= RegionOfEatingRight)
+                {
+                    cell.HitPoint--;
+                    return true;
+                }
+            }
+            /* цель слева на одной высоте*/
+            if (cell.X <= X && cell.X >= viewLeft && cell.Y == Y)
+            {
+                if (cell.X <= X && cell.X >= RegionOfEatingLeft)
+                {
+                    cell.HitPoint--;
+                    return true;
+                }
+            }
+            /* цель снизу на одной ширине */
+            if (cell.Y >= Y && cell.Y <= viewDown && cell.X == X)
+            {
+                if (cell.Y >= Y && cell.Y <= RegionOfEatingDown)
+                {
+                    cell.HitPoint--;
+                    return true;
+                }
+            }
+            /* цель сверху на одной ширине */
+            if (cell.Y <= Y && cell.Y >= viewUp && cell.X == X)
+            {
+                if (cell.Y <= Y && cell.Y >= RegionOfEatingUp)
+                {
+                    cell.HitPoint--;
+                    return true;
+                }
+            }
+            /* цель в первой четверти */
+            if ((cell.X >= X && cell.X <= viewRight) && (cell.Y <= Y && cell.Y >= viewUp))
+            {
+                if ((cell.X >= X && cell.X <= RegionOfEatingRight) && (cell.Y <= Y && cell.Y >= RegionOfEatingUp))
+                {
+                    cell.HitPoint--;
+                    return true;
+                }
+            }
+            /* цель во второй четверти */
+            if ((cell.X <= X && cell.X >= viewLeft) && (cell.Y <= Y && cell.Y >= viewUp))
+            {
+                if ((cell.X <= X && cell.X >= RegionOfEatingLeft) && (cell.Y <= Y && cell.Y >= RegionOfEatingUp))
+                {
+                    cell.HitPoint--;
+                    return true;
+                }
+            }
+            /* цель в третьей четверти */
+            if ((cell.X <= X && cell.X >= viewLeft) && (cell.Y >= Y && cell.Y <= viewDown))
+            {
+                if ((cell.X <= X && cell.X >= RegionOfEatingLeft) && (cell.Y >= Y && cell.Y <= RegionOfEatingDown))
+                {
+                    cell.HitPoint--;
+                    return true;
+                }
+            }
+            /* цель в четвертой четверти */
+            if ((cell.X >= X && cell.X <= viewRight) && (cell.Y >= Y && cell.Y <= viewDown))
+            {
+                if ((cell.X >= X && cell.X <= RegionOfEatingRight) && (cell.Y >= Y && cell.Y <= RegionOfEatingDown))
+                {
+                    cell.HitPoint--;
+                    return true;
+                }
+            }
+            return false;
+        }
+        public abstract bool IsEvolution();
         public FormOfCell() { }
         public FormOfCell(int X, int Y, string ID)
         {
