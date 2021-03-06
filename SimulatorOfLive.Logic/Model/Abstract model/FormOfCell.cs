@@ -16,27 +16,17 @@ namespace SimulatorOfLive.Logic.Abstract_model
     public abstract class FormOfCell
     {
         public string ID { get; set; } // уникальный идентификатор клетки
-        
         public abstract byte RegionOfEating { get; } // область поедания
-       
         public abstract bool PathIsClear { get; set; } // свободен ли путь для клетки
-       
         public abstract byte HitPoint { get; set; } // количество жизней
-       
         public abstract int CountOfEating { get; set; } // счётчик съеденной еды
-      
         public abstract byte Speed { get; } // скорость передвижения клетки
-     
         public abstract int Overview { get; } // обзор клетки
-        
         public abstract byte Width { get; } // ширина клетки
-       
         public abstract byte Height { get; } // высота клетки
-       
         public int X { get; set; } // расположение клетки по оси X
-        
         public int Y { get; set; } // расположение клетки по оси Y
-        public virtual void Move(int MaxWidthField, int MaxHeightField, int DirectionOfMove)
+        public void Move(int MaxWidthField, int MaxHeightField, int DirectionOfMove)
         {
             if (PathIsClear == true)
             {
@@ -139,7 +129,7 @@ namespace SimulatorOfLive.Logic.Abstract_model
             }
             
         } // движение клетки
-        public virtual bool EatingCell<T>(int MaxWidthField, int MaxHeightField, T cell) where T: FormOfCell
+        public bool Eating<C>(int MaxWidthField, int MaxHeightField, C cell) where C: FormOfCell 
         {
             int viewRight, viewLeft, viewUp, viewDown, RegionOfEatingLeft, RegionOfEatingRight, RegionOfEatingUp, RegionOfEatingDown;
             RegionOfEatingRight = X + RegionOfEating;
@@ -168,7 +158,7 @@ namespace SimulatorOfLive.Logic.Abstract_model
                 }
                 else
                 {
-                    PursuitCell(MaxWidthField, MaxHeightField, 1);
+                    PursuitTarget(MaxWidthField, MaxHeightField, 1);
                 }
             }
             /* цель слева на одной высоте*/
@@ -189,7 +179,7 @@ namespace SimulatorOfLive.Logic.Abstract_model
                 }
                 else
                 {
-                    PursuitCell(MaxWidthField, MaxHeightField, 2);
+                    PursuitTarget(MaxWidthField, MaxHeightField, 2);
                 }
             }
             /* цель снизу на одной ширине */
@@ -210,7 +200,7 @@ namespace SimulatorOfLive.Logic.Abstract_model
                 }
                 else
                 {
-                    PursuitCell(MaxWidthField, MaxHeightField, 3);
+                    PursuitTarget(MaxWidthField, MaxHeightField, 3);
                 }
             }
             /* цель сверху на одной ширине */
@@ -231,7 +221,7 @@ namespace SimulatorOfLive.Logic.Abstract_model
                 }
                 else
                 {
-                    PursuitCell(MaxWidthField, MaxHeightField, 4);
+                    PursuitTarget(MaxWidthField, MaxHeightField, 4);
                 }
             }
             /* цель в первой четверти */
@@ -252,7 +242,7 @@ namespace SimulatorOfLive.Logic.Abstract_model
                 }
                 else
                 {
-                    PursuitCell(MaxWidthField, MaxHeightField, 5);
+                    PursuitTarget(MaxWidthField, MaxHeightField, 5);
                 }
             }
             /* цель во второй четверти */
@@ -273,7 +263,7 @@ namespace SimulatorOfLive.Logic.Abstract_model
                 }
                 else
                 {
-                    PursuitCell(MaxWidthField, MaxHeightField, 6);
+                    PursuitTarget(MaxWidthField, MaxHeightField, 6);
                 }
             }
             /* цель в третьей четверти */
@@ -294,7 +284,7 @@ namespace SimulatorOfLive.Logic.Abstract_model
                 }
                 else
                 {
-                    PursuitCell(MaxWidthField, MaxHeightField, 7);
+                    PursuitTarget(MaxWidthField, MaxHeightField, 7);
                 }
             }
             /* цель в четвертой четверти */
@@ -315,12 +305,12 @@ namespace SimulatorOfLive.Logic.Abstract_model
                 }
                 else
                 {
-                    PursuitCell(MaxWidthField, MaxHeightField, 8);
+                    PursuitTarget(MaxWidthField, MaxHeightField, 8);
                 }
             }
             return false;
         }
-        public virtual bool EatingEat<T>(int MaxWidthField, int MaxHeightField, T eat) where T : Eat
+        public bool Eating<E>(int MaxWidthField, int MaxHeightField, E eat, bool a = true) where E : Eat
         {
             int viewRight, viewLeft, viewUp, viewDown, RegionOfEatingLeft, RegionOfEatingRight, RegionOfEatingUp, RegionOfEatingDown;
             RegionOfEatingRight = X + RegionOfEating;
@@ -342,7 +332,7 @@ namespace SimulatorOfLive.Logic.Abstract_model
                 }
                 else
                 {
-                    PursuitEat(MaxWidthField, MaxHeightField, 1);
+                    PursuitTarget(MaxWidthField, MaxHeightField, 1);
                 }
             }
             /* цель слева на одной высоте*/
@@ -356,7 +346,7 @@ namespace SimulatorOfLive.Logic.Abstract_model
                 }
                 else
                 {
-                    PursuitEat(MaxWidthField, MaxHeightField, 2);
+                    PursuitTarget(MaxWidthField, MaxHeightField, 2);
                 }
             }
             /* цель снизу на одной ширине */
@@ -370,7 +360,7 @@ namespace SimulatorOfLive.Logic.Abstract_model
                 }
                 else
                 {
-                    PursuitEat(MaxWidthField, MaxHeightField, 3);
+                    PursuitTarget(MaxWidthField, MaxHeightField, 3);
                 }
             }
             /* цель сверху на одной ширине */
@@ -384,7 +374,7 @@ namespace SimulatorOfLive.Logic.Abstract_model
                 }
                 else
                 {
-                    PursuitEat(MaxWidthField, MaxHeightField, 4);
+                    PursuitTarget(MaxWidthField, MaxHeightField, 4);
                 }
             }
             /* цель в первой четверти */
@@ -398,7 +388,7 @@ namespace SimulatorOfLive.Logic.Abstract_model
                 }
                 else
                 {
-                    PursuitEat(MaxWidthField, MaxHeightField, 5);
+                    PursuitTarget(MaxWidthField, MaxHeightField, 5);
                 }
             }
             /* цель во второй четверти */
@@ -412,7 +402,7 @@ namespace SimulatorOfLive.Logic.Abstract_model
                 }
                 else
                 {
-                    PursuitEat(MaxWidthField, MaxHeightField, 6);
+                    PursuitTarget(MaxWidthField, MaxHeightField, 6);
                 }
             }
             /* цель в третьей четверти */
@@ -426,7 +416,7 @@ namespace SimulatorOfLive.Logic.Abstract_model
                 }
                 else
                 {
-                    PursuitEat(MaxWidthField, MaxHeightField, 7);
+                    PursuitTarget(MaxWidthField, MaxHeightField, 7);
                 }
             }
             /* цель в четвертой четверти */
@@ -440,12 +430,12 @@ namespace SimulatorOfLive.Logic.Abstract_model
                 }
                 else
                 {
-                    PursuitEat(MaxWidthField, MaxHeightField, 8);
+                    PursuitTarget(MaxWidthField, MaxHeightField, 8);
                 }
             }
             return false;
         }
-        public virtual void PursuitCell(int MaxWidthField, int MaxHeightField, int DirectionOfMove)
+        public void PursuitTarget(int MaxWidthField, int MaxHeightField, int DirectionOfMove)
         {
             if (SettingsGame.rnd.Next(SettingsGame.ChanceOfPursuit) == 1)
             {
@@ -453,12 +443,7 @@ namespace SimulatorOfLive.Logic.Abstract_model
                 PathIsClear = false;
             }
         }
-        public virtual void PursuitEat(int MaxWidthField, int MaxHeightField, int DirectionOfMove)
-        {
-            Move(MaxWidthField, MaxHeightField, DirectionOfMove);
-            PathIsClear = false;
-        }
-        public virtual void Run<T>(int MaxWidthField, int MaxHeightField, T enemy) where T: FormOfCell
+        public void Run<T>(int MaxWidthField, int MaxHeightField, T enemy) where T: FormOfCell
         {
             int viewRight, viewLeft, viewUp, viewDown;
             viewRight = X + Overview;

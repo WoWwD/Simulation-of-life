@@ -2,7 +2,6 @@
 using SimulatorOfLive.Logic.Model;
 using SimulatorOfLive.Logic.Model.Cell;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 namespace SimulatorOfLive.Logic.Controller.Creatures
 {
@@ -23,7 +22,7 @@ namespace SimulatorOfLive.Logic.Controller.Creatures
                 {
                     foreach(var e in eat.ToArray())
                     {
-                        var r = cell.EatingEat(MaxWidthField, MaxHeightField, e);
+                        var r = cell.Eating(MaxWidthField, MaxHeightField, e);
                         if (r == true)
                         {
                             index = eat.LastIndexOf(e);
@@ -42,7 +41,7 @@ namespace SimulatorOfLive.Logic.Controller.Creatures
                         {
                             continue;
                         }
-                        var r = cell.EatingCell(MaxWidthField, MaxHeightField, targetToEat);
+                        var r = cell.Eating(MaxWidthField, MaxHeightField, targetToEat);
                         if (r == true)
                         {
                             index = cells.LastIndexOf(targetToEat);
@@ -61,7 +60,7 @@ namespace SimulatorOfLive.Logic.Controller.Creatures
                         {
                             continue;
                         }
-                        var r = cell.EatingCell(MaxWidthField, MaxHeightField, targetToEat);
+                        var r = cell.Eating(MaxWidthField, MaxHeightField, targetToEat);
                         if (r == true)
                         {
                             index = cells.LastIndexOf(targetToEat);
@@ -70,7 +69,7 @@ namespace SimulatorOfLive.Logic.Controller.Creatures
                     }
                     foreach (var e in eat.ToArray())
                     {
-                        var r = cell.EatingEat(MaxWidthField, MaxHeightField, e);
+                        var r = cell.Eating(MaxWidthField, MaxHeightField, e);
                         if (r == true)
                         {
                             index = eat.LastIndexOf(e);
@@ -87,7 +86,7 @@ namespace SimulatorOfLive.Logic.Controller.Creatures
             {
                 if (cell is CarnivorousLowCell)
                 {
-                    if (cell.CountOfEating >= 3)
+                    if (cell.CountOfEating >= SettingsGame.CountOfEatForEvolutionCarnivorousLowCell)
                     {
                         if (SettingsGame.rnd.Next(SettingsGame.ChanceOfEvolutionCarnivorousLowCell) == 1)
                         {
@@ -98,7 +97,7 @@ namespace SimulatorOfLive.Logic.Controller.Creatures
                 }
                 if (cell is CarnivorousMediumCell)
                 {
-                    if (cell.CountOfEating >= 4)
+                    if (cell.CountOfEating >= SettingsGame.CountOfEatForEvolutionCarnivorousMediumCell)
                     {
                         if (SettingsGame.rnd.Next(SettingsGame.ChanceOfEvolutionCarnivorousMediumCell) == 1)
                         {
@@ -110,7 +109,7 @@ namespace SimulatorOfLive.Logic.Controller.Creatures
                 }
                 if (cell is HerbivoreLowCell)
                 {
-                    if (cell.CountOfEating >= 3)
+                    if (cell.CountOfEating >= SettingsGame.CountOfEatForEvolutionHerbivoreLowCell)
                     {
                         if (SettingsGame.rnd.Next(SettingsGame.ChanceOfEvolutionHerbivoreLowCell) == 1)
                         {
@@ -121,7 +120,7 @@ namespace SimulatorOfLive.Logic.Controller.Creatures
                 }
                 if (cell is HerbivoreMediumCell)
                 {
-                    if (cell.CountOfEating >= 3)
+                    if (cell.CountOfEating >= SettingsGame.CountOfEatForEvolutionHerbivoreMediumCell)
                     {
                         if (SettingsGame.rnd.Next(SettingsGame.ChanceOfEvolutionHerbivoreMediumCell) == 1)
                         {
@@ -132,7 +131,7 @@ namespace SimulatorOfLive.Logic.Controller.Creatures
                 }
                 if (cell is OmnivoreLowCell)
                 {
-                    if (cell.CountOfEating >= 4)
+                    if (cell.CountOfEating >= SettingsGame.CountOfEatForEvolutionOmnivoreLowCell)
                     {
                         if (SettingsGame.rnd.Next(SettingsGame.ChanceOfEvolutionOmnivoreLowCell) == 1)
                         {
@@ -143,7 +142,7 @@ namespace SimulatorOfLive.Logic.Controller.Creatures
                 }
                 if (cell is OmnivoreMediumCell)
                 {
-                    if (cell.CountOfEating >= 5)
+                    if (cell.CountOfEating >= SettingsGame.CountOfEatForEvolutionOmnivoreMediumCell)
                     {
                         if (SettingsGame.rnd.Next(SettingsGame.ChanceOfEvolutionOmnivoreMediumCell) == 1)
                         {

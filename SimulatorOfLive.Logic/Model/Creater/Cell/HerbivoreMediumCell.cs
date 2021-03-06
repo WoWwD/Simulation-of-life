@@ -1,11 +1,10 @@
 ﻿using SimulatorOfLive.Logic.Abstract_model;
-using System;
 
 namespace SimulatorOfLive.Logic.Model.Cell
 {
     public class HerbivoreMediumCell: FormOfCell
     {
-        private byte _HitPoint = 12;
+        private byte _HitPoint = 10;
         private int _CountOfEating = 0;
         private bool _PathIsClear = true;
         public override byte RegionOfEating => (byte)(Speed / 2);

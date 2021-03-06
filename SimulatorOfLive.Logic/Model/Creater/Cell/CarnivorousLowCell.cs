@@ -1,5 +1,4 @@
 ﻿using SimulatorOfLive.Logic.Abstract_model;
-using System;
 
 namespace SimulatorOfLive.Logic.Model
 {
