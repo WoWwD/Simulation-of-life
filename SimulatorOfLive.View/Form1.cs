@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Windows.Forms;
 
 namespace SimulatorOfLive.View
-{   
+{
     public partial class Form1 : Form
     {
         private static Controller controller = new Controller();
@@ -61,7 +61,7 @@ namespace SimulatorOfLive.View
                 {
                     o++;
                 }
-                carni.Text = $"Плотоядные: {Math.Round(c / controller.cells.Count, 3)* 100}%";
+                carni.Text = $"Плотоядные: {Math.Round(c / controller.cells.Count, 3) * 100}%";
                 herbi.Text = $"Травоядные: {Math.Round(h / controller.cells.Count, 3) * 100}%";
                 omni.Text = $"Всеядные: {Math.Round(o / controller.cells.Count, 3) * 100}%";
             }
@@ -69,7 +69,7 @@ namespace SimulatorOfLive.View
         private void StartGameButton_Click(object sender, EventArgs e)
         {
             PauseGameButton.Enabled = true;
-            StartGameButton.Enabled = false;    
+            StartGameButton.Enabled = false;
             timer1.Start();
         }
         private void PauseGameButton_Click(object sender, EventArgs e)
@@ -88,7 +88,7 @@ namespace SimulatorOfLive.View
             controller.Evolution();
             var r = controller.Division();
             label1.Text = $"Количество клеток {controller.cells.Count} из {SettingsGame.CountOfCells}";
-            if((Tick % 2000) == 0)
+            if ((Tick % 2000) == 0)
             {
                 CountCells();
             }

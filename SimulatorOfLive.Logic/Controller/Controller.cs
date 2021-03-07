@@ -156,7 +156,7 @@ namespace SimulatorOfLive.Logic.Controller
                             cells.Add(new CarnivorousMediumCell(cell.X, cell.Y, cell.ID));
                             cells.RemoveAll(c => c == cell);
                         }
-                    } 
+                    }
                 }
                 if (cell is CarnivorousMediumCell)
                 {

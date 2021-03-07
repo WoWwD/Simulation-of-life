@@ -16,5 +16,9 @@ namespace SimulatorOfLive.Logic.Model.Eat
             this.X = X;
             this.Y = Y;
         }
+        public void GetDamage()
+        {
+            HitPoint--;
+        }
     }
 }

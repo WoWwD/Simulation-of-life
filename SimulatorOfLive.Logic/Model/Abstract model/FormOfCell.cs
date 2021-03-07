@@ -15,20 +15,20 @@ namespace SimulatorOfLive.Logic.Abstract_model
     [XmlInclude(typeof(OmnivoreLowCell))]
     [XmlInclude(typeof(OmnivoreMediumCell))]
     [XmlInclude(typeof(OmnivoreHighCell))]
-    public abstract class FormOfCell: ICreature, ILocation
+    public abstract class FormOfCell : ICreature, ILocation
     {
-        public string ID { get; set; } 
+        public string ID { get; set; }
         public abstract byte Speed { get; }
         public abstract byte Overview { get; }
         public abstract byte Width { get; }
         public abstract byte Height { get; }
         public abstract byte HitPoint { get; set; }
         public abstract byte RegionOfEating { get; }
-        public abstract int CountOfEating { get; set; } 
+        public abstract int CountOfEating { get; set; }
         public abstract bool PathIsClear { get; set; } // свободен ли путь для клетки
-        public int X { get ; set; }
-        public int Y { get ; set ; }
-        public bool Eat<T>(int MaxWidthField, int MaxHeightField, T target) where T : FormOfCell 
+        public int X { get; set; }
+        public int Y { get; set; }
+        public bool Eat<T>(int MaxWidthField, int MaxHeightField, T target) where T : FormOfCell
         {
             int RegionOfEatingLeft, RegionOfEatingRight, RegionOfEatingUp, RegionOfEatingDown;
             RegionOfEatingRight = X + RegionOfEating;
@@ -330,7 +330,7 @@ namespace SimulatorOfLive.Logic.Abstract_model
                 PathIsClear = false;
             }
         }
-        public void Run<T>(int MaxWidthField, int MaxHeightField, T enemy) where T: FormOfCell
+        public void Run<T>(int MaxWidthField, int MaxHeightField, T enemy) where T : FormOfCell
         {
             var result = SearchOfTarget(enemy);
 
@@ -367,7 +367,7 @@ namespace SimulatorOfLive.Logic.Abstract_model
                 Move(MaxWidthField, MaxHeightField, 6);
             }
         }
-        public bool Damage<T>(T target) where T: FormOfCell
+        public bool Damage<T>(T target) where T : FormOfCell
         {
             int RegionOfEatingLeft, RegionOfEatingRight, RegionOfEatingUp, RegionOfEatingDown;
             RegionOfEatingRight = X + RegionOfEating;
@@ -544,7 +544,7 @@ namespace SimulatorOfLive.Logic.Abstract_model
                 PathIsClear = true;
             }
 
-        } 
+        }
         public abstract bool IsEvolution();
         public void GetDamage()
         {
@@ -554,7 +554,7 @@ namespace SimulatorOfLive.Logic.Abstract_model
         {
             CountOfEating++;
         }
-        public int SearchOfTarget<T>(T target) where T: ILocation
+        public int SearchOfTarget<T>(T target) where T : ILocation
         {
             int viewRight, viewLeft, viewUp, viewDown;
             viewRight = X + Overview;
