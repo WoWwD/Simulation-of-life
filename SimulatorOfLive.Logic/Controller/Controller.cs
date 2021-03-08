@@ -1,5 +1,6 @@
 ﻿using SimulatorOfLive.Logic.Abstract_model;
 using SimulatorOfLive.Logic.Model;
+using SimulatorOfLive.Logic.Model.Abstract_model;
 using SimulatorOfLive.Logic.Model.Cell;
 using SimulatorOfLive.Logic.Model.Eat;
 using System;
@@ -54,85 +55,110 @@ namespace SimulatorOfLive.Logic.Controller
         }
         public void MoveCells(int MaxWidthField, int MaxHeightField)
         {
-            foreach (var cell in cells)
+            foreach(var cell in cells)
             {
-                cell.Move(MaxWidthField, MaxHeightField, SettingsGame.rnd.Next(SettingsGame.SpeedOfGame));
+                if (cell is HerbivoreLowCell || cell is HerbivoreMediumCell || cell is HerbivoreHighCell ||
+                    cell is OmnivoreLowCell || cell is OmnivoreMediumCell || cell is OmnivoreHighCell)
+                {
+                    foreach (var target in eat)
+                    {
+                        cell.Move(MaxWidthField, MaxHeightField, SettingsGame.rnd.Next(SettingsGame.SpeedOfGame), target);
+                        break;
+                    }
+                }
+                foreach (var target in cells)
+                { 
+                    if (target is HerbivoreLowCell || target is HerbivoreMediumCell || target is HerbivoreHighCell)
+                    {
+                        cell.Move(MaxWidthField, MaxHeightField, SettingsGame.rnd.Next(SettingsGame.SpeedOfGame));
+                        break;
+                    }
+                    cell.Move(MaxWidthField, MaxHeightField, SettingsGame.rnd.Next(SettingsGame.SpeedOfGame), target);
+                    break;
+                }
             }
         }
-        public void Eating(int MaxWidthField, int MaxHeightField)
+        public void Eating()
         {
             int index;
             foreach (var cell in cells.ToArray())
             {
-                foreach (var target in cells.ToArray())
+                #region Травоядные
+                if (cell is HerbivoreLowCell || cell is HerbivoreMediumCell || cell is HerbivoreHighCell)
                 {
-                    if (cell == target || cell.ID == target.ID)
+                    //if (SettingsGame.rnd.Next(50000) == 1)
+                    //{
+                    //    foreach (var enemy in cells.ToArray())
+                    //    {
+                    //        if (enemy.ID == cell.ID)
+                    //        {
+                    //            continue;
+                    //        }
+                    //        var r = cell.Eat(enemy);
+                    //        if (r == true)
+                    //        {
+                    //            break;
+                    //        }
+                    //    }
+                    //}
+                    foreach (var e in eat.ToArray())
                     {
-                        continue;
-                    }
-                    #region Травоядные
-                    if (cell is HerbivoreLowCell || cell is HerbivoreMediumCell || cell is HerbivoreHighCell)
-                    {
-                        //if (SettingsGame.rnd.Next(50000) == 1)
-                        //{
-                        //    foreach (var enemy in cells.ToArray())
-                        //    {
-                        //        if (enemy.ID == cell.ID)
-                        //        {
-                        //            continue;
-                        //        }
-                        //        var r = cell.Damage(enemy);
-                        //        if (r == true)
-                        //        {
-                        //            break;
-                        //        }
-                        //    }
-                        //}
-                        //foreach (var e in eat.ToArray())
-                        //{
-                        //    var r = cell.Eat(MaxWidthField, MaxHeightField, e);
-                        //    if (r == true)
-                        //    {
-                        //        index = eat.LastIndexOf(e);
-                        //        eat.RemoveAt(index);
-                        //    }
-                        //}
-                    }
-                    #endregion
-
-                    #region Плотоядные
-                    if (cell is CarnivorousLowCell || cell is CarnivorousMediumCell || cell is CarnivorousHighCell)
-                    {
-                        var r = cell.Eat(MaxWidthField, MaxHeightField, target);
+                        var r = cell.Eat(e);
                         if (r == true)
                         {
-                            index = cells.LastIndexOf(target);
-                            cells.RemoveAt(index);
+                            index = eat.LastIndexOf(e);
+                            eat.RemoveAt(index);
                         }
                     }
-                    #endregion
-
-                    #region Всеядные
-                    if (cell is OmnivoreLowCell || cell is OmnivoreMediumCell || cell is OmnivoreHighCell)
-                    {
-                        var r = cell.Eat(MaxWidthField, MaxHeightField, target);
-                        if (r == true)
-                        {
-                            index = cells.LastIndexOf(target);
-                            cells.RemoveAt(index);
-                        }
-                        //foreach (var e in eat.ToArray())
-                        //{
-                        //    var r = cell.Eat(MaxWidthField, MaxHeightField, e);
-                        //    if (r == true)
-                        //    {
-                        //        index = eat.LastIndexOf(e);
-                        //        eat.RemoveAt(index);
-                        //    }
-                        //}
-                    }
-                    #endregion
                 }
+                #endregion
+
+                #region Плотоядные
+                if (cell is CarnivorousLowCell || cell is CarnivorousMediumCell || cell is CarnivorousHighCell)
+                {
+                    foreach (var targetToEat in cells.ToArray())
+                    {
+                        if (targetToEat == cell)
+                        {
+                            continue;
+                        }
+                        var r = cell.Eat(targetToEat);
+                        if (r == true)
+                        {
+                            index = cells.LastIndexOf(targetToEat);
+                            cells.RemoveAt(index);
+                        }
+                    }
+                }
+                #endregion
+
+                #region Всеядные
+                if (cell is OmnivoreLowCell || cell is OmnivoreMediumCell || cell is OmnivoreHighCell)
+                {
+                    foreach (var targetToEat in cells.ToArray())
+                    {
+                        if (targetToEat.ID == cell.ID)
+                        {
+                            continue;
+                        }
+                        var r = cell.Eat(targetToEat);
+                        if (r == true)
+                        {
+                            index = cells.LastIndexOf(targetToEat);
+                            cells.RemoveAt(index);
+                        }
+                    }
+                    foreach (var e in eat.ToArray())
+                    {
+                        var r = cell.Eat(e);
+                        if (r == true)
+                        {
+                            index = eat.LastIndexOf(e);
+                            eat.RemoveAt(index);
+                        }
+                    }
+                }
+                #endregion
             }
         }
         public void Evolution()
@@ -330,7 +356,7 @@ namespace SimulatorOfLive.Logic.Controller
         }
         public void AddCellsThroughMouse(int X, int Y)
         {
-            cells.Add(new HerbivoreLowCell(X, Y, SettingsGame.guid.ToString()));
+            cells.Add(new HerbivoreLowCell(X, Y, SettingsGame.GetID().ToString()));
         }
         public void AddEatThroughMouse(int X, int Y)
         {

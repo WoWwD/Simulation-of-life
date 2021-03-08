@@ -7,8 +7,6 @@ namespace SimulatorOfLive.Logic.Model.Cell
     {
         private byte _HitPoint = 6;
         private int _CountOfEating = 0;
-        private bool _PathIsClear = true;
-        public override bool PathIsClear { get { return _PathIsClear; } set { _PathIsClear = value; } }
         public override byte RegionOfEating => (byte)(Speed / 2);
         public override byte HitPoint { get { return _HitPoint; } set { _HitPoint = value; } }
         public override int CountOfEating { get { return _CountOfEating; } set { _CountOfEating = value; } }

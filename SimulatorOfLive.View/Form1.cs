@@ -81,10 +81,10 @@ namespace SimulatorOfLive.View
         {
             graphics.Clear(Color.LightGray);
             RefreshData();
-            controller.AddEat(GameZonePictureBox.Width, GameZonePictureBox.Height);
+            // controller.AddEat(GameZonePictureBox.Width, GameZonePictureBox.Height);
             controller.MoveCells(GameZonePictureBox.Width, GameZonePictureBox.Height);
             // controller.Run(GameZonePictureBox.Width, GameZonePictureBox.Height);
-            controller.Eating(GameZonePictureBox.Width, GameZonePictureBox.Height);
+            controller.Eating();
             controller.Evolution();
             var r = controller.Division();
             label1.Text = $"Количество клеток {controller.cells.Count} из {SettingsGame.CountOfCells}";
