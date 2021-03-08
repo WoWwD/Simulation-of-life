@@ -1,4 +1,6 @@
-﻿namespace SimulatorOfLive.Logic.Model
+﻿using SimulatorOfLive.Logic.Model.Abstract_model;
+
+namespace SimulatorOfLive.Logic.Model
 {
     public interface ICreature
     {

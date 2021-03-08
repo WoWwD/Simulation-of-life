@@ -1,4 +1,6 @@
 ﻿
+using SimulatorOfLive.Logic.Abstract_model;
+
 namespace SimulatorOfLive.Logic.Model.Abstract_model
 {
     public interface ILocation

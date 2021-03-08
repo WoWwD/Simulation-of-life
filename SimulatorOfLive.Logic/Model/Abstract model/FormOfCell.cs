@@ -36,7 +36,7 @@ namespace SimulatorOfLive.Logic.Abstract_model
             RegionOfEatingUp = Y - RegionOfEating;
             RegionOfEatingDown = Y + RegionOfEating;
 
-            var result = SearchOfTarget(target);
+            var result = IsTargetInOverview(target.X, target.Y);
             if (result == 0)
             {
                 return false;
@@ -211,7 +211,7 @@ namespace SimulatorOfLive.Logic.Abstract_model
             RegionOfEatingUp = Y - RegionOfEating;
             RegionOfEatingDown = Y + RegionOfEating;
 
-            var result = SearchOfTarget(eat);
+            var result = IsTargetInOverview(eat.X, eat.Y);
             if (result == 0)
             {
                 return false;
@@ -332,7 +332,7 @@ namespace SimulatorOfLive.Logic.Abstract_model
         }
         public void Run<T>(int MaxWidthField, int MaxHeightField, T enemy) where T : FormOfCell
         {
-            var result = SearchOfTarget(enemy);
+            var result = IsTargetInOverview(enemy.X, enemy.Y);
 
             if (result == 1)
             {
@@ -366,81 +366,6 @@ namespace SimulatorOfLive.Logic.Abstract_model
             {
                 Move(MaxWidthField, MaxHeightField, 6);
             }
-        }
-        public bool Damage<T>(T target) where T : FormOfCell
-        {
-            int RegionOfEatingLeft, RegionOfEatingRight, RegionOfEatingUp, RegionOfEatingDown;
-            RegionOfEatingRight = X + RegionOfEating;
-            RegionOfEatingLeft = X - RegionOfEating;
-            RegionOfEatingUp = Y - RegionOfEating;
-            RegionOfEatingDown = Y + RegionOfEating;
-            var result = SearchOfTarget(target);
-
-            if (result == 1)
-            {
-                if (target.X >= X && target.X <= RegionOfEatingRight)
-                {
-                    target.GetDamage();
-                    return true;
-                }
-            }
-            if (result == 2)
-            {
-                if (target.X <= X && target.X >= RegionOfEatingLeft)
-                {
-                    target.GetDamage();
-                    return true;
-                }
-            }
-            if (result == 3)
-            {
-                if (target.Y >= Y && target.Y <= RegionOfEatingDown)
-                {
-                    target.GetDamage();
-                    return true;
-                }
-            }
-            if (result == 4)
-            {
-                if (target.Y <= Y && target.Y >= RegionOfEatingUp)
-                {
-                    target.GetDamage();
-                    return true;
-                }
-            }
-            if (result == 5)
-            {
-                if ((target.X >= X && target.X <= RegionOfEatingRight) && (target.Y <= Y && target.Y >= RegionOfEatingUp))
-                {
-                    target.GetDamage();
-                    return true;
-                }
-            }
-            if (result == 6)
-            {
-                if ((target.X <= X && target.X >= RegionOfEatingLeft) && (target.Y <= Y && target.Y >= RegionOfEatingUp))
-                {
-                    target.GetDamage();
-                    return true;
-                }
-            }
-            if (result == 7)
-            {
-                if ((target.X <= X && target.X >= RegionOfEatingLeft) && (target.Y >= Y && target.Y <= RegionOfEatingDown))
-                {
-                    target.GetDamage();
-                    return true;
-                }
-            }
-            if (result == 8)
-            {
-                if ((target.X >= X && target.X <= RegionOfEatingRight) && (target.Y >= Y && target.Y <= RegionOfEatingDown))
-                {
-                    target.GetDamage();
-                    return true;
-                }
-            }
-            return false;
         }
         public void Move(int MaxWidthField, int MaxHeightField, int DirectionOfMove)
         {
@@ -545,6 +470,10 @@ namespace SimulatorOfLive.Logic.Abstract_model
             }
 
         }
+        public bool Move<T>() where T: ILocation
+        {
+            return false;
+        }
         public abstract bool IsEvolution();
         public void GetDamage()
         {
@@ -554,7 +483,7 @@ namespace SimulatorOfLive.Logic.Abstract_model
         {
             CountOfEating++;
         }
-        public int SearchOfTarget<T>(T target) where T : ILocation
+        private int IsTargetInOverview(int XTarget, int YTarget)
         {
             int viewRight, viewLeft, viewUp, viewDown;
             viewRight = X + Overview;
@@ -562,42 +491,83 @@ namespace SimulatorOfLive.Logic.Abstract_model
             viewUp = Y - Overview;
             viewDown = Y + Overview;
             /* цель справа на одной высоте*/
-            if (target.X >= X && target.X <= viewRight && target.Y == Y)
+            if (XTarget >= X && XTarget <= viewRight && YTarget == Y)
             {
                 return 1;
             }
             /* цель слева на одной высоте*/
-            if (target.X <= X && target.X >= viewLeft && target.Y == Y)
+            if (XTarget <= X && XTarget >= viewLeft && YTarget == Y)
             {
                 return 2;
             }
             /* цель снизу на одной ширине */
-            if (target.Y >= Y && target.Y <= viewDown && target.X == X)
+            if (YTarget >= Y && YTarget <= viewDown && XTarget == X)
             {
                 return 3;
             }
             /* цель сверху на одной ширине */
-            if (target.Y <= Y && target.Y >= viewUp && target.X == X)
+            if (YTarget <= Y && YTarget >= viewUp && XTarget == X)
             {
                 return 4;
             }
             /* цель в первой четверти */
-            if ((target.X >= X && target.X <= viewRight) && (target.Y <= Y && target.Y >= viewUp))
+            if ((XTarget >= X && XTarget <= viewRight) && (YTarget <= Y && YTarget >= viewUp))
             {
                 return 5;
             }
             /* цель во второй четверти */
-            if ((target.X <= X && target.X >= viewLeft) && (target.Y <= Y && target.Y >= viewUp))
+            if ((XTarget <= X && XTarget >= viewLeft) && (YTarget <= Y && YTarget >= viewUp))
             {
                 return 6;
             }
             /* цель в третьей четверти */
-            if ((target.X <= X && target.X >= viewLeft) && (target.Y >= Y && target.Y <= viewDown))
+            if ((XTarget <= X && XTarget >= viewLeft) && (YTarget >= Y && YTarget <= viewDown))
             {
                 return 7;
             }
             /* цель в четвертой четверти */
-            if ((target.X >= X && target.X <= viewRight) && (target.Y >= Y && target.Y <= viewDown))
+            if ((XTarget >= X && XTarget <= viewRight) && (YTarget >= Y && YTarget <= viewDown))
+            {
+                return 8;
+            }
+            return 0;
+        }
+        private int IsTargetInRegionOfEating(int XTarget, int YTarget)
+        {
+            int RegionOfEatingLeft, RegionOfEatingRight, RegionOfEatingUp, RegionOfEatingDown;
+            RegionOfEatingRight = X + RegionOfEating;
+            RegionOfEatingLeft = X - RegionOfEating;
+            RegionOfEatingUp = Y - RegionOfEating;
+            RegionOfEatingDown = Y + RegionOfEating;
+            if (XTarget >= X && XTarget <= RegionOfEatingRight)
+            {
+                return 1;
+            }
+            if (XTarget <= X && XTarget >= RegionOfEatingLeft)
+            {
+                return 2;
+            }
+            if (YTarget >= Y && YTarget <= RegionOfEatingDown)
+            {
+                return 3;
+            }
+            if (YTarget <= Y && YTarget >= RegionOfEatingUp)
+            {
+                return 4;
+            }
+            if ((XTarget >= X && XTarget <= RegionOfEatingRight) && (YTarget <= Y && YTarget >= RegionOfEatingUp))
+            {
+                return 5;
+            }
+            if ((XTarget <= X && XTarget >= RegionOfEatingLeft) && (YTarget <= Y && YTarget >= RegionOfEatingUp))
+            {
+                return 6;
+            }
+            if ((XTarget <= X && XTarget >= RegionOfEatingLeft) && (YTarget >= Y && YTarget <= RegionOfEatingDown))
+            {
+                return 7;
+            }
+            if ((XTarget >= X && XTarget <= RegionOfEatingRight) && (YTarget >= Y && YTarget <= RegionOfEatingDown))
             {
                 return 8;
             }

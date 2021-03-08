@@ -33,7 +33,7 @@ namespace SimulatorOfLive.Logic.Model
         #endregion
         #endregion
 
-        public static int ChanceOfPursuit = 3; // Шанс преследования цели клеткой
+        public static int ChanceOfPursuit = 25; // Шанс преследования цели клеткой
         public static int ChanceOfRun = 50; // Шанс побега клетки от вражеской
         public static int ChanceOfDivision = 50; // Шанс деления клетки
 

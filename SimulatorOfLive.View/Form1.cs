@@ -83,7 +83,7 @@ namespace SimulatorOfLive.View
             RefreshData();
             controller.AddEat(GameZonePictureBox.Width, GameZonePictureBox.Height);
             controller.MoveCells(GameZonePictureBox.Width, GameZonePictureBox.Height);
-            controller.Run(GameZonePictureBox.Width, GameZonePictureBox.Height);
+            // controller.Run(GameZonePictureBox.Width, GameZonePictureBox.Height);
             controller.Eating(GameZonePictureBox.Width, GameZonePictureBox.Height);
             controller.Evolution();
             var r = controller.Division();

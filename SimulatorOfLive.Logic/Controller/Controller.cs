@@ -54,7 +54,7 @@ namespace SimulatorOfLive.Logic.Controller
         }
         public void MoveCells(int MaxWidthField, int MaxHeightField)
         {
-            foreach (FormOfCell cell in cells)
+            foreach (var cell in cells)
             {
                 cell.Move(MaxWidthField, MaxHeightField, SettingsGame.rnd.Next(SettingsGame.SpeedOfGame));
             }
@@ -64,82 +64,75 @@ namespace SimulatorOfLive.Logic.Controller
             int index;
             foreach (var cell in cells.ToArray())
             {
-                #region Травоядные
-                if (cell is HerbivoreLowCell || cell is HerbivoreMediumCell || cell is HerbivoreHighCell)
+                foreach (var target in cells.ToArray())
                 {
-                    if (SettingsGame.rnd.Next(50000) == 1)
+                    if (cell == target || cell.ID == target.ID)
                     {
-                        foreach (var enemy in cells.ToArray())
-                        {
-                            if (enemy.ID == cell.ID)
-                            {
-                                continue;
-                            }
-                            var r = cell.Damage(enemy);
-                            if (r == true)
-                            {
-                                break;
-                            }
-                        }
+                        continue;
                     }
-                    foreach (var e in eat.ToArray())
+                    #region Травоядные
+                    if (cell is HerbivoreLowCell || cell is HerbivoreMediumCell || cell is HerbivoreHighCell)
                     {
-                        var r = cell.Eat(MaxWidthField, MaxHeightField, e);
-                        if (r == true)
-                        {
-                            index = eat.LastIndexOf(e);
-                            eat.RemoveAt(index);
-                        }
+                        //if (SettingsGame.rnd.Next(50000) == 1)
+                        //{
+                        //    foreach (var enemy in cells.ToArray())
+                        //    {
+                        //        if (enemy.ID == cell.ID)
+                        //        {
+                        //            continue;
+                        //        }
+                        //        var r = cell.Damage(enemy);
+                        //        if (r == true)
+                        //        {
+                        //            break;
+                        //        }
+                        //    }
+                        //}
+                        //foreach (var e in eat.ToArray())
+                        //{
+                        //    var r = cell.Eat(MaxWidthField, MaxHeightField, e);
+                        //    if (r == true)
+                        //    {
+                        //        index = eat.LastIndexOf(e);
+                        //        eat.RemoveAt(index);
+                        //    }
+                        //}
                     }
-                }
-                #endregion
+                    #endregion
 
-                #region Плотоядные
-                if (cell is CarnivorousLowCell || cell is CarnivorousMediumCell || cell is CarnivorousHighCell)
-                {
-                    foreach (var targetToEat in cells.ToArray())
+                    #region Плотоядные
+                    if (cell is CarnivorousLowCell || cell is CarnivorousMediumCell || cell is CarnivorousHighCell)
                     {
-                        if (targetToEat.ID == cell.ID)
-                        {
-                            continue;
-                        }
-                        var r = cell.Eat(MaxWidthField, MaxHeightField, targetToEat);
+                        var r = cell.Eat(MaxWidthField, MaxHeightField, target);
                         if (r == true)
                         {
-                            index = cells.LastIndexOf(targetToEat);
+                            index = cells.LastIndexOf(target);
                             cells.RemoveAt(index);
                         }
                     }
-                }
-                #endregion
+                    #endregion
 
-                #region Всеядные
-                if (cell is OmnivoreLowCell || cell is OmnivoreMediumCell || cell is OmnivoreHighCell)
-                {
-                    foreach (var targetToEat in cells.ToArray())
+                    #region Всеядные
+                    if (cell is OmnivoreLowCell || cell is OmnivoreMediumCell || cell is OmnivoreHighCell)
                     {
-                        if (targetToEat.ID == cell.ID)
-                        {
-                            continue;
-                        }
-                        var r = cell.Eat(MaxWidthField, MaxHeightField, targetToEat);
+                        var r = cell.Eat(MaxWidthField, MaxHeightField, target);
                         if (r == true)
                         {
-                            index = cells.LastIndexOf(targetToEat);
+                            index = cells.LastIndexOf(target);
                             cells.RemoveAt(index);
                         }
+                        //foreach (var e in eat.ToArray())
+                        //{
+                        //    var r = cell.Eat(MaxWidthField, MaxHeightField, e);
+                        //    if (r == true)
+                        //    {
+                        //        index = eat.LastIndexOf(e);
+                        //        eat.RemoveAt(index);
+                        //    }
+                        //}
                     }
-                    foreach (var e in eat.ToArray())
-                    {
-                        var r = cell.Eat(MaxWidthField, MaxHeightField, e);
-                        if (r == true)
-                        {
-                            index = eat.LastIndexOf(e);
-                            eat.RemoveAt(index);
-                        }
-                    }
+                    #endregion
                 }
-                #endregion
             }
         }
         public void Evolution()
