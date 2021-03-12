@@ -17,12 +17,12 @@ namespace SimulatorOfLive.Logic.Model.Cell
         {
             if (CountOfEating >= SettingsGame.CountOfEatForEvolutionHerbivoreMediumCell)
             {
-                return true;
+                if (SettingsGame.rnd.Next(SettingsGame.ChanceOfEvolutionHerbivoreMediumCell) == 1)
+                {
+                    return true;
+                }
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
         public HerbivoreMediumCell() { }
         public HerbivoreMediumCell(int X, int Y, string ID) : base(X, Y, ID)

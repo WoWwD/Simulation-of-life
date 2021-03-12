@@ -1,7 +1,5 @@
 ﻿using SimulatorOfLive.Logic.Model;
-using SimulatorOfLive.Logic.Model.Abstract_model;
 using SimulatorOfLive.Logic.Model.Cell;
-using SimulatorOfLive.Logic.Model.Food;
 using System.Xml.Serialization;
 
 namespace SimulatorOfLive.Logic.Abstract_model
@@ -15,7 +13,7 @@ namespace SimulatorOfLive.Logic.Abstract_model
     [XmlInclude(typeof(OmnivoreLowCell))]
     [XmlInclude(typeof(OmnivoreMediumCell))]
     [XmlInclude(typeof(OmnivoreHighCell))]
-    public abstract class FormOfCell : ICreature, IFood
+    public abstract class FormOfCell : ICreature
     {
         public string ID { get; set; }
         public abstract byte Speed { get; }
@@ -55,10 +53,9 @@ namespace SimulatorOfLive.Logic.Abstract_model
             }
             return false;
         }
-        public void Run<T>(int MaxWidthField, int MaxHeightField, T enemy) where T : ICreature
+        public void Run(int MaxWidthField, int MaxHeightField, int XEnemy, int YEnemy)
         {
-            var result = IsTargetInOverview(enemy.X, enemy.Y);
-
+            var result = IsTargetInOverview(XEnemy, YEnemy);
             if (result == 1)
             {
                 Move(MaxWidthField, MaxHeightField, 2);
@@ -234,6 +231,17 @@ namespace SimulatorOfLive.Logic.Abstract_model
         public void Damage()
         {
             HitPoint--;
+        }
+        public bool IsDivision()
+        {
+            if (SettingsGame.RndNumber(SettingsGame.ChanceOfDivision) == 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         private int IsTargetInOverview(int XTarget, int YTarget)
         {

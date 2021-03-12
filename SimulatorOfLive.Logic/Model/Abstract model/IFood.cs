@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SimulatorOfLive.Logic.Model.Abstract_model
+﻿namespace SimulatorOfLive.Logic.Model.Abstract_model
 {
+    /* Интерфейс описывает объект, который может быть съеден существом */
     public interface IFood
     {
-        byte Width { get; }
-        byte Height { get; }
-        int X { get; set; }
-        int Y { get; set; }
+        byte Width { get; }  // ширина (px)
+        byte Height { get; } // высота (px)
+        int X { get; set; } // расположение на оси X
+        int Y { get; set; } // расположение на оси Y
     }
 }

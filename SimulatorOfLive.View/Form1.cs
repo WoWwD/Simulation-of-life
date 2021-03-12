@@ -1,5 +1,4 @@
-﻿using SimulatorOfLive.Logic.Abstract_model;
-using SimulatorOfLive.Logic.Controller;
+﻿using SimulatorOfLive.Logic.Controller;
 using SimulatorOfLive.Logic.Model;
 using SimulatorOfLive.Logic.Model.Cell;
 using System;
@@ -15,14 +14,13 @@ namespace SimulatorOfLive.View
         private Graphics graphics;
         private int Tick;
         private int CountOfDivision = 0;
-        private int CountOfCells = 0;
         public Form1()
         {
             InitializeComponent();
             PauseGameButton.Enabled = false;
             GameZonePictureBox.Image = new Bitmap(GameZonePictureBox.Width, GameZonePictureBox.Height);
             graphics = Graphics.FromImage(GameZonePictureBox.Image);
-            timer1.Interval = 500;
+            timer1.Interval = 200;
         }
         private void RefreshData()
         {
@@ -85,7 +83,6 @@ namespace SimulatorOfLive.View
             RefreshData();
             controller.AddFood(GameZonePictureBox.Width, GameZonePictureBox.Height);
             controller.Move(GameZonePictureBox.Width, GameZonePictureBox.Height);
-            //controller.Run(GameZonePictureBox.Width, GameZonePictureBox.Height);
             controller.Eating();
             controller.Evolution();
             var r = controller.Division();
@@ -106,22 +103,22 @@ namespace SimulatorOfLive.View
         {
             if (trackBar1.Value == 1)
             {
-                timer1.Interval = 500;
+                timer1.Interval = 100;
                 SpeedOfGamesLabel.Text = $"Скорость игры: {trackBar1.Value}x";
             }
             if (trackBar1.Value == 2)
             {
-                timer1.Interval = 200;
+                timer1.Interval = 75;
                 SpeedOfGamesLabel.Text = $"Скорость игры: {trackBar1.Value}x";
             }
             if (trackBar1.Value == 3)
             {
-                timer1.Interval = 100;
+                timer1.Interval = 50;
                 SpeedOfGamesLabel.Text = $"Скорость игры: {trackBar1.Value}x";
             }
             if (trackBar1.Value == 4)
             {
-                timer1.Interval = 10;
+                timer1.Interval = 25;
                 SpeedOfGamesLabel.Text = $"Скорость игры: {trackBar1.Value}x";
             }
         }

@@ -1,8 +1,8 @@
 ﻿namespace SimulatorOfLive.Logic.Model
 {
+    /* Интерфейс описывает какое-либо существо */
     public interface ICreature
     {
-        /* Интерфейс, описывающий какое-либо существо */
         string ID { get; set; } // уникальный идентификатор 
         byte HitPoint { get; set; } // количество жизней
         int X { get; set; } // расположение существа на оси X
@@ -13,7 +13,7 @@
         byte Overview { get; } // обзор 
         byte RegionOfEating { get; } // область поедания 
         int CountOfEating { get; set; } // количество съеденного
-        void Move(int MaxWidthField, int MaxHeightField, int DirectionOfMove); // движение 
+        //void Move(int MaxWidthField, int MaxHeightField, int DirectionOfMove); // движение 
         bool IsEvolution(); // эволюция 
         //bool Eating(); // приём пищи
         void Damage(); // нанесение повреждений

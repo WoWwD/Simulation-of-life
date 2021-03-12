@@ -35,11 +35,11 @@ namespace SimulatorOfLive.Logic.Model
         #endregion
         #endregion
 
-        public static int ChanceOfPursuit = 25; // Шанс преследования цели клеткой
-        public static int ChanceOfRun = 50; // Шанс побега клетки от вражеской
+        //public static int ChanceOfPursuit = 2; // Шанс преследования цели клеткой
+        //public static int ChanceOfRun = 50; // Шанс побега клетки от вражеской
         public static int ChanceOfDivision = 50; // Шанс деления клетки
 
-        public static int SpeedOfGame = 9; // Скорость игры. Чем больше, тем медленнее.
+        public static int SpeedOfGame = 10; // Скорость игры. Чем больше, тем медленнее.
 
         public static double CountOfCarnivoriusCell = 0.4; // Доля (% от общего количества клеток) плотоядных клеток в начале
         public static double CountOfHerbivoreCells = 0.4; // Доля (% от общего количества клеток) травоядных клеток в начале

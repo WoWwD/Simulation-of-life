@@ -1,6 +1,5 @@
 ﻿using SimulatorOfLive.Logic.Abstract_model;
 using SimulatorOfLive.Logic.Model;
-using SimulatorOfLive.Logic.Model.Abstract_model;
 using SimulatorOfLive.Logic.Model.Cell;
 using SimulatorOfLive.Logic.Model.Food;
 using System;
@@ -13,16 +12,14 @@ namespace SimulatorOfLive.Logic.Controller
     [XmlInclude(typeof(Food))]
     public class Controller
     {
-        public static Random rnd = new Random();
+        private static Random rnd = new Random();
         public List<FormOfCell> cells;
         public List<Food> food;
         Lists lists;
-        //public List<object> objects;
         public void StartNewGame()
         {
             cells = new List<FormOfCell>();
             food = new List<Food>();
-            //objects = new List<object>();
         }
         public void AddFirstCells(int count, int MaxWidthField, int MaxHeightField)
         {
@@ -64,114 +61,67 @@ namespace SimulatorOfLive.Logic.Controller
                 {
                     if (cell.ID == target.ID)
                     {
-                        cell.Move(MaxWidthField, MaxHeightField, SettingsGame.rnd.Next(SettingsGame.SpeedOfGame));
                         continue;
                     }
-                    if (cell is HerbivoreLowCell || cell is HerbivoreMediumCell || cell is HerbivoreHighCell ||
-                    cell is OmnivoreLowCell || cell is OmnivoreMediumCell || cell is OmnivoreHighCell)
+                    if (cell is CarnivorousLowCell || cell is CarnivorousMediumCell || cell is CarnivorousHighCell ||
+                        cell is OmnivoreLowCell || cell is OmnivoreMediumCell || cell is OmnivoreHighCell)
                     {
-                        foreach (var e in food)
-                        {
-                            cell.Move(MaxWidthField, MaxHeightField, SettingsGame.rnd.Next(SettingsGame.SpeedOfGame), e.X, e.Y);
-                            break;
-                        }
-                    }
-                    if (target is HerbivoreLowCell || target is HerbivoreMediumCell || target is HerbivoreHighCell)
-                    {
-                        cell.Move(MaxWidthField, MaxHeightField, SettingsGame.rnd.Next(SettingsGame.SpeedOfGame));
+                        cell.Move(MaxWidthField, MaxHeightField, SettingsGame.rnd.Next(SettingsGame.SpeedOfGame), target.X, target.Y);
                         break;
                     }
-                    cell.Move(MaxWidthField, MaxHeightField, SettingsGame.rnd.Next(SettingsGame.SpeedOfGame), target.X, target.Y);
-                    break;
+                    if (cell is HerbivoreLowCell || cell is HerbivoreMediumCell || cell is HerbivoreHighCell)
+                    {
+                        cell.Run(MaxWidthField, MaxHeightField, target.X, target.Y);
+                        break;
+                    }
+                }
+                foreach (var target in food)
+                {
+                    if (cell is HerbivoreLowCell || cell is HerbivoreMediumCell || cell is HerbivoreHighCell ||
+                        cell is OmnivoreLowCell || cell is OmnivoreMediumCell || cell is OmnivoreHighCell)
+                    {
+                        cell.Move(MaxWidthField, MaxHeightField, SettingsGame.rnd.Next(SettingsGame.SpeedOfGame), target.X, target.Y);
+                        break;
+                    }
+                }
+                if (food.Count == 0 /*|| cells.Count == 1*/)
+                {
+                    cell.Move(MaxWidthField, MaxHeightField, SettingsGame.rnd.Next(SettingsGame.SpeedOfGame));
                 }
             }
         }
         public void Eating()
         {
-            int index;
             foreach (var cell in cells.ToArray())
             {
-                #region Травоядные
-                if (cell is HerbivoreLowCell || cell is HerbivoreMediumCell || cell is HerbivoreHighCell)
+                foreach (var target in cells.ToArray())
                 {
-                    //if (SettingsGame.rnd.Next(50000) == 1)
-                    //{
-                    //    foreach (var enemy in cells.ToArray())
-                    //    {
-                    //        if (enemy.ID == cell.ID)
-                    //        {
-                    //            continue;
-                    //        }
-                    //        var r = cell.Eat(enemy);
-                    //        if (r == true)
-                    //        {
-                    //            break;
-                    //        }
-                    //    }
-                    //}
-                    foreach (var e in food.ToArray())
+                    if (cell.ID == target.ID)
                     {
-                        var r = cell.Eating(e.X, e.Y);
-                        if (r == true)
-                        {
-                            index = food.LastIndexOf(e);
-                            food.RemoveAt(index);
-                            break;
-                        }
+                        continue;
                     }
-                }
-                #endregion
-
-                #region Плотоядные
-                if (cell is CarnivorousLowCell || cell is CarnivorousMediumCell || cell is CarnivorousHighCell)
-                {
-                    foreach (var target in cells.ToArray())
+                    if (cell is CarnivorousLowCell || cell is CarnivorousMediumCell || cell is CarnivorousHighCell || cell is OmnivoreLowCell || cell is OmnivoreMediumCell || cell is OmnivoreHighCell)
                     {
-                        if (cell.ID == target.ID)
-                        {
-                            continue;
-                        }
                         var result = cell.Eating(target);
                         if (result == true)
                         {
-                            index = cells.LastIndexOf(target);
-                            cells.RemoveAt(index);
+                            cells.RemoveAll(c => c == target);
                             break;
                         }
                     }
                 }
-                #endregion
-
-                #region Всеядные
-                if (cell is OmnivoreLowCell || cell is OmnivoreMediumCell || cell is OmnivoreHighCell)
+                foreach (var target in food.ToArray())
                 {
-                    foreach (var target in cells.ToArray())
+                    if (cell is HerbivoreLowCell || cell is HerbivoreMediumCell || cell is HerbivoreHighCell || cell is OmnivoreLowCell || cell is OmnivoreMediumCell || cell is OmnivoreHighCell)
                     {
-                        if (cell.ID == target.ID)
-                        {
-                            continue;
-                        }
-                        var result = cell.Eating(target);
+                        var result = cell.Eating(target.X, target.Y);
                         if (result == true)
                         {
-                            index = cells.LastIndexOf(target);
-                            cells.RemoveAt(index);
+                            food.RemoveAll(c => c == target);
                             break;
                         }
                     }
-                    foreach (var e in food.ToArray())
-                    {
-                        var r = cell.Eating(e.X, e.Y);
-                        if (r == true)
-                        {
-                            index = food.LastIndexOf(e);
-                            food.RemoveAt(index);
-                            break;
-                        }
-                    }
-                        
                 }
-                #endregion
             }
         }
         public void Evolution()
@@ -183,11 +133,8 @@ namespace SimulatorOfLive.Logic.Controller
                     var r = cell.IsEvolution();
                     if (r == true)
                     {
-                        if (SettingsGame.rnd.Next(SettingsGame.ChanceOfEvolutionCarnivorousLowCell) == 1)
-                        {
-                            cells.Add(new CarnivorousMediumCell(cell.X, cell.Y, cell.ID));
-                            cells.RemoveAll(c => c == cell);
-                        }
+                        cells.Add(new CarnivorousMediumCell(cell.X, cell.Y, cell.ID));
+                        cells.RemoveAll(c => c == cell);
                     }
                 }
                 if (cell is CarnivorousMediumCell)
@@ -195,24 +142,17 @@ namespace SimulatorOfLive.Logic.Controller
                     var r = cell.IsEvolution();
                     if (r == true)
                     {
-                        if (SettingsGame.rnd.Next(SettingsGame.ChanceOfEvolutionCarnivorousMediumCell) == 1)
-                        {
-                            cells.Add(new CarnivorousHighCell(cell.X, cell.Y, cell.ID));
-                            cells.RemoveAll(c => c == cell);
-                        }
+                        cells.Add(new CarnivorousHighCell(cell.X, cell.Y, cell.ID));
+                        cells.RemoveAll(c => c == cell);
                     }
-
                 }
                 if (cell is HerbivoreLowCell)
                 {
                     var r = cell.IsEvolution();
                     if (r == true)
                     {
-                        if (SettingsGame.rnd.Next(SettingsGame.ChanceOfEvolutionHerbivoreLowCell) == 1)
-                        {
-                            cells.Add(new HerbivoreMediumCell(cell.X, cell.Y, cell.ID));
-                            cells.RemoveAll(c => c == cell);
-                        }
+                        cells.Add(new HerbivoreMediumCell(cell.X, cell.Y, cell.ID));
+                        cells.RemoveAll(c => c == cell);
                     }
                 }
                 if (cell is HerbivoreMediumCell)
@@ -220,11 +160,8 @@ namespace SimulatorOfLive.Logic.Controller
                     var r = cell.IsEvolution();
                     if (r == true)
                     {
-                        if (SettingsGame.rnd.Next(SettingsGame.ChanceOfEvolutionHerbivoreMediumCell) == 1)
-                        {
-                            cells.Add(new HerbivoreHighCell(cell.X, cell.Y, cell.ID));
-                            cells.RemoveAll(c => c == cell);
-                        }
+                        cells.Add(new HerbivoreHighCell(cell.X, cell.Y, cell.ID));
+                        cells.RemoveAll(c => c == cell);
                     }
                 }
                 if (cell is OmnivoreLowCell)
@@ -232,11 +169,8 @@ namespace SimulatorOfLive.Logic.Controller
                     var r = cell.IsEvolution();
                     if (r == true)
                     {
-                        if (SettingsGame.rnd.Next(SettingsGame.ChanceOfEvolutionOmnivoreLowCell) == 1)
-                        {
-                            cells.Add(new OmnivoreMediumCell(cell.X, cell.Y, cell.ID));
-                            cells.RemoveAll(c => c == cell);
-                        }
+                        cells.Add(new OmnivoreMediumCell(cell.X, cell.Y, cell.ID));
+                        cells.RemoveAll(c => c == cell);
                     }
                 }
                 if (cell is OmnivoreMediumCell)
@@ -244,93 +178,11 @@ namespace SimulatorOfLive.Logic.Controller
                     var r = cell.IsEvolution();
                     if (r == true)
                     {
-                        if (SettingsGame.rnd.Next(SettingsGame.ChanceOfEvolutionOmnivoreMediumCell) == 1)
-                        {
-                            cells.Add(new OmnivoreHighCell(cell.X, cell.Y, cell.ID));
-                            cells.RemoveAll(c => c == cell);
-                        }
+                        cells.Add(new OmnivoreHighCell(cell.X, cell.Y, cell.ID));
+                        cells.RemoveAll(c => c == cell);
                     }
                 }
             }
-
-
-            //foreach (var cell in cells.ToArray())
-            //{
-            //    var cell = obj as FormOfCell;
-            //    if (cell is CarnivorousLowCell)
-            //    {
-            //        var r = cell.IsEvolution();
-            //        if (r == true)
-            //        {
-            //            if (SettingsGame.rnd.Next(SettingsGame.ChanceOfEvolutionCarnivorousLowCell) == 1)
-            //            {
-            //                objects.Add(new CarnivorousMediumCell(cell.X, cell.Y, cell.ID));
-            //                objects.RemoveAll(c => c == cell);
-            //            }
-            //        }
-            //    }
-            //    if (cell is CarnivorousMediumCell)
-            //    {
-            //        var r = cell.IsEvolution();
-            //        if (r == true)
-            //        {
-            //            if (SettingsGame.rnd.Next(SettingsGame.ChanceOfEvolutionCarnivorousMediumCell) == 1)
-            //            {
-            //                objects.Add(new CarnivorousHighCell(cell.X, cell.Y, cell.ID));
-            //                objects.RemoveAll(c => c == cell);
-            //            }
-            //        }
-
-            //    }
-            //    if (cell is HerbivoreLowCell)
-            //    {
-            //        var r = cell.IsEvolution();
-            //        if (r == true)
-            //        {
-            //            if (SettingsGame.rnd.Next(SettingsGame.ChanceOfEvolutionHerbivoreLowCell) == 1)
-            //            {
-            //                objects.Add(new HerbivoreMediumCell(cell.X, cell.Y, cell.ID));
-            //                objects.RemoveAll(c => c == cell);
-            //            }
-            //        }
-            //    }
-            //    if (cell is HerbivoreMediumCell)
-            //    {
-            //        var r = cell.IsEvolution();
-            //        if (r == true)
-            //        {
-            //            if (SettingsGame.rnd.Next(SettingsGame.ChanceOfEvolutionHerbivoreMediumCell) == 1)
-            //            {
-            //                objects.Add(new HerbivoreHighCell(cell.X, cell.Y, cell.ID));
-            //                objects.RemoveAll(c => c == cell);
-            //            }
-            //        }
-            //    }
-            //    if (cell is OmnivoreLowCell)
-            //    {
-            //        var r = cell.IsEvolution();
-            //        if (r == true)
-            //        {
-            //            if (SettingsGame.rnd.Next(SettingsGame.ChanceOfEvolutionOmnivoreLowCell) == 1)
-            //            {
-            //                objects.Add(new OmnivoreMediumCell(cell.X, cell.Y, cell.ID));
-            //                objects.RemoveAll(c => c == cell);
-            //            }
-            //        }
-            //    }
-            //    if (cell is OmnivoreMediumCell)
-            //    {
-            //        var r = cell.IsEvolution();
-            //        if (r == true)
-            //        {
-            //            if (SettingsGame.rnd.Next(SettingsGame.ChanceOfEvolutionOmnivoreMediumCell) == 1)
-            //            {
-            //                objects.Add(new OmnivoreHighCell(cell.X, cell.Y, cell.ID));
-            //                objects.RemoveAll(c => c == cell);
-            //            }
-            //        }
-            //    }
-            //}
         }
         public void AddFood(int MaxWidthField, int MaxHeightField)
         {
@@ -345,107 +197,64 @@ namespace SimulatorOfLive.Logic.Controller
             {
                 if (cells[i].CountOfEating >= 1)
                 {
-                    if (cells[i] is CarnivorousLowCell)
+                    var result = cells[i].IsDivision();
+                    if (result == true)
                     {
-                        if (SettingsGame.RndNumber(SettingsGame.ChanceOfDivision) == 1)
+                        if (cells[i] is CarnivorousLowCell)
                         {
                             cells.Add(new CarnivorousLowCell(cells[i].X, cells[i].Y, cells[i].ID));
                             return true;
                         }
-                    }
-                    if (cells[i] is CarnivorousMediumCell)
-                    {
-                        if (SettingsGame.RndNumber(SettingsGame.ChanceOfDivision) == 1)
+                        if (cells[i] is CarnivorousMediumCell)
                         {
                             cells.Add(new CarnivorousMediumCell(cells[i].X, cells[i].Y, cells[i].ID));
                             return true;
                         }
-                    }
-                    if (cells[i] is CarnivorousHighCell)
-                    {
-                        if (SettingsGame.RndNumber(SettingsGame.ChanceOfDivision) == 1)
+                        if (cells[i] is CarnivorousHighCell)
                         {
                             cells.Add(new CarnivorousHighCell(cells[i].X, cells[i].Y, cells[i].ID));
                             return true;
                         }
-                    }
-                    if (cells[i] is HerbivoreLowCell)
-                    {
-                        if (SettingsGame.RndNumber(SettingsGame.ChanceOfDivision) == 1)
+                        if (cells[i] is HerbivoreLowCell)
                         {
                             cells.Add(new HerbivoreLowCell(cells[i].X, cells[i].Y, cells[i].ID));
                             return true;
                         }
-                    }
-                    if (cells[i] is HerbivoreMediumCell)
-                    {
-                        if (SettingsGame.RndNumber(SettingsGame.ChanceOfDivision) == 1)
+                        if (cells[i] is HerbivoreMediumCell)
                         {
                             cells.Add(new HerbivoreMediumCell(cells[i].X, cells[i].Y, cells[i].ID));
                             return true;
                         }
-                    }
-                    if (cells[i] is HerbivoreHighCell)
-                    {
-                        if (SettingsGame.RndNumber(SettingsGame.ChanceOfDivision) == 1)
+                        if (cells[i] is HerbivoreHighCell)
                         {
                             cells.Add(new HerbivoreHighCell(cells[i].X, cells[i].Y, cells[i].ID));
                             return true;
                         }
-                    }
-                    if (cells[i] is OmnivoreLowCell)
-                    {
-                        if (SettingsGame.RndNumber(SettingsGame.ChanceOfDivision) == 1)
+                        if (cells[i] is OmnivoreLowCell)
                         {
                             cells.Add(new OmnivoreLowCell(cells[i].X, cells[i].Y, cells[i].ID));
                             return true;
                         }
-                    }
-                    if (cells[i] is OmnivoreMediumCell)
-                    {
-                        if (SettingsGame.RndNumber(SettingsGame.ChanceOfDivision) == 1)
+                        if (cells[i] is OmnivoreMediumCell)
                         {
-                            cells.Add(new OmnivoreMediumCell(cells[i].X, cells[i].Y, cells[i].ID));
-                            return true;
+                            if (SettingsGame.RndNumber(SettingsGame.ChanceOfDivision) == 1)
+                            {
+                                cells.Add(new OmnivoreMediumCell(cells[i].X, cells[i].Y, cells[i].ID));
+                                return true;
+                            }
                         }
-                    }
-                    if (cells[i] is OmnivoreHighCell)
-                    {
-                        if (SettingsGame.RndNumber(SettingsGame.ChanceOfDivision) == 1)
+                        if (cells[i] is OmnivoreHighCell)
                         {
                             cells.Add(new OmnivoreHighCell(cells[i].X, cells[i].Y, cells[i].ID));
                             return true;
                         }
                     }
+
                 }
                 break;
             }
             return false;
         }
-        //public void Run(int MaxWidthField, int MaxHeightField)
-        //{
-        //    foreach (var cell in cells)
-        //    {
-        //        if (cell is HerbivoreLowCell || cell is HerbivoreMediumCell || cell is HerbivoreHighCell)
-        //        {
-        //            foreach (var enemy in cells)
-        //            {
-        //                if (enemy is HerbivoreLowCell || enemy is HerbivoreMediumCell || enemy is HerbivoreHighCell || cell.ID == enemy.ID)
-        //                {
-        //                    continue;
-        //                }
-        //                if (SettingsGame.rnd.Next(SettingsGame.ChanceOfRun) == 1)
-        //                {
-        //                    cell.Run(MaxWidthField, MaxHeightField, enemy);
-        //                }
-        //            }
-        //        }
-        //        else
-        //        {
-        //            continue;
-        //        }
-        //    }
-        //}
         public void AddCellsThroughMouse(int X, int Y)
         {
             cells.Add(new HerbivoreLowCell(X, Y, SettingsGame.GetID().ToString()));
@@ -467,13 +276,14 @@ namespace SimulatorOfLive.Logic.Controller
         }
         public void DeSerializable()
         {
+            lists = new Lists();
             StartNewGame();
             var objects = new XmlSerializer(typeof(Lists));
             using (var file = new FileStream("SaveGame.xml", FileMode.Open))
             {
                 var deser = objects.Deserialize(file) as Lists;
-                cells = lists.cells;
-                food = lists.food;
+                cells = deser.cells;
+                food = deser.food;
             }
         }
     }

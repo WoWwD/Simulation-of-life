@@ -18,12 +18,12 @@ namespace SimulatorOfLive.Logic.Model.Cell
         {
             if (CountOfEating >= SettingsGame.CountOfEatForEvolutionOmnivoreLowCell)
             {
-                return true;
+                if (SettingsGame.rnd.Next(SettingsGame.ChanceOfEvolutionOmnivoreLowCell) == 1)
+                {
+                    return true;
+                }
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
         public OmnivoreLowCell() { }
         public OmnivoreLowCell(int X, int Y, string ID) : base(X, Y, ID)

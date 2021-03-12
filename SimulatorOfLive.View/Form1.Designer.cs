@@ -228,7 +228,7 @@ namespace SimulatorOfLive.View
             this.trackBar1.Minimum = 1;
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Size = new System.Drawing.Size(176, 56);
-            this.trackBar1.TabIndex = 5;
+            this.trackBar1.TabIndex = 4;
             this.trackBar1.Value = 1;
             this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
             // 
