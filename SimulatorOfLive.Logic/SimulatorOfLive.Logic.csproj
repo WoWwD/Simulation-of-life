@@ -42,9 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\Lists.cs" />
     <Compile Include="Model\Abstract model\FormOfCell.cs" />
     <Compile Include="Controller\Controller.cs" />
-    <Compile Include="Model\Abstract model\IObject.cs" />
+    <Compile Include="Model\Abstract model\IFood.cs" />
     <Compile Include="Model\Creater\Cell\HerbivoreHighCell.cs" />
     <Compile Include="Model\Creater\Cell\OmnivoreHighCell.cs" />
     <Compile Include="Model\Creater\Cell\OmnivoreLowCell.cs" />
@@ -55,7 +56,7 @@
     <Compile Include="Model\Creater\Cell\CarnivorousMediumCell.cs" />
     <Compile Include="Model\Creater\Cell\HerbivoreLowCell.cs" />
     <Compile Include="Controller\SettingsGame.cs" />
-    <Compile Include="Model\Eat\Eat.cs" />
+    <Compile Include="Model\Food\Food.cs" />
     <Compile Include="Model\Abstract model\ICreature.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

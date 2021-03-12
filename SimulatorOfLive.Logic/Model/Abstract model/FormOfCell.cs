@@ -1,7 +1,7 @@
 ﻿using SimulatorOfLive.Logic.Model;
 using SimulatorOfLive.Logic.Model.Abstract_model;
 using SimulatorOfLive.Logic.Model.Cell;
-using SimulatorOfLive.Logic.Model.Eat;
+using SimulatorOfLive.Logic.Model.Food;
 using System.Xml.Serialization;
 
 namespace SimulatorOfLive.Logic.Abstract_model
@@ -15,7 +15,7 @@ namespace SimulatorOfLive.Logic.Abstract_model
     [XmlInclude(typeof(OmnivoreLowCell))]
     [XmlInclude(typeof(OmnivoreMediumCell))]
     [XmlInclude(typeof(OmnivoreHighCell))]
-    public abstract class FormOfCell : ICreature, IObject
+    public abstract class FormOfCell : ICreature, IFood
     {
         public string ID { get; set; }
         public abstract byte Speed { get; }
@@ -27,121 +27,35 @@ namespace SimulatorOfLive.Logic.Abstract_model
         public abstract int CountOfEating { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
-        public bool Eat<T>(T target) where T : IObject
+        public bool Eating<C>(C target) where C : ICreature
         {
-            int RegionOfEatingLeft, RegionOfEatingRight, RegionOfEatingUp, RegionOfEatingDown;
-            RegionOfEatingRight = X + RegionOfEating;
-            RegionOfEatingLeft = X - RegionOfEating;
-            RegionOfEatingUp = Y - RegionOfEating;
-            RegionOfEatingDown = Y + RegionOfEating;
-            if (target.X >= X && target.X <= RegionOfEatingRight && target.Y == Y)
+            var regionOfEating = IsTargetInRegionOfEating(target.X, target.Y);
+            if (regionOfEating == true)
             {
-                if (target.HitPoint <= 0)
+                if (target.HitPoint == 0)
                 {
-                    Eating();
+                    CountOfEating++;
                     return true;
                 }
                 else
                 {
-                    target.GetDamage();
+                    target.Damage();
+                    return false;
                 }
             }
-            /* цель слева на одной высоте*/
-            if (target.X <= X && target.X >= RegionOfEatingLeft && target.Y == Y)
-            {
-                if (target.HitPoint <= 0)
-                {
-                    Eating();
-                    return true;
-                }
-                else
-                {
-                    target.GetDamage();
-                }
-            }
-            /* цель снизу на одной ширине */
-            if (target.Y >= Y && target.Y <= RegionOfEatingDown && target.X == X)
-            {
-                if (target.HitPoint <= 0)
-                {
-                    Eating();
-                    return true;
-                }
-                else
-                {
-                    target.GetDamage();
-                }
-            }
-            /* цель сверху на одной ширине */
-            if (target.Y <= Y && target.Y >= RegionOfEatingUp && target.X == X)
-            {
-                if (target.HitPoint <= 0)
-                {
-                    Eating();
-                    return true;
-                }
-                else
-                {
-                    target.GetDamage();
-                }
-            }
-            /* цель в первой четверти */
-            if ((target.X >= X && target.X <= RegionOfEatingRight) && (target.Y <= Y && target.Y >= RegionOfEatingUp))
-            {
-                if (target.HitPoint <= 0)
-                {
-                    Eating();
-                    return true;
-                }
-                else
-                {
-                    target.GetDamage();
-                }
-            }
-            /* цель во второй четверти */
-            if ((target.X <= X && target.X >= RegionOfEatingLeft) && (target.Y <= Y && target.Y >= RegionOfEatingUp))
-            {
-                if (target.HitPoint <= 0)
-                {
-                    Eating();
-                    return true;
-                }
-                else
-                {
-                    target.GetDamage();
-                }
-            }
-            /* цель в третьей четверти */
-            if ((target.X <= X && target.X >= RegionOfEatingLeft) && (target.Y >= Y && target.Y <= RegionOfEatingDown))
-            {
-                if (target.HitPoint <= 0)
-                {
-                    Eating();
-                    return true;
-                }
-                else
-                {
-                    target.GetDamage();
-                }
-            }
-            /* цель в четвертой четверти */
-            if ((target.X >= X && target.X <= RegionOfEatingRight) && (target.Y >= Y && target.Y <= RegionOfEatingDown))
-            {
-                if (target.HitPoint <= 0)
-                {
-                    Eating();
-                    return true;
-                }
-                else
-                {
-                    target.GetDamage();
-                }
-            }
-
-            
             return false;
         }
-        public void Run<T>(int MaxWidthField, int MaxHeightField, T enemy) where T : FormOfCell
+        public bool Eating(int XTarget, int YTarget) 
+        {
+            var regionOfEating = IsTargetInRegionOfEating(XTarget, YTarget);
+            if (regionOfEating == true)
+            {
+                CountOfEating++;
+                return true;
+            }
+            return false;
+        }
+        public void Run<T>(int MaxWidthField, int MaxHeightField, T enemy) where T : ICreature
         {
             var result = IsTargetInOverview(enemy.X, enemy.Y);
 
@@ -273,10 +187,10 @@ namespace SimulatorOfLive.Logic.Abstract_model
                 }
             }
         }
-        public void Move<T>(int MaxWidthField, int MaxHeightField, int DirectionOfMove, T target) where T: IObject
+        public void Move(int MaxWidthField, int MaxHeightField, int DirectionOfMove, int XTarget, int YTarget)
         {
-            var overview = IsTargetInOverview(target.X, target.Y);
-            if (overview != 0 && target.X != X && target.Y != Y)
+            var overview = IsTargetInOverview(XTarget, YTarget);
+            if (overview != 0 && XTarget != X && YTarget != Y)
             {
                 if (overview == 1)
                 {
@@ -317,13 +231,9 @@ namespace SimulatorOfLive.Logic.Abstract_model
             }
         }
         public abstract bool IsEvolution();
-        public void GetDamage()
+        public void Damage()
         {
             HitPoint--;
-        }
-        public void Eating()
-        {
-            CountOfEating++;
         }
         private int IsTargetInOverview(int XTarget, int YTarget)
         {
@@ -374,46 +284,54 @@ namespace SimulatorOfLive.Logic.Abstract_model
             }
             return 0;
         }
-        private int IsTargetInRegionOfEating(int XTarget, int YTarget)
+        private bool IsTargetInRegionOfEating(int XTarget, int YTarget)
         {
             int RegionOfEatingLeft, RegionOfEatingRight, RegionOfEatingUp, RegionOfEatingDown;
             RegionOfEatingRight = X + RegionOfEating;
             RegionOfEatingLeft = X - RegionOfEating;
             RegionOfEatingUp = Y - RegionOfEating;
             RegionOfEatingDown = Y + RegionOfEating;
-            if (XTarget >= X && XTarget <= RegionOfEatingRight)
+            /* цель справа на одной высоте*/
+            if (XTarget >= X && XTarget <= RegionOfEatingRight && YTarget == Y)
             {
-                return 1;
+                return true;
             }
-            if (XTarget <= X && XTarget >= RegionOfEatingLeft)
+            /* цель слева на одной высоте*/
+            if (XTarget <= X && XTarget >= RegionOfEatingLeft && YTarget == Y)
             {
-                return 2;
+                return true;
             }
-            if (YTarget >= Y && YTarget <= RegionOfEatingDown)
+            /* цель снизу на одной ширине */
+            if (YTarget >= Y && YTarget <= RegionOfEatingDown && XTarget == X)
             {
-                return 3;
+                return true;
             }
-            if (YTarget <= Y && YTarget >= RegionOfEatingUp)
+            /* цель сверху на одной ширине */
+            if (YTarget <= Y && YTarget >= RegionOfEatingUp && XTarget == X)
             {
-                return 4;
+                return true;
             }
+            /* цель в первой четверти */
             if ((XTarget >= X && XTarget <= RegionOfEatingRight) && (YTarget <= Y && YTarget >= RegionOfEatingUp))
             {
-                return 5;
+                return true;
             }
+            /* цель во второй четверти */
             if ((XTarget <= X && XTarget >= RegionOfEatingLeft) && (YTarget <= Y && YTarget >= RegionOfEatingUp))
             {
-                return 6;
+                return true;
             }
+            /* цель в третьей четверти */
             if ((XTarget <= X && XTarget >= RegionOfEatingLeft) && (YTarget >= Y && YTarget <= RegionOfEatingDown))
             {
-                return 7;
+                return true;
             }
+            /* цель в четвертой четверти */
             if ((XTarget >= X && XTarget <= RegionOfEatingRight) && (YTarget >= Y && YTarget <= RegionOfEatingDown))
             {
-                return 8;
+                return true;
             }
-            return 0;
+            return false;
         }
         public FormOfCell() { }
         public FormOfCell(int X, int Y, string ID)

@@ -2,7 +2,7 @@
 using SimulatorOfLive.Logic.Model;
 using SimulatorOfLive.Logic.Model.Abstract_model;
 using SimulatorOfLive.Logic.Model.Cell;
-using SimulatorOfLive.Logic.Model.Eat;
+using SimulatorOfLive.Logic.Model.Food;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,16 +10,19 @@ using System.Xml.Serialization;
 
 namespace SimulatorOfLive.Logic.Controller
 {
-    [XmlInclude(typeof(Eat))]
+    [XmlInclude(typeof(Food))]
     public class Controller
     {
         public static Random rnd = new Random();
         public List<FormOfCell> cells;
-        public List<Eat> eat;
+        public List<Food> food;
+        Lists lists;
+        //public List<object> objects;
         public void StartNewGame()
         {
             cells = new List<FormOfCell>();
-            eat = new List<Eat>();
+            food = new List<Food>();
+            //objects = new List<object>();
         }
         public void AddFirstCells(int count, int MaxWidthField, int MaxHeightField)
         {
@@ -53,27 +56,32 @@ namespace SimulatorOfLive.Logic.Controller
                 }
             }
         }
-        public void MoveCells(int MaxWidthField, int MaxHeightField)
+        public void Move(int MaxWidthField, int MaxHeightField)
         {
-            foreach(var cell in cells)
+            foreach (var cell in cells)
             {
-                if (cell is HerbivoreLowCell || cell is HerbivoreMediumCell || cell is HerbivoreHighCell ||
-                    cell is OmnivoreLowCell || cell is OmnivoreMediumCell || cell is OmnivoreHighCell)
-                {
-                    foreach (var target in eat)
-                    {
-                        cell.Move(MaxWidthField, MaxHeightField, SettingsGame.rnd.Next(SettingsGame.SpeedOfGame), target);
-                        break;
-                    }
-                }
                 foreach (var target in cells)
-                { 
+                {
+                    if (cell.ID == target.ID)
+                    {
+                        cell.Move(MaxWidthField, MaxHeightField, SettingsGame.rnd.Next(SettingsGame.SpeedOfGame));
+                        continue;
+                    }
+                    if (cell is HerbivoreLowCell || cell is HerbivoreMediumCell || cell is HerbivoreHighCell ||
+                    cell is OmnivoreLowCell || cell is OmnivoreMediumCell || cell is OmnivoreHighCell)
+                    {
+                        foreach (var e in food)
+                        {
+                            cell.Move(MaxWidthField, MaxHeightField, SettingsGame.rnd.Next(SettingsGame.SpeedOfGame), e.X, e.Y);
+                            break;
+                        }
+                    }
                     if (target is HerbivoreLowCell || target is HerbivoreMediumCell || target is HerbivoreHighCell)
                     {
                         cell.Move(MaxWidthField, MaxHeightField, SettingsGame.rnd.Next(SettingsGame.SpeedOfGame));
                         break;
                     }
-                    cell.Move(MaxWidthField, MaxHeightField, SettingsGame.rnd.Next(SettingsGame.SpeedOfGame), target);
+                    cell.Move(MaxWidthField, MaxHeightField, SettingsGame.rnd.Next(SettingsGame.SpeedOfGame), target.X, target.Y);
                     break;
                 }
             }
@@ -101,13 +109,14 @@ namespace SimulatorOfLive.Logic.Controller
                     //        }
                     //    }
                     //}
-                    foreach (var e in eat.ToArray())
+                    foreach (var e in food.ToArray())
                     {
-                        var r = cell.Eat(e);
+                        var r = cell.Eating(e.X, e.Y);
                         if (r == true)
                         {
-                            index = eat.LastIndexOf(e);
-                            eat.RemoveAt(index);
+                            index = food.LastIndexOf(e);
+                            food.RemoveAt(index);
+                            break;
                         }
                     }
                 }
@@ -116,17 +125,18 @@ namespace SimulatorOfLive.Logic.Controller
                 #region Плотоядные
                 if (cell is CarnivorousLowCell || cell is CarnivorousMediumCell || cell is CarnivorousHighCell)
                 {
-                    foreach (var targetToEat in cells.ToArray())
+                    foreach (var target in cells.ToArray())
                     {
-                        if (targetToEat == cell)
+                        if (cell.ID == target.ID)
                         {
                             continue;
                         }
-                        var r = cell.Eat(targetToEat);
-                        if (r == true)
+                        var result = cell.Eating(target);
+                        if (result == true)
                         {
-                            index = cells.LastIndexOf(targetToEat);
+                            index = cells.LastIndexOf(target);
                             cells.RemoveAt(index);
+                            break;
                         }
                     }
                 }
@@ -135,35 +145,38 @@ namespace SimulatorOfLive.Logic.Controller
                 #region Всеядные
                 if (cell is OmnivoreLowCell || cell is OmnivoreMediumCell || cell is OmnivoreHighCell)
                 {
-                    foreach (var targetToEat in cells.ToArray())
+                    foreach (var target in cells.ToArray())
                     {
-                        if (targetToEat.ID == cell.ID)
+                        if (cell.ID == target.ID)
                         {
                             continue;
                         }
-                        var r = cell.Eat(targetToEat);
-                        if (r == true)
+                        var result = cell.Eating(target);
+                        if (result == true)
                         {
-                            index = cells.LastIndexOf(targetToEat);
+                            index = cells.LastIndexOf(target);
                             cells.RemoveAt(index);
+                            break;
                         }
                     }
-                    foreach (var e in eat.ToArray())
+                    foreach (var e in food.ToArray())
                     {
-                        var r = cell.Eat(e);
+                        var r = cell.Eating(e.X, e.Y);
                         if (r == true)
                         {
-                            index = eat.LastIndexOf(e);
-                            eat.RemoveAt(index);
+                            index = food.LastIndexOf(e);
+                            food.RemoveAt(index);
+                            break;
                         }
                     }
+                        
                 }
                 #endregion
             }
         }
         public void Evolution()
         {
-            foreach (FormOfCell cell in cells.ToArray())
+            foreach (var cell in cells.ToArray())
             {
                 if (cell is CarnivorousLowCell)
                 {
@@ -239,12 +252,91 @@ namespace SimulatorOfLive.Logic.Controller
                     }
                 }
             }
+
+
+            //foreach (var cell in cells.ToArray())
+            //{
+            //    var cell = obj as FormOfCell;
+            //    if (cell is CarnivorousLowCell)
+            //    {
+            //        var r = cell.IsEvolution();
+            //        if (r == true)
+            //        {
+            //            if (SettingsGame.rnd.Next(SettingsGame.ChanceOfEvolutionCarnivorousLowCell) == 1)
+            //            {
+            //                objects.Add(new CarnivorousMediumCell(cell.X, cell.Y, cell.ID));
+            //                objects.RemoveAll(c => c == cell);
+            //            }
+            //        }
+            //    }
+            //    if (cell is CarnivorousMediumCell)
+            //    {
+            //        var r = cell.IsEvolution();
+            //        if (r == true)
+            //        {
+            //            if (SettingsGame.rnd.Next(SettingsGame.ChanceOfEvolutionCarnivorousMediumCell) == 1)
+            //            {
+            //                objects.Add(new CarnivorousHighCell(cell.X, cell.Y, cell.ID));
+            //                objects.RemoveAll(c => c == cell);
+            //            }
+            //        }
+
+            //    }
+            //    if (cell is HerbivoreLowCell)
+            //    {
+            //        var r = cell.IsEvolution();
+            //        if (r == true)
+            //        {
+            //            if (SettingsGame.rnd.Next(SettingsGame.ChanceOfEvolutionHerbivoreLowCell) == 1)
+            //            {
+            //                objects.Add(new HerbivoreMediumCell(cell.X, cell.Y, cell.ID));
+            //                objects.RemoveAll(c => c == cell);
+            //            }
+            //        }
+            //    }
+            //    if (cell is HerbivoreMediumCell)
+            //    {
+            //        var r = cell.IsEvolution();
+            //        if (r == true)
+            //        {
+            //            if (SettingsGame.rnd.Next(SettingsGame.ChanceOfEvolutionHerbivoreMediumCell) == 1)
+            //            {
+            //                objects.Add(new HerbivoreHighCell(cell.X, cell.Y, cell.ID));
+            //                objects.RemoveAll(c => c == cell);
+            //            }
+            //        }
+            //    }
+            //    if (cell is OmnivoreLowCell)
+            //    {
+            //        var r = cell.IsEvolution();
+            //        if (r == true)
+            //        {
+            //            if (SettingsGame.rnd.Next(SettingsGame.ChanceOfEvolutionOmnivoreLowCell) == 1)
+            //            {
+            //                objects.Add(new OmnivoreMediumCell(cell.X, cell.Y, cell.ID));
+            //                objects.RemoveAll(c => c == cell);
+            //            }
+            //        }
+            //    }
+            //    if (cell is OmnivoreMediumCell)
+            //    {
+            //        var r = cell.IsEvolution();
+            //        if (r == true)
+            //        {
+            //            if (SettingsGame.rnd.Next(SettingsGame.ChanceOfEvolutionOmnivoreMediumCell) == 1)
+            //            {
+            //                objects.Add(new OmnivoreHighCell(cell.X, cell.Y, cell.ID));
+            //                objects.RemoveAll(c => c == cell);
+            //            }
+            //        }
+            //    }
+            //}
         }
-        public void AddEat(int MaxWidthField, int MaxHeightField)
+        public void AddFood(int MaxWidthField, int MaxHeightField)
         {
-            if (rnd.Next(20) == 1)
+            if (rnd.Next(30) == 1)
             {
-                eat.Add(new Eat(rnd.Next(MaxWidthField), rnd.Next(MaxHeightField)));
+                food.Add(new Food(rnd.Next(MaxWidthField), rnd.Next(MaxHeightField)));
             }
         }
         public bool Division()
@@ -330,61 +422,58 @@ namespace SimulatorOfLive.Logic.Controller
             }
             return false;
         }
-        public void Run(int MaxWidthField, int MaxHeightField)
-        {
-            foreach (var cell in cells)
-            {
-                if (cell is HerbivoreLowCell || cell is HerbivoreMediumCell || cell is HerbivoreHighCell)
-                {
-                    foreach (var enemy in cells)
-                    {
-                        if (enemy is HerbivoreLowCell || enemy is HerbivoreMediumCell || enemy is HerbivoreHighCell || cell.ID == enemy.ID)
-                        {
-                            continue;
-                        }
-                        if (SettingsGame.rnd.Next(SettingsGame.ChanceOfRun) == 1)
-                        {
-                            cell.Run(MaxWidthField, MaxHeightField, enemy);
-                        }
-                    }
-                }
-                else
-                {
-                    continue;
-                }
-            }
-        }
+        //public void Run(int MaxWidthField, int MaxHeightField)
+        //{
+        //    foreach (var cell in cells)
+        //    {
+        //        if (cell is HerbivoreLowCell || cell is HerbivoreMediumCell || cell is HerbivoreHighCell)
+        //        {
+        //            foreach (var enemy in cells)
+        //            {
+        //                if (enemy is HerbivoreLowCell || enemy is HerbivoreMediumCell || enemy is HerbivoreHighCell || cell.ID == enemy.ID)
+        //                {
+        //                    continue;
+        //                }
+        //                if (SettingsGame.rnd.Next(SettingsGame.ChanceOfRun) == 1)
+        //                {
+        //                    cell.Run(MaxWidthField, MaxHeightField, enemy);
+        //                }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            continue;
+        //        }
+        //    }
+        //}
         public void AddCellsThroughMouse(int X, int Y)
         {
             cells.Add(new HerbivoreLowCell(X, Y, SettingsGame.GetID().ToString()));
         }
         public void AddEatThroughMouse(int X, int Y)
         {
-            eat.Add(new Eat(X, Y));
-        }
-        public void DeleteCells()
-        {
-            cells.Clear();
+            food.Add(new Food(X, Y));
         }
         public void Serializable()
         {
-            var cell = new XmlSerializer(typeof(List<FormOfCell>));
+            lists = new Lists();
+            lists.cells = cells;
+            lists.food = food;
+            var objects = new XmlSerializer(typeof(Lists));
             using (var file = new FileStream("SaveGame.xml", FileMode.Create))
             {
-                cell.Serialize(file, cells);
+                objects.Serialize(file, lists);
             }
         }
         public void DeSerializable()
         {
             StartNewGame();
-            var list1 = new XmlSerializer(typeof(List<FormOfCell>));
+            var objects = new XmlSerializer(typeof(Lists));
             using (var file = new FileStream("SaveGame.xml", FileMode.Open))
             {
-                var deser1 = list1.Deserialize(file) as List<FormOfCell>;
-                foreach (var c in deser1)
-                {
-                    cells.Add(c);
-                }
+                var deser = objects.Deserialize(file) as Lists;
+                cells = lists.cells;
+                food = lists.food;
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using SimulatorOfLive.Logic.Controller;
+﻿using SimulatorOfLive.Logic.Abstract_model;
+using SimulatorOfLive.Logic.Controller;
 using SimulatorOfLive.Logic.Model;
 using SimulatorOfLive.Logic.Model.Cell;
 using System;
@@ -14,6 +15,7 @@ namespace SimulatorOfLive.View
         private Graphics graphics;
         private int Tick;
         private int CountOfDivision = 0;
+        private int CountOfCells = 0;
         public Form1()
         {
             InitializeComponent();
@@ -39,9 +41,9 @@ namespace SimulatorOfLive.View
                     graphics.FillEllipse(Brushes.BlueViolet, cell.X, cell.Y, cell.Width, cell.Height);
                 }
             }
-            foreach (var e in controller.eat)
+            foreach (var f in controller.food)
             {
-                graphics.FillRectangle(Brushes.Green, e.X, e.Y, e.Width, e.Height);
+                graphics.FillRectangle(Brushes.Green, f.X, f.Y, f.Width, f.Height);
             }
         }
         private void CountCells()
@@ -81,9 +83,9 @@ namespace SimulatorOfLive.View
         {
             graphics.Clear(Color.LightGray);
             RefreshData();
-            // controller.AddEat(GameZonePictureBox.Width, GameZonePictureBox.Height);
-            controller.MoveCells(GameZonePictureBox.Width, GameZonePictureBox.Height);
-            // controller.Run(GameZonePictureBox.Width, GameZonePictureBox.Height);
+            controller.AddFood(GameZonePictureBox.Width, GameZonePictureBox.Height);
+            controller.Move(GameZonePictureBox.Width, GameZonePictureBox.Height);
+            //controller.Run(GameZonePictureBox.Width, GameZonePictureBox.Height);
             controller.Eating();
             controller.Evolution();
             var r = controller.Division();

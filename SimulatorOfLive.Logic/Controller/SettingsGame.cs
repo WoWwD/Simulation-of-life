@@ -24,9 +24,11 @@ namespace SimulatorOfLive.Logic.Model
         public static int CountOfEatForEvolutionCarnivorousLowCell = 3;
         public static int CountOfEatForEvolutionCarnivorousMediumCell = 4;
         public static int CountOfEatForEvolutionCarnivorousHighCell = 5;  // изменить
-        public static int CountOfEatForEvolutionHerbivoreLowCell = 3;
+
+        public static int CountOfEatForEvolutionHerbivoreLowCell = 2;
         public static int CountOfEatForEvolutionHerbivoreMediumCell = 3;
         public static int CountOfEatForEvolutionHerbivoreHighCell = 5;  // изменить
+
         public static int CountOfEatForEvolutionOmnivoreLowCell = 4;
         public static int CountOfEatForEvolutionOmnivoreMediumCell = 5;
         public static int CountOfEatForEvolutionOmnivoreHighCell = 5;  // изменить
