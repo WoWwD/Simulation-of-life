@@ -1,4 +1,5 @@
 ﻿using SimulatorOfLive.Logic.Model;
+using SimulatorOfLive.Logic.Model.Abstract_model;
 using SimulatorOfLive.Logic.Model.Cell;
 using System.Xml.Serialization;
 
@@ -13,7 +14,7 @@ namespace SimulatorOfLive.Logic.Abstract_model
     [XmlInclude(typeof(OmnivoreLowCell))]
     [XmlInclude(typeof(OmnivoreMediumCell))]
     [XmlInclude(typeof(OmnivoreHighCell))]
-    public abstract class FormOfCell : ICreature
+    public abstract class FormOfCell : ICreature, IObject
     {
         public string ID { get; set; }
         public abstract byte Speed { get; }
@@ -25,7 +26,7 @@ namespace SimulatorOfLive.Logic.Abstract_model
         public abstract int CountOfEating { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
-        public bool Eating<C>(C target) where C : ICreature
+        public bool Eating<T>(T target) where T : IObject
         {
             var regionOfEating = IsTargetInRegionOfEating(target.X, target.Y);
             if (regionOfEating == true)
@@ -40,16 +41,6 @@ namespace SimulatorOfLive.Logic.Abstract_model
                     target.Damage();
                     return false;
                 }
-            }
-            return false;
-        }
-        public bool Eating(int XTarget, int YTarget) 
-        {
-            var regionOfEating = IsTargetInRegionOfEating(XTarget, YTarget);
-            if (regionOfEating == true)
-            {
-                CountOfEating++;
-                return true;
             }
             return false;
         }
@@ -89,7 +80,7 @@ namespace SimulatorOfLive.Logic.Abstract_model
                 Move(MaxWidthField, MaxHeightField, 6);
             }
         }
-        public void Move(int MaxWidthField, int MaxHeightField, int DirectionOfMove)
+        private void Move(int MaxWidthField, int MaxHeightField, int DirectionOfMove)
         {
             /* Движение вправо */
             if (DirectionOfMove == 1)
@@ -187,7 +178,7 @@ namespace SimulatorOfLive.Logic.Abstract_model
         public void Move(int MaxWidthField, int MaxHeightField, int DirectionOfMove, int XTarget, int YTarget)
         {
             var overview = IsTargetInOverview(XTarget, YTarget);
-            if (overview != 0 && XTarget != X && YTarget != Y)
+            if (overview != 0 && (XTarget != 0 && YTarget != 0))
             {
                 if (overview == 1)
                 {
@@ -243,7 +234,7 @@ namespace SimulatorOfLive.Logic.Abstract_model
                 return false;
             }
         }
-        private int IsTargetInOverview(int XTarget, int YTarget)
+        public int IsTargetInOverview(int XTarget, int YTarget)
         {
             int viewRight, viewLeft, viewUp, viewDown;
             viewRight = X + Overview;
@@ -292,7 +283,7 @@ namespace SimulatorOfLive.Logic.Abstract_model
             }
             return 0;
         }
-        private bool IsTargetInRegionOfEating(int XTarget, int YTarget)
+        public bool IsTargetInRegionOfEating(int XTarget, int YTarget)
         {
             int RegionOfEatingLeft, RegionOfEatingRight, RegionOfEatingUp, RegionOfEatingDown;
             RegionOfEatingRight = X + RegionOfEating;

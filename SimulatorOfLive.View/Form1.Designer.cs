@@ -141,7 +141,7 @@ namespace SimulatorOfLive.View
             this.groupBox1.Controls.Add(this.omni);
             this.groupBox1.Location = new System.Drawing.Point(430, 17);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(459, 124);
+            this.groupBox1.Size = new System.Drawing.Size(748, 124);
             this.groupBox1.TabIndex = 14;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Information";

@@ -17,10 +17,13 @@ namespace SimulatorOfLive.View
         public Form1()
         {
             InitializeComponent();
+            StartGameButton.Enabled = false;
             PauseGameButton.Enabled = false;
+            SaveGameButton.Enabled = false;
             GameZonePictureBox.Image = new Bitmap(GameZonePictureBox.Width, GameZonePictureBox.Height);
             graphics = Graphics.FromImage(GameZonePictureBox.Image);
-            timer1.Interval = 200;
+            graphics.Clear(Color.WhiteSmoke);
+            timer1.Interval = 100;
         }
         private void RefreshData()
         {
@@ -61,14 +64,17 @@ namespace SimulatorOfLive.View
                 {
                     o++;
                 }
-                carni.Text = $"Плотоядные: {Math.Round(c / controller.cells.Count, 3) * 100}%";
-                herbi.Text = $"Травоядные: {Math.Round(h / controller.cells.Count, 3) * 100}%";
-                omni.Text = $"Всеядные: {Math.Round(o / controller.cells.Count, 3) * 100}%";
             }
+            carni.Text = $"Плотоядные: {Math.Round(c / controller.cells.Count, 3) * 100}%";
+            herbi.Text = $"Травоядные: {Math.Round(h / controller.cells.Count, 3) * 100}%";
+            omni.Text = $"Всеядные: {Math.Round(o / controller.cells.Count, 3) * 100}%";
         }
         private void StartGameButton_Click(object sender, EventArgs e)
         {
             PauseGameButton.Enabled = true;
+            SaveGameButton.Enabled = false;
+            LoadGameButton.Enabled = false;
+            NewGameButton.Enabled = false;
             StartGameButton.Enabled = false;
             timer1.Start();
         }
@@ -76,10 +82,14 @@ namespace SimulatorOfLive.View
         {
             timer1.Stop();
             StartGameButton.Enabled = true;
+            SaveGameButton.Enabled = true;
+            LoadGameButton.Enabled = true;
+            NewGameButton.Enabled = true;
+            PauseGameButton.Enabled = false;
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
-            graphics.Clear(Color.LightGray);
+            graphics.Clear(Color.WhiteSmoke);
             RefreshData();
             controller.AddFood(GameZonePictureBox.Width, GameZonePictureBox.Height);
             controller.Move(GameZonePictureBox.Width, GameZonePictureBox.Height);
@@ -138,7 +148,6 @@ namespace SimulatorOfLive.View
                 }
             }
         }
-
         private void SaveGameButton_Click(object sender, EventArgs e)
         {
             controller.Serializable();
@@ -146,18 +155,17 @@ namespace SimulatorOfLive.View
         private void LoadGameButton_Click(object sender, EventArgs e)
         {
             controller.DeSerializable();
-            graphics.Clear(Color.LightGray);
             RefreshData();
             GameZonePictureBox.Refresh();
+            StartGameButton.Enabled = true;
         }
-
         private void NewGameButton_Click(object sender, EventArgs e)
         {
-            graphics.Clear(Color.LightGray);
             controller.StartNewGame();
             controller.AddFirstCells(SettingsGame.CountOfCells, GameZonePictureBox.Width, GameZonePictureBox.Height);
             RefreshData();
             GameZonePictureBox.Refresh();
+            StartGameButton.Enabled = true;
         }
     }
 }

@@ -2,8 +2,10 @@
 
 namespace SimulatorOfLive.Logic.Model.Food
 {
-    public class Food: IFood
+    public class Food: IObject
     {
+        private byte _HitPoint = 1;
+        public byte HitPoint { get { return _HitPoint; } set { _HitPoint = value; } }
         public byte Width => 2;  
         public byte Height => 2; 
         public int X { get ; set ; }
@@ -13,6 +15,10 @@ namespace SimulatorOfLive.Logic.Model.Food
         {
             this.X = X;
             this.Y = Y;
+        }
+        public void Damage()
+        {
+            HitPoint--;
         }
     }
 }

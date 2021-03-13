@@ -86,7 +86,7 @@ namespace SimulatorOfLive.Logic.Controller
                 }
                 if (food.Count == 0 /*|| cells.Count == 1*/)
                 {
-                    cell.Move(MaxWidthField, MaxHeightField, SettingsGame.rnd.Next(SettingsGame.SpeedOfGame));
+                    cell.Move(MaxWidthField, MaxHeightField, SettingsGame.rnd.Next(SettingsGame.SpeedOfGame), 0, 0);
                 }
             }
         }
@@ -109,12 +109,27 @@ namespace SimulatorOfLive.Logic.Controller
                             break;
                         }
                     }
+                    if (cell is HerbivoreLowCell || cell is HerbivoreMediumCell || cell is HerbivoreHighCell)
+                    {
+                        if (target is CarnivorousLowCell || target is CarnivorousMediumCell || target is CarnivorousHighCell || target is OmnivoreLowCell || target is OmnivoreMediumCell || target is OmnivoreHighCell)
+                        {
+                            if (SettingsGame.rnd.Next(SettingsGame.ChanceOfDefense) == 1)
+                            {
+                                var result = cell.Eating(target);
+                                if (result == true)
+                                {
+                                    cells.RemoveAll(c => c == target);
+                                    break;
+                                }
+                            }
+                        }
+                    }
                 }
                 foreach (var target in food.ToArray())
                 {
                     if (cell is HerbivoreLowCell || cell is HerbivoreMediumCell || cell is HerbivoreHighCell || cell is OmnivoreLowCell || cell is OmnivoreMediumCell || cell is OmnivoreHighCell)
                     {
-                        var result = cell.Eating(target.X, target.Y);
+                        var result = cell.Eating(target);
                         if (result == true)
                         {
                             food.RemoveAll(c => c == target);
@@ -189,6 +204,13 @@ namespace SimulatorOfLive.Logic.Controller
             if (rnd.Next(30) == 1)
             {
                 food.Add(new Food(rnd.Next(MaxWidthField), rnd.Next(MaxHeightField)));
+            }
+            if (rnd.Next(40) == 1)
+            {
+                if (food.Count != 0)
+                {
+                    food.RemoveAt(rnd.Next(food.Count));
+                }
             }
         }
         public bool Division()
@@ -285,6 +307,7 @@ namespace SimulatorOfLive.Logic.Controller
                 cells = deser.cells;
                 food = deser.food;
             }
+            SettingsGame.CountOfCells = cells.Count;
         }
     }
 }
