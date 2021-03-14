@@ -1,13 +1,13 @@
-﻿using SimulatorOfLive.Logic.Abstract_model;
-using SimulatorOfLive.Logic.Model;
-using SimulatorOfLive.Logic.Model.Cell;
-using SimulatorOfLive.Logic.Model.Food;
+﻿using SimulationOfLife.Logic.Abstract_model;
+using SimulationOfLife.Logic.Model;
+using SimulationOfLife.Logic.Model.Cell;
+using SimulationOfLife.Logic.Model.Food;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 
-namespace SimulatorOfLive.Logic.Controller
+namespace SimulationOfLife.Logic.Controller
 {
     [XmlInclude(typeof(Food))]
     public class Controller

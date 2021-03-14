@@ -1,9 +1,9 @@
-﻿using SimulatorOfLive.Logic.Model;
-using SimulatorOfLive.Logic.Model.Abstract_model;
-using SimulatorOfLive.Logic.Model.Cell;
+﻿using SimulationOfLife.Logic.Model;
+using SimulationOfLife.Logic.Model.Abstract_model;
+using SimulationOfLife.Logic.Model.Cell;
 using System.Xml.Serialization;
 
-namespace SimulatorOfLive.Logic.Abstract_model
+namespace SimulationOfLife.Logic.Abstract_model
 {
     [XmlInclude(typeof(CarnivorousLowCell))]
     [XmlInclude(typeof(CarnivorousMediumCell))]

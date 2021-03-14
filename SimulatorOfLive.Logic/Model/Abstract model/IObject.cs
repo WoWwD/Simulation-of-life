@@ -1,4 +1,4 @@
-﻿namespace SimulatorOfLive.Logic.Model.Abstract_model
+﻿namespace SimulationOfLife.Logic.Model.Abstract_model
 {
     /* Интерфейс описывает какой-либо объект в симуляции */
     public interface IObject

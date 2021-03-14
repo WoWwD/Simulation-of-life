@@ -1,11 +1,11 @@
-﻿using SimulatorOfLive.Logic.Controller;
-using SimulatorOfLive.Logic.Model;
-using SimulatorOfLive.Logic.Model.Cell;
+﻿using SimulationOfLife.Logic.Controller;
+using SimulationOfLife.Logic.Model;
+using SimulationOfLife.Logic.Model.Cell;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace SimulatorOfLive.View
+namespace SimulationOfLife.View
 {
     public partial class Form1 : Form
     {

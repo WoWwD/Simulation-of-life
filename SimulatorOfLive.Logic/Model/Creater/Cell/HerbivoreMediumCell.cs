@@ -1,6 +1,6 @@
-﻿using SimulatorOfLive.Logic.Abstract_model;
+﻿using SimulationOfLife.Logic.Abstract_model;
 
-namespace SimulatorOfLive.Logic.Model.Cell
+namespace SimulationOfLife.Logic.Model.Cell
 {
     public class HerbivoreMediumCell: FormOfCell
     {

@@ -1,7 +1,7 @@
-﻿using SimulatorOfLive.Logic.Abstract_model;
+﻿using SimulationOfLife.Logic.Abstract_model;
 using System;
 
-namespace SimulatorOfLive.Logic.Model.Cell
+namespace SimulationOfLife.Logic.Model.Cell
 {
     public class OmnivoreLowCell: FormOfCell
     {

@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimulatorOfLive.Logic", "SimulatorOfLive.Logic\SimulatorOfLive.Logic.csproj", "{F2F03DA4-54BC-4968-B6D7-A66211F40EC1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimulationOfLife.Logic", "SimulatorOfLive.Logic\SimulationOfLife.Logic.csproj", "{F2F03DA4-54BC-4968-B6D7-A66211F40EC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimulatorOfLive.View", "SimulatorOfLive.View\SimulatorOfLive.View.csproj", "{FC3A0436-5F86-448A-B0D9-BC15E6980D19}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimulationOfLife.View", "SimulatorOfLive.View\SimulationOfLife.View.csproj", "{FC3A0436-5F86-448A-B0D9-BC15E6980D19}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

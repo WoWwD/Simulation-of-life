@@ -1,7 +1,6 @@
-﻿using SimulatorOfLive.Logic.Abstract_model;
-using System;
+﻿using SimulationOfLife.Logic.Abstract_model;
 
-namespace SimulatorOfLive.Logic.Model
+namespace SimulationOfLife.Logic.Model
 {
     public class CarnivorousHighCell: FormOfCell
     {

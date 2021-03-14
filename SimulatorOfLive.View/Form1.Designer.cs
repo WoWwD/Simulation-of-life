@@ -1,5 +1,4 @@
-﻿
-namespace SimulatorOfLive.View
+﻿namespace SimulationOfLife.View
 {
     partial class Form1
     {
@@ -251,7 +250,7 @@ namespace SimulatorOfLive.View
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "Form1";
-            this.Text = "Simulator of live";
+            this.Text = "Simulation of life";
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();

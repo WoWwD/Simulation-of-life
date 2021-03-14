@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SimulatorOfLive.Logic.Model
+namespace SimulationOfLife.Logic.Model
 {
     public static class SettingsGame
     {

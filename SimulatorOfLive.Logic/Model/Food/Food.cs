@@ -1,6 +1,6 @@
-﻿using SimulatorOfLive.Logic.Model.Abstract_model;
+﻿using SimulationOfLife.Logic.Model.Abstract_model;
 
-namespace SimulatorOfLive.Logic.Model.Food
+namespace SimulationOfLife.Logic.Model.Food
 {
     public class Food: IObject
     {

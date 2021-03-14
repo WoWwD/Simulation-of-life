@@ -1,6 +1,6 @@
-﻿using SimulatorOfLive.Logic.Model.Abstract_model;
+﻿using SimulationOfLife.Logic.Model.Abstract_model;
 
-namespace SimulatorOfLive.Logic.Model
+namespace SimulationOfLife.Logic.Model
 {
     /* Интерфейс описывает какое-либо существо */
     public interface ICreature

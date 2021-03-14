@@ -80,9 +80,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SimulatorOfLive.Logic\SimulatorOfLive.Logic.csproj">
+    <ProjectReference Include="..\SimulatorOfLive.Logic\SimulationOfLife.Logic.csproj">
       <Project>{f2f03da4-54bc-4968-b6d7-a66211f40ec1}</Project>
-      <Name>SimulatorOfLive.Logic</Name>
+      <Name>SimulationOfLife.Logic</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
