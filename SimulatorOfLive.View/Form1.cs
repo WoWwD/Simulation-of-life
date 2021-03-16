@@ -36,6 +36,7 @@ namespace SimulationOfLife.View
                 if (cell is HerbivoreLowCell || cell is HerbivoreMediumCell || cell is HerbivoreHighCell)
                 {
                     graphics.FillEllipse(Brushes.Green, cell.X, cell.Y, cell.Width, cell.Height);
+                    //graphics.DrawEllipse(pen, cell.X - (cell.Overview / 2), cell.Y - (cell.Overview / 2), cell.Overview, cell.Overview);
                 }
                 if (cell is OmnivoreLowCell || cell is OmnivoreMediumCell || cell is OmnivoreHighCell)
                 {
@@ -154,6 +155,7 @@ namespace SimulationOfLife.View
         }
         private void LoadGameButton_Click(object sender, EventArgs e)
         {
+            graphics.Clear(Color.WhiteSmoke);
             controller.DeSerializable();
             RefreshData();
             GameZonePictureBox.Refresh();
@@ -161,6 +163,7 @@ namespace SimulationOfLife.View
         }
         private void NewGameButton_Click(object sender, EventArgs e)
         {
+            graphics.Clear(Color.WhiteSmoke);
             controller.StartNewGame();
             controller.AddFirstCells(SettingsGame.CountOfCells, GameZonePictureBox.Width, GameZonePictureBox.Height);
             RefreshData();

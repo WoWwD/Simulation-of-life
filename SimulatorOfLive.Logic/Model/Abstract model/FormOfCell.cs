@@ -28,59 +28,14 @@ namespace SimulationOfLife.Logic.Abstract_model
         public int Y { get; set; }
         public bool Eating<T>(T target) where T : IObject
         {
-            var regionOfEating = IsTargetInRegionOfEating(target.X, target.Y);
-            if (regionOfEating == true)
+            if (target.HitPoint == 0)
             {
-                if (target.HitPoint == 0)
-                {
-                    CountOfEating++;
-                    return true;
-                }
-                else
-                {
-                    target.Damage();
-                    return false;
-                }
+                CountOfEating++;
+                return true;
             }
             return false;
         }
-        public void Run(int MaxWidthField, int MaxHeightField, int XEnemy, int YEnemy)
-        {
-            var result = IsTargetInOverview(XEnemy, YEnemy);
-            if (result == 1)
-            {
-                Move(MaxWidthField, MaxHeightField, 2);
-            }
-            if (result == 2)
-            {
-                Move(MaxWidthField, MaxHeightField, 1);
-            }
-            if (result == 3)
-            {
-                Move(MaxWidthField, MaxHeightField, 4);
-            }
-            if (result == 4)
-            {
-                Move(MaxWidthField, MaxHeightField, 3);
-            }
-            if (result == 5)
-            {
-                Move(MaxWidthField, MaxHeightField, 7);
-            }
-            if (result == 6)
-            {
-                Move(MaxWidthField, MaxHeightField, 8);
-            }
-            if (result == 7)
-            {
-                Move(MaxWidthField, MaxHeightField, 5);
-            }
-            if (result == 8)
-            {
-                Move(MaxWidthField, MaxHeightField, 6);
-            }
-        }
-        private void Move(int MaxWidthField, int MaxHeightField, int DirectionOfMove)
+        public void Move(int MaxWidthField, int MaxHeightField, int DirectionOfMove)
         {
             /* Движение вправо */
             if (DirectionOfMove == 1)
@@ -173,49 +128,6 @@ namespace SimulationOfLife.Logic.Abstract_model
                 {
                     Y -= Speed;
                 }
-            }
-        }
-        public void Move(int MaxWidthField, int MaxHeightField, int DirectionOfMove, int XTarget, int YTarget)
-        {
-            var overview = IsTargetInOverview(XTarget, YTarget);
-            if (overview != 0 && (XTarget != 0 && YTarget != 0))
-            {
-                if (overview == 1)
-                {
-                    Move(MaxWidthField, MaxHeightField, 1);
-                }
-                if (overview == 2)
-                {
-                    Move(MaxWidthField, MaxHeightField, 2);
-                }
-                if (overview == 3)
-                {
-                    Move(MaxWidthField, MaxHeightField, 3);
-                }
-                if (overview == 4)
-                {
-                    Move(MaxWidthField, MaxHeightField, 4);
-                }
-                if (overview == 5)
-                {
-                    Move(MaxWidthField, MaxHeightField, 5);
-                }
-                if (overview == 6)
-                {
-                    Move(MaxWidthField, MaxHeightField, 6);
-                }
-                if (overview == 7)
-                {
-                    Move(MaxWidthField, MaxHeightField, 7);
-                }
-                if (overview == 8)
-                {
-                    Move(MaxWidthField, MaxHeightField, 8);
-                }
-            }
-            else
-            {
-                Move(MaxWidthField, MaxHeightField, DirectionOfMove);
             }
         }
         public abstract bool IsEvolution();

@@ -38,7 +38,7 @@ namespace SimulationOfLife.Logic.Model
         //public static int ChanceOfPursuit = 2; // Шанс преследования цели клеткой
         //public static int ChanceOfRun = 50; // Шанс побега клетки от вражеской
         public static int ChanceOfDefense = 25; // Шанс травоядной клетки нанести урон вражеской клетке
-        public static int ChanceOfDivision = 55; // Шанс деления клетки
+        public static int ChanceOfDivision = 50; // Шанс деления клетки
 
         public static int SpeedOfGame = 10; // Скорость игры. Чем больше, тем медленнее.
 
