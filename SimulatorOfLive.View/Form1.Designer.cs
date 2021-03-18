@@ -138,9 +138,9 @@
             this.groupBox1.Controls.Add(this.CountOfDivisionLabel);
             this.groupBox1.Controls.Add(this.IdCellLabel);
             this.groupBox1.Controls.Add(this.omni);
-            this.groupBox1.Location = new System.Drawing.Point(430, 17);
+            this.groupBox1.Location = new System.Drawing.Point(430, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(748, 124);
+            this.groupBox1.Size = new System.Drawing.Size(748, 129);
             this.groupBox1.TabIndex = 14;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Information";
@@ -150,54 +150,54 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(6, 18);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(182, 17);
+            this.label1.Size = new System.Drawing.Size(30, 17);
             this.label1.TabIndex = 6;
-            this.label1.Text = "Количество клеток: 0 из 0";
+            this.label1.Text = "text";
             // 
             // carni
             // 
             this.carni.AutoSize = true;
             this.carni.Location = new System.Drawing.Point(6, 35);
             this.carni.Name = "carni";
-            this.carni.Size = new System.Drawing.Size(99, 17);
+            this.carni.Size = new System.Drawing.Size(30, 17);
             this.carni.TabIndex = 9;
-            this.carni.Text = "Плотоядные: ";
+            this.carni.Text = "text";
             // 
             // herbi
             // 
             this.herbi.AutoSize = true;
             this.herbi.Location = new System.Drawing.Point(6, 52);
             this.herbi.Name = "herbi";
-            this.herbi.Size = new System.Drawing.Size(98, 17);
+            this.herbi.Size = new System.Drawing.Size(30, 17);
             this.herbi.TabIndex = 7;
-            this.herbi.Text = "Травоядные: ";
+            this.herbi.Text = "text";
             // 
             // CountOfDivisionLabel
             // 
             this.CountOfDivisionLabel.AutoSize = true;
             this.CountOfDivisionLabel.Location = new System.Drawing.Point(6, 103);
             this.CountOfDivisionLabel.Name = "CountOfDivisionLabel";
-            this.CountOfDivisionLabel.Size = new System.Drawing.Size(162, 17);
+            this.CountOfDivisionLabel.Size = new System.Drawing.Size(87, 17);
             this.CountOfDivisionLabel.TabIndex = 10;
-            this.CountOfDivisionLabel.Text = "Количество делений: 0";
+            this.CountOfDivisionLabel.Text = "text will soon";
             // 
             // IdCellLabel
             // 
             this.IdCellLabel.AutoSize = true;
             this.IdCellLabel.Location = new System.Drawing.Point(6, 86);
             this.IdCellLabel.Name = "IdCellLabel";
-            this.IdCellLabel.Size = new System.Drawing.Size(354, 17);
+            this.IdCellLabel.Size = new System.Drawing.Size(87, 17);
             this.IdCellLabel.TabIndex = 11;
-            this.IdCellLabel.Text = "ID клетки с самым большим количеством потомков: ";
+            this.IdCellLabel.Text = "text will soon";
             // 
             // omni
             // 
             this.omni.AutoSize = true;
             this.omni.Location = new System.Drawing.Point(6, 69);
             this.omni.Name = "omni";
-            this.omni.Size = new System.Drawing.Size(82, 17);
+            this.omni.Size = new System.Drawing.Size(30, 17);
             this.omni.TabIndex = 8;
-            this.omni.Text = "Всеядные: ";
+            this.omni.Text = "text";
             // 
             // LoadGameButton
             // 
@@ -223,7 +223,7 @@
             // 
             this.trackBar1.LargeChange = 1;
             this.trackBar1.Location = new System.Drawing.Point(1230, 18);
-            this.trackBar1.Maximum = 4;
+            this.trackBar1.Maximum = 5;
             this.trackBar1.Minimum = 1;
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Size = new System.Drawing.Size(176, 56);
@@ -235,11 +235,11 @@
             // 
             this.SpeedOfGamesLabel.AutoSize = true;
             this.SpeedOfGamesLabel.BackColor = System.Drawing.SystemColors.Window;
-            this.SpeedOfGamesLabel.Location = new System.Drawing.Point(1255, 74);
+            this.SpeedOfGamesLabel.Location = new System.Drawing.Point(1235, 77);
             this.SpeedOfGamesLabel.Name = "SpeedOfGamesLabel";
-            this.SpeedOfGamesLabel.Size = new System.Drawing.Size(126, 17);
+            this.SpeedOfGamesLabel.Size = new System.Drawing.Size(163, 17);
             this.SpeedOfGamesLabel.TabIndex = 4;
-            this.SpeedOfGamesLabel.Text = "Скорость игры: 1x";
+            this.SpeedOfGamesLabel.Text = "Speed of game: very low";
             // 
             // Form1
             // 
