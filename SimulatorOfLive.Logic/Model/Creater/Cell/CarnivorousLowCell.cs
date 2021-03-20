@@ -4,7 +4,7 @@ namespace SimulationOfLife.Logic.Model
 {
     public class CarnivorousLowCell : FormOfCell
     {
-        private byte _HitPoint = 6;
+        private byte _HitPoint = 7;
         private int _CountOfEating = 0;
         public override byte RegionOfEating => (byte)(Speed / 2);
         public override byte HitPoint { get { return _HitPoint; } set { _HitPoint = value; } }
@@ -17,7 +17,7 @@ namespace SimulationOfLife.Logic.Model
         {
             if (CountOfEating >= SettingsGame.CountOfEatForEvolutionCarnivorousLowCell)
             {
-                if (SettingsGame.rnd.Next(SettingsGame.ChanceOfEvolutionCarnivorousLowCell) == 1)
+                if (SettingsGame.RndNumber(SettingsGame.ChanceOfEvolutionCarnivorousLowCell) == 1)
                 {
                     return true;
                 }

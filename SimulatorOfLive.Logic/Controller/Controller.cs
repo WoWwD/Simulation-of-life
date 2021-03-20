@@ -12,6 +12,7 @@ namespace SimulationOfLife.Logic.Controller
     [XmlInclude(typeof(Food))]
     public class Controller
     {
+        public Dictionary<string, int> dict = new Dictionary<string, int>();
         public List<FormOfCell> cells;
         public List<Food> food;
         Lists lists;
@@ -36,7 +37,7 @@ namespace SimulationOfLife.Logic.Controller
                     }
                     else
                     {
-                        cell.Move(MaxWidthField, MaxHeightField, SettingsGame.rnd.Next(SettingsGame.SpeedOfGame));
+                        cell.Move(MaxWidthField, MaxHeightField, SettingsGame.RndNumber(SettingsGame.SpeedOfGame));
                         continue;
                     }
                 }
@@ -96,15 +97,15 @@ namespace SimulationOfLife.Logic.Controller
                         }
                         else
                         {
-                            cell.Move(MaxWidthField, MaxHeightField, SettingsGame.rnd.Next(SettingsGame.SpeedOfGame));
+                            cell.Move(MaxWidthField, MaxHeightField, SettingsGame.RndNumber(SettingsGame.SpeedOfGame));
                             continue;
                         }
                     }
                 }
                 if (cell is OmnivoreLowCell || cell is OmnivoreMediumCell || cell is OmnivoreHighCell)
                 {
-                    int rnd = SettingsGame.RndNumber(3);
-                    if (rnd == 1)
+                    int rnd = SettingsGame.RndNumber(2);
+                    if (rnd == 0)
                     {
                         SearchOfTarget(ref DirectionOfMove, cell, cells);
                         if (DirectionOfMove != 0)
@@ -114,11 +115,11 @@ namespace SimulationOfLife.Logic.Controller
                         }
                         else
                         {
-                            cell.Move(MaxWidthField, MaxHeightField, SettingsGame.rnd.Next(SettingsGame.SpeedOfGame));
+                            cell.Move(MaxWidthField, MaxHeightField, SettingsGame.RndNumber(SettingsGame.SpeedOfGame));
                             continue;
                         }
                     }
-                    if (rnd == 2)
+                    if (rnd == 1)
                     {
                         SearchOfTarget(ref DirectionOfMove, cell, food);
                         if (DirectionOfMove != 0)
@@ -128,7 +129,7 @@ namespace SimulationOfLife.Logic.Controller
                         }
                         else
                         {
-                            cell.Move(MaxWidthField, MaxHeightField, SettingsGame.rnd.Next(SettingsGame.SpeedOfGame));
+                            cell.Move(MaxWidthField, MaxHeightField, SettingsGame.RndNumber(SettingsGame.SpeedOfGame));
                             continue;
                         }
                     }
@@ -137,34 +138,25 @@ namespace SimulationOfLife.Logic.Controller
         }
         public void AddFirstCells(int count, int MaxWidthField, int MaxHeightField)
         {
-            int a;
-            for (int i = 0; i < SettingsGame.CountOfCells; i++)
+            for (int c = 0; c < count * SettingsGame.CountOfCarnivoriusCell; c++)
             {
-                a = SettingsGame.rnd.Next(1, 4);
-                if (a == 1)
-                {
-                    for (int c = 0; c < count * SettingsGame.CountOfCarnivoriusCell;)
-                    {
-                        cells.Add(new CarnivorousLowCell(SettingsGame.rnd.Next(MaxWidthField), SettingsGame.rnd.Next(MaxHeightField), SettingsGame.GetID().ToString()));
-                        break;
-                    }
-                }
-                if (a == 2)
-                {
-                    for (int h = 0; h < count * SettingsGame.CountOfHerbivoreCells;)
-                    {
-                        cells.Add(new HerbivoreLowCell(SettingsGame.rnd.Next(MaxWidthField), SettingsGame.rnd.Next(MaxHeightField), SettingsGame.GetID().ToString()));
-                        break;
-                    }
-                }
-                if (a == 3)
-                {
-                    for (int o = 0; o < count * SettingsGame.CountOfOmnivoreCell;)
-                    {
-                        cells.Add(new OmnivoreLowCell(SettingsGame.rnd.Next(MaxWidthField), SettingsGame.rnd.Next(MaxHeightField), SettingsGame.GetID().ToString()));
-                        break;
-                    }
-                }
+                cells.Add(new CarnivorousLowCell(SettingsGame.RndNumber(MaxWidthField), SettingsGame.RndNumber(MaxHeightField), SettingsGame.GetID().ToString()));
+            }
+            for (int h = 0; h < count * SettingsGame.CountOfHerbivoreCells; h++)
+            {
+                cells.Add(new HerbivoreLowCell(SettingsGame.RndNumber(MaxWidthField), SettingsGame.RndNumber(MaxHeightField), SettingsGame.GetID().ToString()));
+            }
+            for (int o = 0; o < count * SettingsGame.CountOfOmnivoreCell; o++)
+            {
+                cells.Add(new OmnivoreLowCell(SettingsGame.RndNumber(MaxWidthField), SettingsGame.RndNumber(MaxHeightField), SettingsGame.GetID().ToString()));
+            }
+            /* перемешивание значений в списке */
+            for (int i = cells.Count - 1; i >= 1; i--)
+            {
+                int j = SettingsGame.RndNumber(i + 1);
+                var temp = cells[j];
+                cells[j] = cells[i];
+                cells[i] = temp;
             }
         }
         private bool SearchOfTarget<C,T>(ref int DirectionOfMove, C creature, List<T> targets) where C : ICreature where T : IObject
@@ -225,10 +217,21 @@ namespace SimulationOfLife.Logic.Controller
                 }
                 if (cell is HerbivoreLowCell || cell is HerbivoreMediumCell || cell is HerbivoreHighCell)
                 {
-                    result = SearchOfTargetForEating(cell, food);
-                    if (result != null)
+                    if (SettingsGame.RndNumber(SettingsGame.ChanceOfDefense) == 1)
                     {
-                        food.RemoveAt((int)result);
+                        result = SearchOfTargetForEating(cell, cells);
+                        if (result != null)
+                        {
+                            cells.RemoveAt((int)result);
+                        }
+                    }
+                    else
+                    {
+                        result = SearchOfTargetForEating(cell, food);
+                        if (result != null)
+                        {
+                            food.RemoveAt((int)result);
+                        }
                     }
                 }
                 if (cell is OmnivoreLowCell || cell is OmnivoreMediumCell || cell is OmnivoreHighCell)
@@ -311,7 +314,7 @@ namespace SimulationOfLife.Logic.Controller
             {
                 food.Add(new Food(SettingsGame.RndNumber(MaxWidthField), SettingsGame.RndNumber(MaxHeightField)));
             }
-            if (SettingsGame.RndNumber(30) == 1 && food.Count != 0)
+            if (SettingsGame.RndNumber(40) == 1 && food.Count != 0)
             {
                 food.RemoveAt(SettingsGame.RndNumber(food.Count));
             }
@@ -388,7 +391,7 @@ namespace SimulationOfLife.Logic.Controller
         }
         public void AddCellsThroughMouse(int X, int Y)
         {
-            cells.Add(new HerbivoreHighCell(X, Y, SettingsGame.GetID().ToString()));
+            cells.Add(new CarnivorousMediumCell(X, Y, SettingsGame.GetID().ToString()));
         }
         public void AddEatThroughMouse(int X, int Y)
         {
@@ -417,6 +420,43 @@ namespace SimulationOfLife.Logic.Controller
                 food = deser.food;
             }
             SettingsGame.CountOfCells = cells.Count;
+        }
+        public string CountingDivisions()
+        {
+            int count = 0;
+            string name = "no value";
+            dict.Clear();
+            foreach (var cell in cells)
+            {
+                if (dict.ContainsKey(cell.ID))
+                {
+                    dict[cell.ID]++;
+                }
+                else
+                {
+                    dict.Add(cell.ID, 1);
+                }
+            }
+            foreach (var cell in dict)
+            {
+                if (cell.Value > count)
+                {
+                    count = cell.Value;
+                    name = cell.Key;
+                }
+            }
+            return $"Наибольшее количество живых потомков у \"{name}\" : {count}";
+        }
+        public void IsInZone(int MaxWidthField, int MaxHeightField)
+        {
+            foreach (var cell in cells.ToArray())
+            {
+                if (cell.X >= MaxWidthField || cell.Y >= MaxHeightField)
+                {
+                    int index = cells.LastIndexOf(cell);
+                    cells.RemoveAt(index);
+                }
+            }
         }
     }
 }

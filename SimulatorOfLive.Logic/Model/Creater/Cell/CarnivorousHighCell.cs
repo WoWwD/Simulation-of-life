@@ -17,12 +17,12 @@ namespace SimulationOfLife.Logic.Model
         {
             if (CountOfEating >= SettingsGame.CountOfEatForEvolutionCarnivorousHighCell)
             {
-                return true;
+                if (SettingsGame.RndNumber(SettingsGame.ChanceOfEvolutionCarnivorousHighCell) == 1)
+                {
+                    return true;
+                }
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
         public CarnivorousHighCell() { }
         public CarnivorousHighCell(int X, int Y, string ID) : base(X, Y, ID)

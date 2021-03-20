@@ -1,6 +1,4 @@
-﻿using SimulationOfLife.Logic.Model.Abstract_model;
-
-namespace SimulationOfLife.Logic.Model
+﻿namespace SimulationOfLife.Logic.Model
 {
     /* Интерфейс описывает какое-либо существо */
     public interface ICreature
@@ -10,8 +8,6 @@ namespace SimulationOfLife.Logic.Model
         byte Overview { get; } // обзор 
         byte RegionOfEating { get; } // область поедания 
         int CountOfEating { get; set; } // количество съеденного
-        int X { get; set; } // расположение на оси X
-        int Y { get; set; } // расположение на оси Y
         bool IsEvolution(); // эволюция 
         void Move(int MaxWidthField, int MaxHeightField, int DirectionOfMove); // движение
         bool Eating(int HitPointTarget); // поедание объектов в симуляции

@@ -40,93 +40,105 @@ namespace SimulationOfLife.Logic.Abstract_model
             /* Движение вправо */
             if (DirectionOfMove == 1)
             {
-                X += Speed;
-                if (X >= MaxWidthField)
+                if (X >= MaxWidthField - 10)
                 {
                     X -= Speed;
+                }
+                else
+                {
+                    X += Speed;
                 }
             }
             /* Движение влево */
             if (DirectionOfMove == 2)
             {
-                X -= Speed;
-                if (X <= 0)
+                if (X <= 0 + 5)
                 {
                     X += Speed;
+                }
+                else
+                {
+                    X -= Speed;
                 }
             }
             /* Движение вниз */
             if (DirectionOfMove == 3)
             {
-                Y += Speed;
-                if (Y >= MaxHeightField)
+                if (Y >= MaxHeightField - 10)
                 {
                     Y -= Speed;
+                }
+                else
+                {
+                    Y += Speed;
                 }
             }
             /* Движение вверх */
             if (DirectionOfMove == 4)
             {
-                Y -= Speed;
-                if (Y <= 0)
+                if (Y <= 0 + 5)
                 {
                     Y += Speed;
+                }
+                else
+                {
+                    Y -= Speed;
                 }
             }
             /* Движение по первой четверти */
             if (DirectionOfMove == 5)
             {
-                X += Speed;
-                Y -= Speed;
-                if (X >= MaxWidthField)
+                if (X >= MaxWidthField - 10 || Y <= 0 + 5)
                 {
                     X -= Speed;
-                }
-                if (Y <= 0)
-                {
                     Y += Speed;
+                }
+                else
+                {
+                    X += Speed;
+                    Y -= Speed;
                 }
             }
             /* Движение по второй четверти */
             if (DirectionOfMove == 6)
             {
-                X -= Speed;
-                Y -= Speed;
-                if (X <= 0)
+                if (X <= 0 + 5 || Y <= 0 + 5)
                 {
                     X += Speed;
-                }
-                if (Y >= MaxHeightField)
-                {
                     Y += Speed;
+                }
+                else
+                {
+                    X -= Speed;
+                    Y -= Speed;
                 }
             }
             /* Движение по третьей четверти */
             if (DirectionOfMove == 7)
             {
-                X -= Speed;
-                Y += Speed;
-                if (X <= 0)
+                if (X <= 0 + 5 || Y >= MaxHeightField - 10)
                 {
                     X += Speed;
-                }
-                if (Y <= 0)
-                {
                     Y -= Speed;
+                }
+                else
+                {
+                    X -= Speed;
+                    Y += Speed;
                 }
             }
             /* Движение по четвертой четверти */
             if (DirectionOfMove == 8)
             {
-                X += Speed;
-                Y += Speed;
-                if (X >= MaxWidthField)
+                if (X >= MaxWidthField - 10 || Y >= MaxHeightField - 10)
                 {
                     X -= Speed;
-                }
-                if (Y >= MaxHeightField)
-                {
                     Y -= Speed;
+                }
+                else
+                {
+                    X += Speed;
+                    Y += Speed;
                 }
             }
         }
@@ -137,7 +149,7 @@ namespace SimulationOfLife.Logic.Abstract_model
         }
         public bool IsDivision()
         {
-            if (SettingsGame.RndNumber(SettingsGame.ChanceOfDivision) == 1 && CountOfEating >= 1)
+            if (SettingsGame.RndNumber(SettingsGame.ChanceOfDivision) == 1 && CountOfEating >= 2)
             {
                 return true;
             }

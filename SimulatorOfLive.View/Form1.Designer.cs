@@ -111,7 +111,7 @@
             // 
             // GameZonePictureBox
             // 
-            this.GameZonePictureBox.BackColor = System.Drawing.Color.White;
+            this.GameZonePictureBox.BackColor = System.Drawing.Color.WhiteSmoke;
             this.GameZonePictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.GameZonePictureBox.Location = new System.Drawing.Point(0, 0);
             this.GameZonePictureBox.Name = "GameZonePictureBox";
@@ -222,7 +222,7 @@
             // trackBar1
             // 
             this.trackBar1.LargeChange = 1;
-            this.trackBar1.Location = new System.Drawing.Point(1230, 18);
+            this.trackBar1.Location = new System.Drawing.Point(1285, 18);
             this.trackBar1.Maximum = 5;
             this.trackBar1.Minimum = 1;
             this.trackBar1.Name = "trackBar1";
@@ -235,7 +235,7 @@
             // 
             this.SpeedOfGamesLabel.AutoSize = true;
             this.SpeedOfGamesLabel.BackColor = System.Drawing.SystemColors.Window;
-            this.SpeedOfGamesLabel.Location = new System.Drawing.Point(1235, 77);
+            this.SpeedOfGamesLabel.Location = new System.Drawing.Point(1290, 77);
             this.SpeedOfGamesLabel.Name = "SpeedOfGamesLabel";
             this.SpeedOfGamesLabel.Size = new System.Drawing.Size(163, 17);
             this.SpeedOfGamesLabel.TabIndex = 4;

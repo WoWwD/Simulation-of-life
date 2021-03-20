@@ -1,5 +1,4 @@
 ﻿using SimulationOfLife.Logic.Abstract_model;
-using System;
 
 namespace SimulationOfLife.Logic.Model.Cell
 {
@@ -18,12 +17,12 @@ namespace SimulationOfLife.Logic.Model.Cell
         {
             if (CountOfEating >= SettingsGame.CountOfEatForEvolutionOmnivoreHighCell)
             {
-                return true;
+                if (SettingsGame.RndNumber(SettingsGame.ChanceOfEvolutionOmnivoreHighCell) == 1)
+                {
+                    return true;
+                }
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
         public OmnivoreHighCell() { }
         public OmnivoreHighCell(int X, int Y, string ID) : base(X, Y, ID)

@@ -17,7 +17,7 @@ namespace SimulationOfLife.Logic.Model
         {
             if (CountOfEating >= SettingsGame.CountOfEatForEvolutionCarnivorousMediumCell)
             {
-                if (SettingsGame.rnd.Next(SettingsGame.ChanceOfEvolutionCarnivorousMediumCell) == 1)
+                if (SettingsGame.RndNumber(SettingsGame.ChanceOfEvolutionCarnivorousMediumCell) == 1)
                 {
                     return true;
                 }

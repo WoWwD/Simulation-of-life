@@ -1,5 +1,4 @@
 ﻿using SimulationOfLife.Logic.Abstract_model;
-using System;
 
 namespace SimulationOfLife.Logic.Model.Cell
 {
@@ -18,7 +17,7 @@ namespace SimulationOfLife.Logic.Model.Cell
         {
             if (CountOfEating >= SettingsGame.CountOfEatForEvolutionOmnivoreMediumCell)
             {
-                if (SettingsGame.rnd.Next(SettingsGame.ChanceOfEvolutionOmnivoreMediumCell) == 1)
+                if (SettingsGame.RndNumber(SettingsGame.ChanceOfEvolutionOmnivoreMediumCell) == 1)
                 {
                     return true;
                 }

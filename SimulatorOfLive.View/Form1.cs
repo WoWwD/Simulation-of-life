@@ -2,9 +2,7 @@
 using SimulationOfLife.Logic.Model;
 using SimulationOfLife.Logic.Model.Cell;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace SimulationOfLife.View
@@ -12,18 +10,23 @@ namespace SimulationOfLife.View
     public partial class Form1 : Form
     {
         private static Controller controller = new Controller();
-        private static Pen pen = new Pen(Color.Black, 1);
-        private Dictionary<string, int> dict = new Dictionary<string, int>();
+        private static Pen pen = new Pen(Color.Red, 1);
+        private static int MaxWidthField { get; set; }
+        private static int MaxHeightField { get; set; }
         private Graphics graphics;
         private int CountOfDivision = 0;
+        private int count;
         public Form1()
         {
             InitializeComponent();
+            GameZonePictureBox.SizeMode = PictureBoxSizeMode.CenterImage;
+            MaxHeightField = GameZonePictureBox.Height;
+            MaxWidthField = GameZonePictureBox.Width;
             groupBox1.Visible = false;
             StartGameButton.Enabled = false;
             PauseGameButton.Enabled = false;
             SaveGameButton.Enabled = false;
-            GameZonePictureBox.Image = new Bitmap(GameZonePictureBox.Width, GameZonePictureBox.Height);
+            GameZonePictureBox.Image = new Bitmap(MaxWidthField,MaxHeightField);
             graphics = Graphics.FromImage(GameZonePictureBox.Image);
             graphics.Clear(Color.WhiteSmoke);
             timer1.Interval = 500;
@@ -59,21 +62,28 @@ namespace SimulationOfLife.View
             RefreshData();
             GameZonePictureBox.Refresh();
             StartGameButton.Enabled = true;
+            groupBox1.Visible = true;
         }
         private void NewGameButton_Click(object sender, EventArgs e)
         {
+            MaxHeightField = GameZonePictureBox.Height;
+            MaxWidthField = GameZonePictureBox.Width;
+            NewImg(0,0);
             graphics.Clear(Color.WhiteSmoke);
             controller.StartNewGame();
-            controller.AddFirstCells(SettingsGame.CountOfCells, GameZonePictureBox.Width, GameZonePictureBox.Height);
+            controller.AddFirstCells(SettingsGame.CountOfCells, MaxWidthField, MaxHeightField);
             RefreshData();
             GameZonePictureBox.Refresh();
             StartGameButton.Enabled = true;
             groupBox1.Visible = true;
         }
-
         #endregion
         private void RefreshData()
         {
+            graphics.DrawLine(pen, new Point(0, 0), new Point(0, MaxHeightField));
+            graphics.DrawLine(pen, new Point(0, MaxHeightField - 1), new Point(MaxWidthField, MaxHeightField - 1));
+            graphics.DrawLine(pen, new Point(MaxWidthField - 1, MaxHeightField), new Point(MaxWidthField - 1, 0));
+            graphics.DrawLine(pen, new Point(MaxWidthField - 1, 0), new Point(0, 0));
             double c = 0, h = 0, o = 0;
             foreach (var cell in controller.cells)
             {
@@ -105,46 +115,39 @@ namespace SimulationOfLife.View
                 CountOfDivisionLabel.Text = $"Количество делений: {CountOfDivision}";
             }
             label1.Text = $"Количество клеток {controller.cells.Count} из {SettingsGame.CountOfCells}";
-            carni.Text = $"Плотоядные: {Math.Round(c / controller.cells.Count, 3) * 100}%";
-            herbi.Text = $"Травоядные: {Math.Round(h / controller.cells.Count, 3) * 100}%";
-            omni.Text = $"Всеядные: {Math.Round(o / controller.cells.Count, 3) * 100}%";
-        }
-        private void CountingCountOfDivision()
-        {
-            int count = 0;
-            string name = "no value";
-            dict.Clear();
-            foreach (var cell in controller.cells)
-            {
-                if (dict.ContainsKey(cell.ID))
-                {
-                    dict[cell.ID]++;
-                }
-                else
-                {
-                    dict.Add(cell.ID, 1);
-                }
-            }
-            foreach (var cell in dict)
-            {
-                if (cell.Value > count)
-                {
-                    count = cell.Value;
-                    name = cell.Key;
-                }
-            }
-            IdCellLabel.Text = $"Наибольшее количество живых потомков у {name} : {count}";
+            carni.Text = $"Плотоядные: {Math.Round(c / controller.cells.Count, 3) * 100}% или {c} клеток";
+            herbi.Text = $"Травоядные: {Math.Round(h / controller.cells.Count, 3) * 100}% или {h} клеток";
+            omni.Text = $"Всеядные: {Math.Round(o / controller.cells.Count, 3) * 100}% или {o} клеток";
+            IdCellLabel.Text = controller.CountingDivisions();
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
             graphics.Clear(Color.WhiteSmoke);
             RefreshData();
-            controller.AddFood(GameZonePictureBox.Width, GameZonePictureBox.Height);
-            controller.Move(GameZonePictureBox.Width, GameZonePictureBox.Height);
+            controller.AddFood(MaxWidthField, MaxHeightField);
+            controller.Move(MaxWidthField, MaxHeightField);
             controller.Eating();
             controller.Evolution();
-            CountingCountOfDivision();
             GameZonePictureBox.Refresh();
+            //if (SettingsGame.RndNumber(50) == 1)
+            //{
+            //    controller.IsInZone(MaxWidthField, MaxHeightField);
+            //    NewImg(10, 5);
+            //}
+            foreach (var cell in controller.cells)
+            {
+                if (cell.X > MaxWidthField || cell.Y > MaxHeightField)
+                {
+                    count++;
+                }
+            }
+            //foreach (var cell in controller.cells)
+            //{
+            //    if (cell.X > GameZonePictureBox.Width || cell.Y > GameZonePictureBox.Height)
+            //    {
+
+            //    }
+            //}
         }
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
@@ -209,6 +212,14 @@ namespace SimulationOfLife.View
                     RefreshData();
                 }
             }
+        }
+        private void NewImg(int SizeWidthMinus, int SizeHeightMinus)
+        {
+            graphics.Clear(Color.WhiteSmoke);
+            MaxWidthField -= SizeWidthMinus;
+            MaxHeightField -= SizeHeightMinus;
+            GameZonePictureBox.Image = new Bitmap(MaxWidthField, MaxHeightField);
+            graphics = Graphics.FromImage(GameZonePictureBox.Image);
         }
     }
 }
