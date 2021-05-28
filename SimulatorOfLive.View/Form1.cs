@@ -80,10 +80,11 @@ namespace SimulationOfLife.View
         #endregion
         private void RefreshData()
         {
-            graphics.DrawLine(pen, new Point(0, 0), new Point(0, MaxHeightField));
-            graphics.DrawLine(pen, new Point(0, MaxHeightField - 1), new Point(MaxWidthField, MaxHeightField - 1));
-            graphics.DrawLine(pen, new Point(MaxWidthField - 1, MaxHeightField), new Point(MaxWidthField - 1, 0));
-            graphics.DrawLine(pen, new Point(MaxWidthField - 1, 0), new Point(0, 0));
+            /*Красные границы вокруг поля, чтобы было видно, как оно уменьшается*/
+            //graphics.DrawLine(pen, new Point(0, 0), new Point(0, MaxHeightField));
+            //graphics.DrawLine(pen, new Point(0, MaxHeightField - 1), new Point(MaxWidthField, MaxHeightField - 1));
+            //graphics.DrawLine(pen, new Point(MaxWidthField - 1, MaxHeightField), new Point(MaxWidthField - 1, 0));
+            //graphics.DrawLine(pen, new Point(MaxWidthField - 1, 0), new Point(0, 0));
             double c = 0, h = 0, o = 0;
             foreach (var cell in controller.cells)
             {
@@ -115,9 +116,9 @@ namespace SimulationOfLife.View
                 CountOfDivisionLabel.Text = $"Количество делений: {CountOfDivision}";
             }
             label1.Text = $"Количество клеток {controller.cells.Count} из {SettingsGame.CountOfCells}";
-            carni.Text = $"Плотоядные: {Math.Round(c / controller.cells.Count, 3) * 100}% или {c} клеток";
-            herbi.Text = $"Травоядные: {Math.Round(h / controller.cells.Count, 3) * 100}% или {h} клеток";
-            omni.Text = $"Всеядные: {Math.Round(o / controller.cells.Count, 3) * 100}% или {o} клеток";
+            carni.Text = $"Плотоядные: {c} ({Math.Round(c / controller.cells.Count, 3) * 100}%) клеток";
+            herbi.Text = $"Травоядные: {h} ({Math.Round(h / controller.cells.Count, 3) * 100}%) клеток";
+            omni.Text = $"Всеядные: {o} ({Math.Round(o / controller.cells.Count, 3) * 100}%) клеток";
             IdCellLabel.Text = controller.CountingDivisions();
         }
         private void timer1_Tick(object sender, EventArgs e)
@@ -129,18 +130,21 @@ namespace SimulationOfLife.View
             controller.Eating();
             controller.Evolution();
             GameZonePictureBox.Refresh();
+            /*изменение границ карты с определённой вероятностью (exp.)*/
             //if (SettingsGame.RndNumber(50) == 1)
             //{
             //    controller.IsInZone(MaxWidthField, MaxHeightField);
             //    NewImg(10, 5);
             //}
-            foreach (var cell in controller.cells)
-            {
-                if (cell.X > MaxWidthField || cell.Y > MaxHeightField)
-                {
-                    count++;
-                }
-            }
+
+            //foreach (var cell in controller.cells)
+            //{
+            //    if (cell.X > MaxWidthField || cell.Y > MaxHeightField)
+            //    {
+            //        count++;
+            //    }
+            //}
+
             //foreach (var cell in controller.cells)
             //{
             //    if (cell.X > GameZonePictureBox.Width || cell.Y > GameZonePictureBox.Height)

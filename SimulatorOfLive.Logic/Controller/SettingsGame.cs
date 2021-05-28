@@ -35,7 +35,7 @@ namespace SimulationOfLife.Logic.Model
         #endregion
         #endregion
 
-        public static int ChanceOfDefense = 30; // Шанс травоядной клетки нанести урон вражеской клетке
+        public static int ChanceOfDefense = 20; // Шанс травоядной клетки нанести урон вражеской клетке
         public static int ChanceOfDivision = 20; // Шанс деления клетки
 
         public static int SpeedOfGame = 10; // Скорость игры. Чем больше, тем медленнее.
