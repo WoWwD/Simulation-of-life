@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\CheckOfConditions.cs" />
     <Compile Include="Controller\Controller.cs" />
     <Compile Include="Controller\Lists.cs" />
     <Compile Include="Model\Abstract model\FormOfCell.cs" />

@@ -10,11 +10,13 @@ namespace SimulationOfLife.Logic.Model.Food
         public byte Height => 2; 
         public int X { get ; set ; }
         public int Y { get ; set ; }
+        public string ID { get; set; }
         public Food() { }
-        public Food(int X, int Y)
+        public Food(int X, int Y, string ID)
         {
             this.X = X;
             this.Y = Y;
+            this.ID = ID;
         }
         public void Damage()
         {

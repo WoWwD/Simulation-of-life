@@ -3,6 +3,7 @@
     /* Интерфейс описывает какой-либо объект в симуляции */
     public interface IObject
     {
+        string ID { get; set; } // уникальный идентификатор 
         byte HitPoint { get; set; } // количество жизней
         byte Width { get; }  // ширина (px)
         byte Height { get; } // высота (px)

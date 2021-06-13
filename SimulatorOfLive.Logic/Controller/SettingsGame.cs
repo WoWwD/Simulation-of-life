@@ -6,7 +6,7 @@ namespace SimulationOfLife.Logic.Model
     {
         private static readonly Random rnd = new Random();
         public static Guid guid = Guid.NewGuid();
-        public static int CountOfCells; // Количество начальных клеток
+        public static int CountOfCells = 500; 
 
         #region Эволюция клеток
         #region Шанс эволюции
@@ -31,12 +31,17 @@ namespace SimulationOfLife.Logic.Model
 
         public static int CountOfEatForEvolutionOmnivoreLowCell = 4;
         public static int CountOfEatForEvolutionOmnivoreMediumCell = 5;
-        public static int CountOfEatForEvolutionOmnivoreHighCell = 228;  
+        public static int CountOfEatForEvolutionOmnivoreHighCell = 228;
         #endregion
         #endregion
 
-        public static int ChanceOfDefense = 20; // Шанс травоядной клетки нанести урон вражеской клетке
-        public static int ChanceOfDivision = 20; // Шанс деления клетки
+        #region Еда
+        public static int LimitOfFood = 150; // Предел еды, после которого она удаляется с поля
+        public static byte ChanceOfAddFood = 20; // Вероятность добавления еды на поле
+        public static byte ChanceOfDeleteFood = 30; // Вероятность удаления еды с поля в течение игры
+        #endregion
+        public static int ChanceOfDefense = 10; // Шанс травоядной клетки нанести урон вражеской клетке
+        public static int ChanceOfDivision = 10; // Шанс деления клетки
 
         public static int SpeedOfGame = 10; // Скорость игры. Чем больше, тем медленнее.
 

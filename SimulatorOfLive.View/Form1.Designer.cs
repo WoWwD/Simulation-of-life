@@ -34,18 +34,23 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.GameZonePictureBox = new System.Windows.Forms.PictureBox();
+            this.ShowingInformationLabel = new System.Windows.Forms.Label();
+            this.OnShowingInformationRButton = new System.Windows.Forms.RadioButton();
+            this.OffShowingInformationRButton = new System.Windows.Forms.RadioButton();
+            this.SettingsButton = new System.Windows.Forms.Button();
             this.NewGameButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.carni = new System.Windows.Forms.Label();
             this.herbi = new System.Windows.Forms.Label();
-            this.CountOfDivisionLabel = new System.Windows.Forms.Label();
             this.IdCellLabel = new System.Windows.Forms.Label();
             this.omni = new System.Windows.Forms.Label();
             this.LoadGameButton = new System.Windows.Forms.Button();
             this.SaveGameButton = new System.Windows.Forms.Button();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.SpeedOfGamesLabel = new System.Windows.Forms.Label();
+            this.countingdeathspersomesecond = new System.Windows.Forms.Label();
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -57,9 +62,9 @@
             // 
             // PauseGameButton
             // 
-            this.PauseGameButton.Location = new System.Drawing.Point(294, 12);
+            this.PauseGameButton.Location = new System.Drawing.Point(270, 12);
             this.PauseGameButton.Name = "PauseGameButton";
-            this.PauseGameButton.Size = new System.Drawing.Size(80, 40);
+            this.PauseGameButton.Size = new System.Drawing.Size(60, 40);
             this.PauseGameButton.TabIndex = 3;
             this.PauseGameButton.Text = "Pause";
             this.PauseGameButton.UseVisualStyleBackColor = true;
@@ -67,9 +72,9 @@
             // 
             // StartGameButton
             // 
-            this.StartGameButton.Location = new System.Drawing.Point(208, 12);
+            this.StartGameButton.Location = new System.Drawing.Point(200, 12);
             this.StartGameButton.Name = "StartGameButton";
-            this.StartGameButton.Size = new System.Drawing.Size(80, 40);
+            this.StartGameButton.Size = new System.Drawing.Size(60, 40);
             this.StartGameButton.TabIndex = 0;
             this.StartGameButton.Text = "Start";
             this.StartGameButton.UseVisualStyleBackColor = true;
@@ -97,6 +102,10 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.BackColor = System.Drawing.Color.White;
+            this.splitContainer1.Panel2.Controls.Add(this.ShowingInformationLabel);
+            this.splitContainer1.Panel2.Controls.Add(this.OnShowingInformationRButton);
+            this.splitContainer1.Panel2.Controls.Add(this.OffShowingInformationRButton);
+            this.splitContainer1.Panel2.Controls.Add(this.SettingsButton);
             this.splitContainer1.Panel2.Controls.Add(this.NewGameButton);
             this.splitContainer1.Panel2.Controls.Add(this.groupBox1);
             this.splitContainer1.Panel2.Controls.Add(this.LoadGameButton);
@@ -120,6 +129,49 @@
             this.GameZonePictureBox.TabStop = false;
             this.GameZonePictureBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.GameZonePictureBox_MouseClick);
             // 
+            // ShowingInformationLabel
+            // 
+            this.ShowingInformationLabel.AutoSize = true;
+            this.ShowingInformationLabel.Location = new System.Drawing.Point(1139, 24);
+            this.ShowingInformationLabel.Name = "ShowingInformationLabel";
+            this.ShowingInformationLabel.Size = new System.Drawing.Size(135, 17);
+            this.ShowingInformationLabel.TabIndex = 19;
+            this.ShowingInformationLabel.Text = "Showing information";
+            // 
+            // OnShowingInformationRButton
+            // 
+            this.OnShowingInformationRButton.AutoSize = true;
+            this.OnShowingInformationRButton.Location = new System.Drawing.Point(1142, 58);
+            this.OnShowingInformationRButton.Name = "OnShowingInformationRButton";
+            this.OnShowingInformationRButton.Size = new System.Drawing.Size(48, 21);
+            this.OnShowingInformationRButton.TabIndex = 18;
+            this.OnShowingInformationRButton.TabStop = true;
+            this.OnShowingInformationRButton.Text = "On";
+            this.OnShowingInformationRButton.UseVisualStyleBackColor = true;
+            this.OnShowingInformationRButton.CheckedChanged += new System.EventHandler(this.OnShowingInformationRButton_CheckedChanged);
+            // 
+            // OffShowingInformationRButton
+            // 
+            this.OffShowingInformationRButton.AutoSize = true;
+            this.OffShowingInformationRButton.Location = new System.Drawing.Point(1226, 58);
+            this.OffShowingInformationRButton.Name = "OffShowingInformationRButton";
+            this.OffShowingInformationRButton.Size = new System.Drawing.Size(48, 21);
+            this.OffShowingInformationRButton.TabIndex = 17;
+            this.OffShowingInformationRButton.TabStop = true;
+            this.OffShowingInformationRButton.Text = "Off";
+            this.OffShowingInformationRButton.UseVisualStyleBackColor = true;
+            this.OffShowingInformationRButton.CheckedChanged += new System.EventHandler(this.OffShowingInformationRButton_CheckedChanged);
+            // 
+            // SettingsButton
+            // 
+            this.SettingsButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.SettingsButton.Location = new System.Drawing.Point(200, 58);
+            this.SettingsButton.Name = "SettingsButton";
+            this.SettingsButton.Size = new System.Drawing.Size(130, 40);
+            this.SettingsButton.TabIndex = 16;
+            this.SettingsButton.Text = "Settings";
+            this.SettingsButton.UseVisualStyleBackColor = true;
+            // 
             // NewGameButton
             // 
             this.NewGameButton.Location = new System.Drawing.Point(12, 12);
@@ -132,15 +184,15 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.countingdeathspersomesecond);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.carni);
             this.groupBox1.Controls.Add(this.herbi);
-            this.groupBox1.Controls.Add(this.CountOfDivisionLabel);
             this.groupBox1.Controls.Add(this.IdCellLabel);
             this.groupBox1.Controls.Add(this.omni);
-            this.groupBox1.Location = new System.Drawing.Point(430, 12);
+            this.groupBox1.Location = new System.Drawing.Point(387, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(748, 129);
+            this.groupBox1.Size = new System.Drawing.Size(696, 129);
             this.groupBox1.TabIndex = 14;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Information";
@@ -171,15 +223,6 @@
             this.herbi.Size = new System.Drawing.Size(30, 17);
             this.herbi.TabIndex = 7;
             this.herbi.Text = "text";
-            // 
-            // CountOfDivisionLabel
-            // 
-            this.CountOfDivisionLabel.AutoSize = true;
-            this.CountOfDivisionLabel.Location = new System.Drawing.Point(6, 103);
-            this.CountOfDivisionLabel.Name = "CountOfDivisionLabel";
-            this.CountOfDivisionLabel.Size = new System.Drawing.Size(87, 17);
-            this.CountOfDivisionLabel.TabIndex = 10;
-            this.CountOfDivisionLabel.Text = "text will soon";
             // 
             // IdCellLabel
             // 
@@ -222,7 +265,7 @@
             // trackBar1
             // 
             this.trackBar1.LargeChange = 1;
-            this.trackBar1.Location = new System.Drawing.Point(1285, 18);
+            this.trackBar1.Location = new System.Drawing.Point(1308, 18);
             this.trackBar1.Maximum = 5;
             this.trackBar1.Minimum = 1;
             this.trackBar1.Name = "trackBar1";
@@ -235,11 +278,25 @@
             // 
             this.SpeedOfGamesLabel.AutoSize = true;
             this.SpeedOfGamesLabel.BackColor = System.Drawing.SystemColors.Window;
-            this.SpeedOfGamesLabel.Location = new System.Drawing.Point(1290, 77);
+            this.SpeedOfGamesLabel.Location = new System.Drawing.Point(1318, 77);
             this.SpeedOfGamesLabel.Name = "SpeedOfGamesLabel";
             this.SpeedOfGamesLabel.Size = new System.Drawing.Size(163, 17);
             this.SpeedOfGamesLabel.TabIndex = 4;
             this.SpeedOfGamesLabel.Text = "Speed of game: very low";
+            // 
+            // countingdeathspersomesecond
+            // 
+            this.countingdeathspersomesecond.AutoSize = true;
+            this.countingdeathspersomesecond.Location = new System.Drawing.Point(9, 106);
+            this.countingdeathspersomesecond.Name = "countingdeathspersomesecond";
+            this.countingdeathspersomesecond.Size = new System.Drawing.Size(30, 17);
+            this.countingdeathspersomesecond.TabIndex = 12;
+            this.countingdeathspersomesecond.Text = "text";
+            // 
+            // timer2
+            // 
+            this.timer2.Interval = 1000;
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
             // 
             // Form1
             // 
@@ -276,12 +333,17 @@
         private System.Windows.Forms.Label carni;
         private System.Windows.Forms.Label omni;
         private System.Windows.Forms.Label herbi;
-        private System.Windows.Forms.Label CountOfDivisionLabel;
         private System.Windows.Forms.Label IdCellLabel;
         private System.Windows.Forms.Button LoadGameButton;
         private System.Windows.Forms.Button SaveGameButton;
         private System.Windows.Forms.Button NewGameButton;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button SettingsButton;
+        private System.Windows.Forms.Label ShowingInformationLabel;
+        private System.Windows.Forms.RadioButton OnShowingInformationRButton;
+        private System.Windows.Forms.RadioButton OffShowingInformationRButton;
+        private System.Windows.Forms.Label countingdeathspersomesecond;
+        private System.Windows.Forms.Timer timer2;
     }
 }
 
