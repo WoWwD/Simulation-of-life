@@ -40,6 +40,7 @@
             this.SettingsButton = new System.Windows.Forms.Button();
             this.NewGameButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.countingdeathspersomesecond = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.carni = new System.Windows.Forms.Label();
             this.herbi = new System.Windows.Forms.Label();
@@ -49,8 +50,8 @@
             this.SaveGameButton = new System.Windows.Forms.Button();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.SpeedOfGamesLabel = new System.Windows.Forms.Label();
-            this.countingdeathspersomesecond = new System.Windows.Forms.Label();
             this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -197,6 +198,15 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Information";
             // 
+            // countingdeathspersomesecond
+            // 
+            this.countingdeathspersomesecond.AutoSize = true;
+            this.countingdeathspersomesecond.Location = new System.Drawing.Point(9, 106);
+            this.countingdeathspersomesecond.Name = "countingdeathspersomesecond";
+            this.countingdeathspersomesecond.Size = new System.Drawing.Size(30, 17);
+            this.countingdeathspersomesecond.TabIndex = 12;
+            this.countingdeathspersomesecond.Text = "text";
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -284,15 +294,6 @@
             this.SpeedOfGamesLabel.TabIndex = 4;
             this.SpeedOfGamesLabel.Text = "Speed of game: very low";
             // 
-            // countingdeathspersomesecond
-            // 
-            this.countingdeathspersomesecond.AutoSize = true;
-            this.countingdeathspersomesecond.Location = new System.Drawing.Point(9, 106);
-            this.countingdeathspersomesecond.Name = "countingdeathspersomesecond";
-            this.countingdeathspersomesecond.Size = new System.Drawing.Size(30, 17);
-            this.countingdeathspersomesecond.TabIndex = 12;
-            this.countingdeathspersomesecond.Text = "text";
-            // 
             // timer2
             // 
             this.timer2.Interval = 1000;
@@ -344,6 +345,7 @@
         private System.Windows.Forms.RadioButton OffShowingInformationRButton;
         private System.Windows.Forms.Label countingdeathspersomesecond;
         private System.Windows.Forms.Timer timer2;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }
 

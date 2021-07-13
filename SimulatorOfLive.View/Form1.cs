@@ -57,27 +57,44 @@ namespace SimulationOfLife.View
         }
         private void SaveGameButton_Click(object sender, EventArgs e)
         {
-            if (controller.Serializable() == false)
+            var result = controller.Serializable();
+            if (result == null)
             {
                 //throw new Exception("Какое-то исключение");
                 Show("Ошибка при сохранении игры!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            else
+            {
+                MessageBox.Show($"Игра сохранена: {result}");
+            }
         }
         private void LoadGameButton_Click(object sender, EventArgs e)
         {
-            if (controller.DeSerializable() == false)
+            try
             {
-                //throw new Exception("Какое-то исключение");
-                Show("Ошибка при загрузке игры!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
             }
-            else
+            catch
             {
-                controller.StartNewGame();
-                controller.DeSerializable();
-                graphics.Clear(Color.WhiteSmoke);
-                RefreshData();
-                GameZonePictureBox.Refresh();
-                StartGameButton.Enabled = true;
+
+            }
+            var OpenFile = openFileDialog1;
+            OpenFile.Filter = "Documents (*.xml)|*.xml";
+            if (OpenFile.ShowDialog() == DialogResult.OK)
+            {
+                if (controller.DeSerializable(OpenFile.FileName) == false)
+                {
+                    Show("Ошибка при загрузке игры!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    controller.StartNewGame();
+                    controller.DeSerializable(OpenFile.FileName);
+                    graphics.Clear(Color.WhiteSmoke);
+                    RefreshData();
+                    GameZonePictureBox.Refresh();
+                    StartGameButton.Enabled = true;
+                }
             }
         }
         private void NewGameButton_Click(object sender, EventArgs e)

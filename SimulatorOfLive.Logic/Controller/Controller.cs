@@ -3,8 +3,10 @@ using SimulationOfLife.Logic.Model;
 using SimulationOfLife.Logic.Model.Abstract_model;
 using SimulationOfLife.Logic.Model.Cell;
 using SimulationOfLife.Logic.Model.Food;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Forms;
 using System.Xml.Serialization;
 
 namespace SimulationOfLife.Logic.Controller
@@ -352,32 +354,33 @@ namespace SimulationOfLife.Logic.Controller
         }
         #endregion
         #region Загрузка и сохранение игры
-        public bool Serializable()
+        public string Serializable()
         {
+            string Name = DateTime.Now.ToString("yyyyMMdd_hhmmss");
             try
             {
                 lists = new Lists();
                 lists.cells = cells;
                 lists.food = food;
                 var objects = new XmlSerializer(typeof(Lists));
-                using (var file = new FileStream("SaveGame.xml", FileMode.Create))
+                using (var file = new FileStream($"SavedGame ({Name}).xml", FileMode.Create))
                 {
                     objects.Serialize(file, lists);
                 }
-                return true;
+                return $"SavedGame ({Name}).xml";
             }
             catch
             {
-                return false;
+                return null;
             }
         }
-        public bool DeSerializable()
+        public bool DeSerializable(string Path)
         {
             try
             {
                 lists = new Lists();
                 var objects = new XmlSerializer(typeof(Lists));
-                using (var file = new FileStream("SaveGame.xml", FileMode.Open))
+                using (var file = new FileStream(Path, FileMode.Open))
                 {
                     var deser = objects.Deserialize(file) as Lists;
                     cells = deser.cells;
