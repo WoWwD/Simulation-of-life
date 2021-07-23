@@ -34,13 +34,14 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.GameZonePictureBox = new System.Windows.Forms.PictureBox();
+            this.GetChart = new System.Windows.Forms.Button();
             this.ShowingInformationLabel = new System.Windows.Forms.Label();
             this.OnShowingInformationRButton = new System.Windows.Forms.RadioButton();
             this.OffShowingInformationRButton = new System.Windows.Forms.RadioButton();
             this.SettingsButton = new System.Windows.Forms.Button();
             this.NewGameButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.countingdeathspersomesecond = new System.Windows.Forms.Label();
+            this.amountCycles = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.carni = new System.Windows.Forms.Label();
             this.herbi = new System.Windows.Forms.Label();
@@ -50,7 +51,6 @@
             this.SaveGameButton = new System.Windows.Forms.Button();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.SpeedOfGamesLabel = new System.Windows.Forms.Label();
-            this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -103,6 +103,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.BackColor = System.Drawing.Color.White;
+            this.splitContainer1.Panel2.Controls.Add(this.GetChart);
             this.splitContainer1.Panel2.Controls.Add(this.ShowingInformationLabel);
             this.splitContainer1.Panel2.Controls.Add(this.OnShowingInformationRButton);
             this.splitContainer1.Panel2.Controls.Add(this.OffShowingInformationRButton);
@@ -129,6 +130,16 @@
             this.GameZonePictureBox.TabIndex = 0;
             this.GameZonePictureBox.TabStop = false;
             this.GameZonePictureBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.GameZonePictureBox_MouseClick);
+            // 
+            // GetChart
+            // 
+            this.GetChart.Location = new System.Drawing.Point(200, 104);
+            this.GetChart.Name = "GetChart";
+            this.GetChart.Size = new System.Drawing.Size(130, 40);
+            this.GetChart.TabIndex = 20;
+            this.GetChart.Text = "Charts";
+            this.GetChart.UseVisualStyleBackColor = true;
+            this.GetChart.Click += new System.EventHandler(this.GetChart_Click);
             // 
             // ShowingInformationLabel
             // 
@@ -166,6 +177,7 @@
             // SettingsButton
             // 
             this.SettingsButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.SettingsButton.Enabled = false;
             this.SettingsButton.Location = new System.Drawing.Point(200, 58);
             this.SettingsButton.Name = "SettingsButton";
             this.SettingsButton.Size = new System.Drawing.Size(130, 40);
@@ -185,7 +197,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.countingdeathspersomesecond);
+            this.groupBox1.Controls.Add(this.amountCycles);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.carni);
             this.groupBox1.Controls.Add(this.herbi);
@@ -198,14 +210,14 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Information";
             // 
-            // countingdeathspersomesecond
+            // amountCycles
             // 
-            this.countingdeathspersomesecond.AutoSize = true;
-            this.countingdeathspersomesecond.Location = new System.Drawing.Point(9, 106);
-            this.countingdeathspersomesecond.Name = "countingdeathspersomesecond";
-            this.countingdeathspersomesecond.Size = new System.Drawing.Size(30, 17);
-            this.countingdeathspersomesecond.TabIndex = 12;
-            this.countingdeathspersomesecond.Text = "text";
+            this.amountCycles.AutoSize = true;
+            this.amountCycles.Location = new System.Drawing.Point(6, 104);
+            this.amountCycles.Name = "amountCycles";
+            this.amountCycles.Size = new System.Drawing.Size(30, 17);
+            this.amountCycles.TabIndex = 13;
+            this.amountCycles.Text = "text";
             // 
             // label1
             // 
@@ -294,11 +306,6 @@
             this.SpeedOfGamesLabel.TabIndex = 4;
             this.SpeedOfGamesLabel.Text = "Speed of game: very low";
             // 
-            // timer2
-            // 
-            this.timer2.Interval = 1000;
-            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -343,9 +350,9 @@
         private System.Windows.Forms.Label ShowingInformationLabel;
         private System.Windows.Forms.RadioButton OnShowingInformationRButton;
         private System.Windows.Forms.RadioButton OffShowingInformationRButton;
-        private System.Windows.Forms.Label countingdeathspersomesecond;
-        private System.Windows.Forms.Timer timer2;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Label amountCycles;
+        private System.Windows.Forms.Button GetChart;
     }
 }
 

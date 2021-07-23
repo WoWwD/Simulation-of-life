@@ -3,6 +3,8 @@
     /* Интерфейс описывает какое-либо существо */
     public interface ICreature
     {
+        int X { get; set; }
+        int Y { get; set; }
         string ID { get; set; } // уникальный идентификатор 
         byte Speed { get; } // скорость 
         byte Overview { get; } // обзор 

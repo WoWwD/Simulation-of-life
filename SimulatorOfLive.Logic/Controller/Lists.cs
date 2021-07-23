@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 namespace SimulationOfLife.Logic.Controller
 {
-    /* Временное хранение списков объектов для их сериализации/десериализации */
     public class Lists
     {
         public List<FormOfCell> cells;

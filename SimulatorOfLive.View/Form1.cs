@@ -2,7 +2,10 @@
 using SimulationOfLife.Logic.Model;
 using SimulationOfLife.Logic.Model.Cell;
 using SimulatorOfLive.Logic.Controller;
+using SimulatorOfLive.View;
+using SimulatorOfLive.View.Chart;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -10,12 +13,10 @@ namespace SimulationOfLife.View
 {
     public partial class Form1 : Form
     {
-        private static Controller controller = new Controller();
-        private static Pen pen = new Pen(Color.Red, 1);
+        private Controller controller;
         private static int MaxWidthField { get; set; }
         private static int MaxHeightField { get; set; }
         private Graphics graphics;
-        private int AmountOfTimes;
         public Form1()
         {
             InitializeComponent();
@@ -30,7 +31,7 @@ namespace SimulationOfLife.View
             graphics = Graphics.FromImage(GameZonePictureBox.Image);
             graphics.Clear(Color.WhiteSmoke);
             timer1.Interval = 500;
-            timer2.Interval = 1000;
+            GetChart.Enabled = false;
         }
         #region Кнопки
         private void StartGameButton_Click(object sender, EventArgs e)
@@ -40,20 +41,16 @@ namespace SimulationOfLife.View
             LoadGameButton.Enabled = false;
             NewGameButton.Enabled = false;
             StartGameButton.Enabled = false;
-            SettingsButton.Enabled = false;
             timer1.Start();
-            timer2.Start();
         }
         private void PauseGameButton_Click(object sender, EventArgs e)
         {
             timer1.Stop();
-            timer2.Stop();
             StartGameButton.Enabled = true;
             SaveGameButton.Enabled = true;
             LoadGameButton.Enabled = true;
             NewGameButton.Enabled = true;
             PauseGameButton.Enabled = false;
-            SettingsButton.Enabled = true;
         }
         private void SaveGameButton_Click(object sender, EventArgs e)
         {
@@ -70,14 +67,6 @@ namespace SimulationOfLife.View
         }
         private void LoadGameButton_Click(object sender, EventArgs e)
         {
-            try
-            {
-
-            }
-            catch
-            {
-
-            }
             var OpenFile = openFileDialog1;
             OpenFile.Filter = "Documents (*.xml)|*.xml";
             if (OpenFile.ShowDialog() == DialogResult.OK)
@@ -88,7 +77,7 @@ namespace SimulationOfLife.View
                 }
                 else
                 {
-                    controller.StartNewGame();
+                    controller = new Controller();
                     controller.DeSerializable(OpenFile.FileName);
                     graphics.Clear(Color.WhiteSmoke);
                     RefreshData();
@@ -101,7 +90,6 @@ namespace SimulationOfLife.View
         {
             if (CheckOfConditions.Check() != true)
             {
-                //throw new Exception("Ошибка в условиях!");
                 Show("Ошибка в условиях игры!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
@@ -110,11 +98,15 @@ namespace SimulationOfLife.View
                 MaxWidthField = GameZonePictureBox.Width;
                 NewImg(0, 0);
                 graphics.Clear(Color.WhiteSmoke);
-                controller.StartNewGame();
+                controller = new Controller();
+                ListsForCharts.AmountDeaths = new List<int>();
+                ListsForCharts.AmountEvolution = new List<int>();
+                ListsForCharts.AmountDivision = new List<int>();
                 controller.AddFirstCells(SettingsGame.CountOfCells, MaxWidthField, MaxHeightField);
                 RefreshData();
                 GameZonePictureBox.Refresh();
                 StartGameButton.Enabled = true;
+                GetChart.Enabled = false;
             }
         }
         private void OnShowingInformationRButton_CheckedChanged(object sender, EventArgs e)
@@ -144,7 +136,6 @@ namespace SimulationOfLife.View
                 if (cell is HerbivoreLowCell || cell is HerbivoreMediumCell || cell is HerbivoreHighCell)
                 {
                     graphics.FillEllipse(Brushes.Green, cell.X, cell.Y, cell.Width, cell.Height);
-                    //graphics.DrawEllipse(pen, cell.X - (cell.Overview / 2), cell.Y - (cell.Overview / 2), cell.Overview, cell.Overview);
                     h++;
                 }
                 if (cell is OmnivoreLowCell || cell is OmnivoreMediumCell || cell is OmnivoreHighCell)
@@ -158,28 +149,46 @@ namespace SimulationOfLife.View
                 graphics.FillRectangle(Brushes.Green, f.X, f.Y, f.Width, f.Height);
             }
             #region Текстовая информация
-            if (AmountOfTimes == 1000)
+            if (controller.AmountOfCycles % 50 == 0)
             {
                 label1.Text = $"Количество клеток: {controller.cells.Count}";
                 carni.Text = $"Плотоядные: {c} ({Math.Round(c / controller.cells.Count, 3) * 100}%) клеток";
                 herbi.Text = $"Травоядные: {h} ({Math.Round(h / controller.cells.Count, 3) * 100}%) клеток";
                 omni.Text = $"Всеядные: {o} ({Math.Round(o / controller.cells.Count, 3) * 100}%) клеток";
-                IdCellLabel.Text = controller.CountingCells();
-                //countingdeathspersomesecond.Text = controller.CountingDeaths(timer2.Interval); //exp
-                AmountOfTimes = 0;
+                IdCellLabel.Text = controller.CountingCells();      
             }
             #endregion
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
-            graphics.Clear(Color.WhiteSmoke);
-            RefreshData();
-            controller.AddFood(MaxWidthField, MaxHeightField);
-            controller.Move(MaxWidthField, MaxHeightField);
-            controller.Eating();
-            controller.Division();
-            controller.Evolution();
-            GameZonePictureBox.Refresh();
+            if (controller.AmountOfCycles < SettingsGame.AmountOfCycles)
+            {
+                graphics.Clear(Color.WhiteSmoke);
+                RefreshData();
+                controller.Cycle(MaxWidthField, MaxHeightField);
+                GameZonePictureBox.Refresh();
+                if (controller.AmountOfCycles % 50 == 0 && controller.AmountOfCycles != 0) // каждые 50 циклов в списки добавляются данные
+                {
+                    ListsForCharts.AmountDeaths.Add(controller.AmountOfDeaths);
+                    ListsForCharts.AmountEvolution.Add(controller.AmountOfEvolution);
+                    ListsForCharts.AmountDivision.Add(controller.AmountOfDivision);
+                    controller.AmountOfDeaths = 0;
+                    controller.AmountOfEvolution = 0;
+                    controller.AmountOfDivision = 0;
+                }
+                amountCycles.Text = $"Количество циклов: {controller.AmountOfCycles} из {SettingsGame.AmountOfCycles}";
+            }
+            else
+            {
+                timer1.Stop();
+                StartGameButton.Enabled = true;
+                SaveGameButton.Enabled = true;
+                LoadGameButton.Enabled = true;
+                NewGameButton.Enabled = true;
+                PauseGameButton.Enabled = false;
+                SettingsButton.Enabled = true;
+                GetChart.Enabled = true;
+            }
             /*изменение границ карты с определённой вероятностью (exp.)*/
             //if (SettingsGame.RndNumber(50) == 1)
             //{
@@ -263,9 +272,17 @@ namespace SimulationOfLife.View
         {
             return MessageBox.Show(text, caption, buttons, icon);
         }
-        private void timer2_Tick(object sender, EventArgs e)
+        private void GetChart_Click(object sender, EventArgs e)
         {
-            AmountOfTimes += 1000;
+            if (controller.AmountOfCycles != SettingsGame.AmountOfCycles)
+            {
+                Show("Необходимо дождаться конца симуляции!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                Form2 frm2 = new Form2();
+                frm2.Show();
+            }
         }
     }
 }

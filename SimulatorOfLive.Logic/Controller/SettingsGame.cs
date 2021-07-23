@@ -6,7 +6,8 @@ namespace SimulationOfLife.Logic.Model
     {
         private static readonly Random rnd = new Random();
         public static Guid guid = Guid.NewGuid();
-        public static int CountOfCells = 500; 
+        public static int CountOfCells = 500;
+        public static int AmountOfCycles = 1000;
 
         #region Эволюция клеток
         #region Шанс эволюции
@@ -34,7 +35,7 @@ namespace SimulationOfLife.Logic.Model
         public static int CountOfEatForEvolutionOmnivoreHighCell = 228;
         #endregion
         #endregion
-
+        public static int CountOfEatForDivision = 2;
         #region Еда
         public static int LimitOfFood = 150; // Предел еды, после которого она удаляется с поля
         public static byte ChanceOfAddFood = 20; // Вероятность добавления еды на поле

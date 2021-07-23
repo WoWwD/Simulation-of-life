@@ -26,6 +26,7 @@ namespace SimulationOfLife.Logic.Abstract_model
         public abstract int CountOfEating { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
+
         public bool Eating(int HitPointTarget)
         {
             if (HitPointTarget == 0)
@@ -149,7 +150,7 @@ namespace SimulationOfLife.Logic.Abstract_model
         }
         public bool IsDivision()
         {
-            if (SettingsGame.RndNumber(SettingsGame.ChanceOfDivision) == 1 && CountOfEating >= 2)
+            if (SettingsGame.RndNumber(SettingsGame.ChanceOfDivision) == 1 && CountOfEating >= SettingsGame.CountOfEatForDivision)
             {
                 return true;
             }
