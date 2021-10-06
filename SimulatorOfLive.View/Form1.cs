@@ -67,8 +67,9 @@ namespace SimulationOfLife.View
         }
         private void LoadGameButton_Click(object sender, EventArgs e)
         {
+            controller = new Controller();
             var OpenFile = openFileDialog1;
-            OpenFile.Filter = "Documents (*.xml)|*.xml";
+            OpenFile.Filter = "Documents (*.xml)|*.xml"; 
             if (OpenFile.ShowDialog() == DialogResult.OK)
             {
                 if (controller.DeSerializable(OpenFile.FileName) == false)
@@ -77,7 +78,6 @@ namespace SimulationOfLife.View
                 }
                 else
                 {
-                    controller = new Controller();
                     controller.DeSerializable(OpenFile.FileName);
                     graphics.Clear(Color.WhiteSmoke);
                     RefreshData();
@@ -99,9 +99,6 @@ namespace SimulationOfLife.View
                 NewImg(0, 0);
                 graphics.Clear(Color.WhiteSmoke);
                 controller = new Controller();
-                ListsForCharts.AmountDeaths = new List<int>();
-                ListsForCharts.AmountEvolution = new List<int>();
-                ListsForCharts.AmountDivision = new List<int>();
                 controller.AddFirstCells(SettingsGame.CountOfCells, MaxWidthField, MaxHeightField);
                 RefreshData();
                 GameZonePictureBox.Refresh();
