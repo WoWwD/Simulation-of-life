@@ -1,7 +1,7 @@
 ﻿using SimulationOfLife.Logic.Controller;
 using SimulationOfLife.Logic.Model;
 using SimulationOfLife.Logic.Model.Cell;
-using SimulatorOfLive.Logic.Controller;
+using SimulatorOfLive.Logic.Services;
 using SimulatorOfLive.View;
 using SimulatorOfLive.View.Chart;
 using System;
@@ -17,6 +17,7 @@ namespace SimulationOfLife.View
         private static int MaxWidthField { get; set; }
         private static int MaxHeightField { get; set; }
         private Graphics graphics;
+        private ListsForCharts listsForCharts;
         public Form1()
         {
             InitializeComponent();
@@ -41,6 +42,7 @@ namespace SimulationOfLife.View
             LoadGameButton.Enabled = false;
             NewGameButton.Enabled = false;
             StartGameButton.Enabled = false;
+
             timer1.Start();
         }
         private void PauseGameButton_Click(object sender, EventArgs e)
@@ -54,10 +56,9 @@ namespace SimulationOfLife.View
         }
         private void SaveGameButton_Click(object sender, EventArgs e)
         {
-            var result = controller.Serializable();
+            var result = controller.serializationService.Serialization(controller.cells, controller.food);
             if (result == null)
             {
-                //throw new Exception("Какое-то исключение");
                 Show("Ошибка при сохранении игры!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
@@ -72,13 +73,15 @@ namespace SimulationOfLife.View
             OpenFile.Filter = "Documents (*.xml)|*.xml"; 
             if (OpenFile.ShowDialog() == DialogResult.OK)
             {
-                if (controller.DeSerializable(OpenFile.FileName) == false)
+                SavedGame savedGame = controller.serializationService.DeSerialization(OpenFile.FileName);
+                if (savedGame == null)
                 {
                     Show("Ошибка при загрузке игры!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                 {
-                    controller.DeSerializable(OpenFile.FileName);
+                    controller.cells = savedGame.cells;
+                    controller.food = savedGame.food;
                     graphics.Clear(Color.WhiteSmoke);
                     RefreshData();
                     GameZonePictureBox.Refresh();
@@ -88,23 +91,20 @@ namespace SimulationOfLife.View
         }
         private void NewGameButton_Click(object sender, EventArgs e)
         {
-            if (CheckOfConditions.Check() != true)
-            {
-                Show("Ошибка в условиях игры!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else
-            {
-                MaxHeightField = GameZonePictureBox.Height;
-                MaxWidthField = GameZonePictureBox.Width;
-                NewImg(0, 0);
-                graphics.Clear(Color.WhiteSmoke);
-                controller = new Controller();
-                controller.AddFirstCells(SettingsGame.CountOfCells, MaxWidthField, MaxHeightField);
-                RefreshData();
-                GameZonePictureBox.Refresh();
-                StartGameButton.Enabled = true;
-                GetChart.Enabled = false;
-            }
+            MaxHeightField = GameZonePictureBox.Height;
+            MaxWidthField = GameZonePictureBox.Width;
+            NewImg(0, 0);
+            graphics.Clear(Color.WhiteSmoke);
+            listsForCharts = new ListsForCharts();
+            listsForCharts.AmountDeaths = new List<int>();
+            listsForCharts.AmountEvolution = new List<int>();
+            listsForCharts.AmountDivision = new List<int>();
+            controller = new Controller();
+            controller.AddFirstCells(SettingsGame.CountOfCells, MaxWidthField, MaxHeightField);
+            RefreshData();
+            GameZonePictureBox.Refresh();
+            StartGameButton.Enabled = true;
+            GetChart.Enabled = false;
         }
         private void OnShowingInformationRButton_CheckedChanged(object sender, EventArgs e)
         {
@@ -117,11 +117,6 @@ namespace SimulationOfLife.View
         #endregion
         private void RefreshData()
         {
-            /*Красные границы вокруг поля, чтобы было видно, как оно уменьшается*/
-            //graphics.DrawLine(pen, new Point(0, 0), new Point(0, MaxHeightField));
-            //graphics.DrawLine(pen, new Point(0, MaxHeightField - 1), new Point(MaxWidthField, MaxHeightField - 1));
-            //graphics.DrawLine(pen, new Point(MaxWidthField - 1, MaxHeightField), new Point(MaxWidthField - 1, 0));
-            //graphics.DrawLine(pen, new Point(MaxWidthField - 1, 0), new Point(0, 0));
             double c = 0, h = 0, o = 0;
             foreach (var cell in controller.cells)
             {
@@ -152,7 +147,7 @@ namespace SimulationOfLife.View
                 carni.Text = $"Плотоядные: {c} ({Math.Round(c / controller.cells.Count, 3) * 100}%) клеток";
                 herbi.Text = $"Травоядные: {h} ({Math.Round(h / controller.cells.Count, 3) * 100}%) клеток";
                 omni.Text = $"Всеядные: {o} ({Math.Round(o / controller.cells.Count, 3) * 100}%) клеток";
-                IdCellLabel.Text = controller.CountingCells();      
+                IdCellLabel.Text = controller.statistics.CountingCells(controller.cells);      
             }
             #endregion
         }
@@ -166,9 +161,9 @@ namespace SimulationOfLife.View
                 GameZonePictureBox.Refresh();
                 if (controller.AmountOfCycles % 50 == 0 && controller.AmountOfCycles != 0) // каждые 50 циклов в списки добавляются данные
                 {
-                    ListsForCharts.AmountDeaths.Add(controller.AmountOfDeaths);
-                    ListsForCharts.AmountEvolution.Add(controller.AmountOfEvolution);
-                    ListsForCharts.AmountDivision.Add(controller.AmountOfDivision);
+                    listsForCharts.AmountDeaths.Add(controller.AmountOfDeaths);
+                    listsForCharts.AmountEvolution.Add(controller.AmountOfEvolution);
+                    listsForCharts.AmountDivision.Add(controller.AmountOfDivision);
                     controller.AmountOfDeaths = 0;
                     controller.AmountOfEvolution = 0;
                     controller.AmountOfDivision = 0;
@@ -183,15 +178,8 @@ namespace SimulationOfLife.View
                 LoadGameButton.Enabled = true;
                 NewGameButton.Enabled = true;
                 PauseGameButton.Enabled = false;
-                SettingsButton.Enabled = true;
                 GetChart.Enabled = true;
             }
-            /*изменение границ карты с определённой вероятностью (exp.)*/
-            //if (SettingsGame.RndNumber(50) == 1)
-            //{
-            //    controller.IsInZone(MaxWidthField, MaxHeightField);
-            //    NewImg(10, 5);
-            //}
         }
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
@@ -220,42 +208,6 @@ namespace SimulationOfLife.View
                 timer1.Interval = 10;
                 SpeedOfGamesLabel.Text = "Speed of game: very high";
             }
-            //if (trackBar1.Value == 1)
-            //{
-            //    timer1.Interval = 100;
-            //    SpeedOfGamesLabel.Text = $"Скорость игры: {trackBar1.Value}x";
-            //}
-            //if (trackBar1.Value == 2)
-            //{
-            //    timer1.Interval = 75;
-            //    SpeedOfGamesLabel.Text = $"Скорость игры: {trackBar1.Value}x";
-            //}
-            //if (trackBar1.Value == 3)
-            //{
-            //    timer1.Interval = 50;
-            //    SpeedOfGamesLabel.Text = $"Скорость игры: {trackBar1.Value}x";
-            //}
-            //if (trackBar1.Value == 4)
-            //{
-            //    timer1.Interval = 25;
-            //    SpeedOfGamesLabel.Text = $"Скорость игры: {trackBar1.Value}x";
-            //}
-        }
-        private void GameZonePictureBox_MouseClick(object sender, MouseEventArgs e) //exp
-        {
-            //if (timer1.Enabled)
-            //{
-            //    if (e.Button == MouseButtons.Left)
-            //    {
-            //        controller.AddCellsThroughMouse(e.Location.X, e.Location.Y);
-            //        RefreshData();
-            //    }
-            //    if (e.Button == MouseButtons.Right)
-            //    {
-            //        controller.AddEatThroughMouse(e.Location.X, e.Location.Y);
-            //        RefreshData();
-            //    }
-            //}
         }
         private void NewImg(int SizeWidthMinus, int SizeHeightMinus)
         {
@@ -277,7 +229,7 @@ namespace SimulationOfLife.View
             }
             else
             {
-                Form2 frm2 = new Form2();
+                Form2 frm2 = new Form2(listsForCharts);
                 frm2.Show();
             }
         }

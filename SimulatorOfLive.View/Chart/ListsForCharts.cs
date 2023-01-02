@@ -2,10 +2,10 @@
 
 namespace SimulatorOfLive.View.Chart
 {
-    public static class ListsForCharts
+    public class ListsForCharts
     {
-        public static List<int> AmountDeaths;
-        public static List<int> AmountEvolution;
-        public static List<int> AmountDivision;
+        public List<int> AmountDeaths;
+        public List<int> AmountEvolution;
+        public List<int> AmountDivision;
     }
 }

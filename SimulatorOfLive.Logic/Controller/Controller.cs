@@ -3,9 +3,8 @@ using SimulationOfLife.Logic.Model;
 using SimulationOfLife.Logic.Model.Abstract_model;
 using SimulationOfLife.Logic.Model.Cell;
 using SimulationOfLife.Logic.Model.Food;
-using System;
+using SimulatorOfLive.Logic.Services;
 using System.Collections.Generic;
-using System.IO;
 using System.Xml.Serialization;
 
 namespace SimulationOfLife.Logic.Controller
@@ -14,15 +13,16 @@ namespace SimulationOfLife.Logic.Controller
     public class Controller
     {
         public int AmountOfDeaths, AmountOfCycles, AmountOfEvolution, AmountOfDivision;
-        public Dictionary<string, int> dict;
         public List<FormOfCell> cells;
         public List<Food> food;
-        Lists lists;
+        public SerializationService serializationService;
+        public Statistics statistics;
         public Controller()
         {
+            serializationService = new SerializationService();
             cells = new List<FormOfCell>();
             food = new List<Food>();
-            dict = new Dictionary<string, int>();
+            statistics = new Statistics();
         }
         #region Поведение клеток
         public void Move(int MaxWidthField, int MaxHeightField)
@@ -295,47 +295,6 @@ namespace SimulationOfLife.Logic.Controller
             return false;
         }
         #endregion
-        #region Загрузка и сохранение игры
-        public string Serializable()
-        {
-            string Name = DateTime.Now.ToString("yyyyMMdd_hhmmss");
-            try
-            {
-                lists = new Lists();
-                lists.cells = cells;
-                lists.food = food;
-                var objects = new XmlSerializer(typeof(Lists));
-                using (var file = new FileStream($"SavedGame ({Name}).xml", FileMode.Create))
-                {
-                    objects.Serialize(file, lists);
-                }
-                return $"SavedGame ({Name}).xml";
-            }
-            catch
-            {
-                return null;
-            }
-        }
-        public bool DeSerializable(string Path)
-        {
-            try
-            {
-                lists = new Lists();
-                var objects = new XmlSerializer(typeof(Lists));
-                using (var file = new FileStream(Path, FileMode.Open))
-                {
-                    var deser = objects.Deserialize(file) as Lists;
-                    cells = deser.cells;
-                    food = deser.food;
-                }
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-        #endregion
         public void AddFirstCells(int count, int MaxWidthField, int MaxHeightField)
         {
             for (int c = 0; c < count * SettingsGame.CountOfCarnivoriusCell; c++)
@@ -377,42 +336,6 @@ namespace SimulationOfLife.Logic.Controller
                 }
             }
         }
-        #region Exp
-        public string CountingCells()
-        {
-            int count = 0;
-            string name = "no value";
-            dict.Clear();
-            foreach (var cell in cells)
-            {
-                if (dict.ContainsKey(cell.ID))
-                {
-                    dict[cell.ID]++;
-                }
-                else
-                {
-                    dict.Add(cell.ID, 1);
-                }
-            }
-            foreach (var cell in dict)
-            {
-                if (cell.Value > count)
-                {
-                    count = cell.Value;
-                    name = cell.Key;
-                }
-            }
-            return $"Наибольшее количество живых потомков у \"{name}\": {count}";
-        }
-        //public void AddCellsThroughMouse(int X, int Y)
-        //{
-        //    cells.Add(new CarnivorousMediumCell(X, Y, SettingsGame.GetID().ToString()));
-        //}
-        //public void AddEatThroughMouse(int X, int Y)
-        //{
-        //    food.Add(new Food(X, Y, "food"));
-        //}
-        #endregion
         public void Cycle(int MaxWidthField, int MaxHeightField)
         {
             AddFood(MaxWidthField, MaxHeightField);

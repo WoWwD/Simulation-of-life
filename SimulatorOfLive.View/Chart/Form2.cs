@@ -8,11 +8,14 @@ namespace SimulatorOfLive.View
     public partial class Form2 : Form
     {
         private string SelectedItems;
-        private Charts chart = new Charts();
-        public Form2()
+        private Charts chart;
+        private ListsForCharts listsForCharts;
+        public Form2(ListsForCharts list)
         {
             InitializeComponent();
             AddDataInListbox();
+            listsForCharts = list;
+            chart = new Charts();
             chart1.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
             chart1.ChartAreas[0].AxisX.MinorGrid.Enabled = false;
             chart1.ChartAreas[0].AxisX.Maximum = chart.cycles;
@@ -40,15 +43,15 @@ namespace SimulatorOfLive.View
             SelectedItems = listBox1.SelectedItem.ToString();
             if (SelectedItems == "График смертей")
             {
-                CreateChart(chart.cycles, ListsForCharts.AmountDeaths);
+                CreateChart(chart.cycles, listsForCharts.AmountDeaths);
             }
             if (SelectedItems == "График эволюций")
             {
-                CreateChart(chart.cycles, ListsForCharts.AmountEvolution);
+                CreateChart(chart.cycles, listsForCharts.AmountEvolution);
             }
             if (SelectedItems == "График делений")
             {
-                CreateChart(chart.cycles, ListsForCharts.AmountDivision);
+                CreateChart(chart.cycles, listsForCharts.AmountDivision);
             }
         }
     }

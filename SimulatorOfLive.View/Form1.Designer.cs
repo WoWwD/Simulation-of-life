@@ -38,7 +38,6 @@
             this.ShowingInformationLabel = new System.Windows.Forms.Label();
             this.OnShowingInformationRButton = new System.Windows.Forms.RadioButton();
             this.OffShowingInformationRButton = new System.Windows.Forms.RadioButton();
-            this.SettingsButton = new System.Windows.Forms.Button();
             this.NewGameButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.amountCycles = new System.Windows.Forms.Label();
@@ -107,7 +106,6 @@
             this.splitContainer1.Panel2.Controls.Add(this.ShowingInformationLabel);
             this.splitContainer1.Panel2.Controls.Add(this.OnShowingInformationRButton);
             this.splitContainer1.Panel2.Controls.Add(this.OffShowingInformationRButton);
-            this.splitContainer1.Panel2.Controls.Add(this.SettingsButton);
             this.splitContainer1.Panel2.Controls.Add(this.NewGameButton);
             this.splitContainer1.Panel2.Controls.Add(this.groupBox1);
             this.splitContainer1.Panel2.Controls.Add(this.LoadGameButton);
@@ -129,11 +127,10 @@
             this.GameZonePictureBox.Size = new System.Drawing.Size(1582, 696);
             this.GameZonePictureBox.TabIndex = 0;
             this.GameZonePictureBox.TabStop = false;
-            this.GameZonePictureBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.GameZonePictureBox_MouseClick);
             // 
             // GetChart
             // 
-            this.GetChart.Location = new System.Drawing.Point(200, 104);
+            this.GetChart.Location = new System.Drawing.Point(200, 58);
             this.GetChart.Name = "GetChart";
             this.GetChart.Size = new System.Drawing.Size(130, 40);
             this.GetChart.TabIndex = 20;
@@ -146,7 +143,7 @@
             this.ShowingInformationLabel.AutoSize = true;
             this.ShowingInformationLabel.Location = new System.Drawing.Point(1139, 24);
             this.ShowingInformationLabel.Name = "ShowingInformationLabel";
-            this.ShowingInformationLabel.Size = new System.Drawing.Size(135, 17);
+            this.ShowingInformationLabel.Size = new System.Drawing.Size(126, 16);
             this.ShowingInformationLabel.TabIndex = 19;
             this.ShowingInformationLabel.Text = "Showing information";
             // 
@@ -155,7 +152,7 @@
             this.OnShowingInformationRButton.AutoSize = true;
             this.OnShowingInformationRButton.Location = new System.Drawing.Point(1142, 58);
             this.OnShowingInformationRButton.Name = "OnShowingInformationRButton";
-            this.OnShowingInformationRButton.Size = new System.Drawing.Size(48, 21);
+            this.OnShowingInformationRButton.Size = new System.Drawing.Size(45, 20);
             this.OnShowingInformationRButton.TabIndex = 18;
             this.OnShowingInformationRButton.TabStop = true;
             this.OnShowingInformationRButton.Text = "On";
@@ -167,23 +164,12 @@
             this.OffShowingInformationRButton.AutoSize = true;
             this.OffShowingInformationRButton.Location = new System.Drawing.Point(1226, 58);
             this.OffShowingInformationRButton.Name = "OffShowingInformationRButton";
-            this.OffShowingInformationRButton.Size = new System.Drawing.Size(48, 21);
+            this.OffShowingInformationRButton.Size = new System.Drawing.Size(44, 20);
             this.OffShowingInformationRButton.TabIndex = 17;
             this.OffShowingInformationRButton.TabStop = true;
             this.OffShowingInformationRButton.Text = "Off";
             this.OffShowingInformationRButton.UseVisualStyleBackColor = true;
             this.OffShowingInformationRButton.CheckedChanged += new System.EventHandler(this.OffShowingInformationRButton_CheckedChanged);
-            // 
-            // SettingsButton
-            // 
-            this.SettingsButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.SettingsButton.Enabled = false;
-            this.SettingsButton.Location = new System.Drawing.Point(200, 58);
-            this.SettingsButton.Name = "SettingsButton";
-            this.SettingsButton.Size = new System.Drawing.Size(130, 40);
-            this.SettingsButton.TabIndex = 16;
-            this.SettingsButton.Text = "Settings";
-            this.SettingsButton.UseVisualStyleBackColor = true;
             // 
             // NewGameButton
             // 
@@ -215,7 +201,7 @@
             this.amountCycles.AutoSize = true;
             this.amountCycles.Location = new System.Drawing.Point(6, 104);
             this.amountCycles.Name = "amountCycles";
-            this.amountCycles.Size = new System.Drawing.Size(30, 17);
+            this.amountCycles.Size = new System.Drawing.Size(27, 16);
             this.amountCycles.TabIndex = 13;
             this.amountCycles.Text = "text";
             // 
@@ -224,7 +210,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(6, 18);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(30, 17);
+            this.label1.Size = new System.Drawing.Size(27, 16);
             this.label1.TabIndex = 6;
             this.label1.Text = "text";
             // 
@@ -233,7 +219,7 @@
             this.carni.AutoSize = true;
             this.carni.Location = new System.Drawing.Point(6, 35);
             this.carni.Name = "carni";
-            this.carni.Size = new System.Drawing.Size(30, 17);
+            this.carni.Size = new System.Drawing.Size(27, 16);
             this.carni.TabIndex = 9;
             this.carni.Text = "text";
             // 
@@ -242,7 +228,7 @@
             this.herbi.AutoSize = true;
             this.herbi.Location = new System.Drawing.Point(6, 52);
             this.herbi.Name = "herbi";
-            this.herbi.Size = new System.Drawing.Size(30, 17);
+            this.herbi.Size = new System.Drawing.Size(27, 16);
             this.herbi.TabIndex = 7;
             this.herbi.Text = "text";
             // 
@@ -251,7 +237,7 @@
             this.IdCellLabel.AutoSize = true;
             this.IdCellLabel.Location = new System.Drawing.Point(6, 86);
             this.IdCellLabel.Name = "IdCellLabel";
-            this.IdCellLabel.Size = new System.Drawing.Size(87, 17);
+            this.IdCellLabel.Size = new System.Drawing.Size(81, 16);
             this.IdCellLabel.TabIndex = 11;
             this.IdCellLabel.Text = "text will soon";
             // 
@@ -260,7 +246,7 @@
             this.omni.AutoSize = true;
             this.omni.Location = new System.Drawing.Point(6, 69);
             this.omni.Name = "omni";
-            this.omni.Size = new System.Drawing.Size(30, 17);
+            this.omni.Size = new System.Drawing.Size(27, 16);
             this.omni.TabIndex = 8;
             this.omni.Text = "text";
             // 
@@ -302,7 +288,7 @@
             this.SpeedOfGamesLabel.BackColor = System.Drawing.SystemColors.Window;
             this.SpeedOfGamesLabel.Location = new System.Drawing.Point(1318, 77);
             this.SpeedOfGamesLabel.Name = "SpeedOfGamesLabel";
-            this.SpeedOfGamesLabel.Size = new System.Drawing.Size(163, 17);
+            this.SpeedOfGamesLabel.Size = new System.Drawing.Size(155, 16);
             this.SpeedOfGamesLabel.TabIndex = 4;
             this.SpeedOfGamesLabel.Text = "Speed of game: very low";
             // 
@@ -346,7 +332,6 @@
         private System.Windows.Forms.Button SaveGameButton;
         private System.Windows.Forms.Button NewGameButton;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button SettingsButton;
         private System.Windows.Forms.Label ShowingInformationLabel;
         private System.Windows.Forms.RadioButton OnShowingInformationRButton;
         private System.Windows.Forms.RadioButton OffShowingInformationRButton;
