@@ -4,10 +4,8 @@ namespace SimulationOfLife.Logic.Model
 {
     public static class SettingsGame
     {
-        private static readonly Random rnd = new Random();
-        public static Guid guid = Guid.NewGuid();
         public const int CountOfCells = 750;
-        public const int AmountOfCycles = 1500;
+        public const int AmountOfCycles = 2000;
 
         #region Эволюция клеток
         #region Шанс эволюции
@@ -51,7 +49,5 @@ namespace SimulationOfLife.Logic.Model
         public const double CountOfCarnivoriusCell = 0.4; // Доля (% от общего количества клеток) плотоядных клеток в начале
         public const double CountOfHerbivoreCells = 0.4; // Доля (% от общего количества клеток) травоядных клеток в начале
         public const double CountOfOmnivoreCell = 0.2; // Доля (% от общего количества клеток) всеядных клеток в начале
-        public static object GetID() => guid = Guid.NewGuid();
-        public static int RndNumber(int param) => rnd.Next(param);
     }
 }
