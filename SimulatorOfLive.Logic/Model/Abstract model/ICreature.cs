@@ -10,7 +10,7 @@
         byte Overview { get; } // обзор 
         byte RegionOfEating { get; } // область поедания 
         int CountOfEating { get; set; } // количество съеденного
-        bool IsEvolution(); // эволюция 
+        bool IsEvolution(int chance); // эволюция 
         void Move(int MaxWidthField, int MaxHeightField, int DirectionOfMove); // движение
         bool Eating(int HitPointTarget); // поедание объектов в симуляции
         int IsTargetInOverview(int XTarget, int YTarget); // поиск цели в области обзора существа

@@ -143,21 +143,18 @@ namespace SimulationOfLife.Logic.Abstract_model
                 }
             }
         }
-        public abstract bool IsEvolution();
+        public abstract bool IsEvolution(int chance);
         public void Damage()
         {
             HitPoint--;
         }
-        public bool IsDivision()
+        public bool IsDivision(int chance)
         {
-            if (SettingsGame.RndNumber(SettingsGame.ChanceOfDivision) == 1 && CountOfEating >= SettingsGame.CountOfEatForDivision)
+            if (chance == 1 && CountOfEating >= SettingsGame.CountOfEatForDivision)
             {
                 return true;
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
         public int IsTargetInOverview(int XTarget, int YTarget)
         {
