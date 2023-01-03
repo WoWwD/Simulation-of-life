@@ -27,7 +27,6 @@ namespace SimulationOfLife.View
             StartGameButton.Enabled = false;
             PauseGameButton.Enabled = false;
             SaveGameButton.Enabled = false;
-            OnShowingInformationRButton.Checked = true;
             GameZonePictureBox.Image = new Bitmap(MaxWidthField,MaxHeightField);
             graphics = Graphics.FromImage(GameZonePictureBox.Image);
             graphics.Clear(Color.WhiteSmoke);
@@ -37,13 +36,12 @@ namespace SimulationOfLife.View
         #region Кнопки
         private void StartGameButton_Click(object sender, EventArgs e)
         {
+            timer1.Start();
             PauseGameButton.Enabled = true;
             SaveGameButton.Enabled = false;
             LoadGameButton.Enabled = false;
             NewGameButton.Enabled = false;
             StartGameButton.Enabled = false;
-
-            timer1.Start();
         }
         private void PauseGameButton_Click(object sender, EventArgs e)
         {
@@ -106,14 +104,6 @@ namespace SimulationOfLife.View
             StartGameButton.Enabled = true;
             GetChart.Enabled = false;
         }
-        private void OnShowingInformationRButton_CheckedChanged(object sender, EventArgs e)
-        {
-            groupBox1.Visible = true;
-        }
-        private void OffShowingInformationRButton_CheckedChanged(object sender, EventArgs e)
-        {
-            groupBox1.Visible = false;
-        }
         #endregion
         private void RefreshData()
         {
@@ -140,16 +130,14 @@ namespace SimulationOfLife.View
             {
                 graphics.FillRectangle(Brushes.Green, f.X, f.Y, f.Width, f.Height);
             }
-            #region Текстовая информация
             if (controller.AmountOfCycles % 50 == 0)
             {
                 label1.Text = $"Количество клеток: {controller.cells.Count}";
-                carni.Text = $"Плотоядные: {c} ({Math.Round(c / controller.cells.Count, 3) * 100}%) клеток";
-                herbi.Text = $"Травоядные: {h} ({Math.Round(h / controller.cells.Count, 3) * 100}%) клеток";
-                omni.Text = $"Всеядные: {o} ({Math.Round(o / controller.cells.Count, 3) * 100}%) клеток";
-                IdCellLabel.Text = controller.statistics.CountingCells(controller.cells);      
+                carni.Text = controller.statistics.AmountCells(c, controller.cells.Count, "Плотоядные");
+                herbi.Text = controller.statistics.AmountCells(h, controller.cells.Count, "Травоядные");
+                omni.Text = controller.statistics.AmountCells(o, controller.cells.Count, "Всеядные");
+                IdCellLabel.Text = controller.statistics.LivingAncestors(controller.cells);      
             }
-            #endregion
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -217,7 +205,7 @@ namespace SimulationOfLife.View
             GameZonePictureBox.Image = new Bitmap(MaxWidthField, MaxHeightField);
             graphics = Graphics.FromImage(GameZonePictureBox.Image);
         }
-        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon) //функция для вызова сообщений
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
         {
             return MessageBox.Show(text, caption, buttons, icon);
         }

@@ -1,4 +1,5 @@
 ﻿using SimulationOfLife.Logic.Abstract_model;
+using System;
 using System.Collections.Generic;
 
 namespace SimulatorOfLive.Logic.Services
@@ -10,7 +11,7 @@ namespace SimulatorOfLive.Logic.Services
         {
             dictionaryOfAncestors = new Dictionary<string, int>();
         }
-        public string CountingCells(List<FormOfCell> cells)
+        public string LivingAncestors(List<FormOfCell> cells)
         {
             int count = 0;
             string name = "no value";
@@ -36,6 +37,7 @@ namespace SimulatorOfLive.Logic.Services
             }
             return $"Наибольшее количество живых потомков у \"{name}\": {count}";
         }
-
+        public string AmountCells(double amount, int totalAmount, string typeCell) => 
+            $"{typeCell}: {amount} ({Math.Round(amount / totalAmount, 3) * 100}%) клеток";
     }
 }
