@@ -13,14 +13,7 @@ namespace SimulationOfLife.Logic.Model.Cell
         public override byte Overview => 64;
         public override byte Width => 9;
         public override byte Height => 9;
-        public override bool IsEvolution(int chance)
-        {
-            if (CountOfEating >= SettingsGame.CountOfEatForEvolutionOmnivoreHighCell && chance == 1)
-            {
-                return true;
-            }
-            return false;
-        }
+        public override bool IsEvolution(int chance) => false;
         public OmnivoreHighCell() { }
         public OmnivoreHighCell(int X, int Y, string ID) : base(X, Y, ID)
         {

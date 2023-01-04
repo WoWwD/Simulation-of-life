@@ -13,7 +13,7 @@ namespace SimulationOfLife.View
 {
     public partial class Form1 : Form
     {
-        private Controller controller;
+        private MainController controller;
         private static int MaxWidthField { get; set; }
         private static int MaxHeightField { get; set; }
         private Graphics graphics;
@@ -66,7 +66,7 @@ namespace SimulationOfLife.View
         }
         private void LoadGameButton_Click(object sender, EventArgs e)
         {
-            controller = new Controller();
+            controller = new MainController();
             var OpenFile = openFileDialog1;
             OpenFile.Filter = "Documents (*.xml)|*.xml"; 
             if (OpenFile.ShowDialog() == DialogResult.OK)
@@ -97,8 +97,8 @@ namespace SimulationOfLife.View
             listsForCharts.AmountDeaths = new List<int>();
             listsForCharts.AmountEvolution = new List<int>();
             listsForCharts.AmountDivision = new List<int>();
-            controller = new Controller();
-            controller.AddFirstCells(SettingsGame.CountOfCells, MaxWidthField, MaxHeightField);
+            controller = new MainController();
+            controller.AddFirstCells(SettingsGame.AmountOfCells, MaxWidthField, MaxHeightField);
             RefreshData();
             GameZonePictureBox.Refresh();
             StartGameButton.Enabled = true;
@@ -130,7 +130,7 @@ namespace SimulationOfLife.View
             {
                 graphics.FillRectangle(Brushes.Green, f.X, f.Y, f.Width, f.Height);
             }
-            if (controller.AmountOfCycles % 50 == 0)
+            if (controller.AmountOfCycles % SettingsGame.UpdateRate == 0)
             {
                 label1.Text = $"Количество клеток: {controller.cells.Count}";
                 carni.Text = controller.statistics.AmountCells(c, controller.cells.Count, "Плотоядные");
@@ -147,7 +147,7 @@ namespace SimulationOfLife.View
                 RefreshData();
                 controller.Cycle(MaxWidthField, MaxHeightField);
                 GameZonePictureBox.Refresh();
-                if (controller.AmountOfCycles % 50 == 0 && controller.AmountOfCycles != 0) // каждые 50 циклов в списки добавляются данные
+                if (controller.AmountOfCycles % SettingsGame.UpdateRate == 0 && controller.AmountOfCycles != 0)
                 {
                     listsForCharts.AmountDeaths.Add(controller.AmountOfDeaths);
                     listsForCharts.AmountEvolution.Add(controller.AmountOfEvolution);

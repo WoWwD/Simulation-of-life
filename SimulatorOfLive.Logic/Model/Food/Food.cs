@@ -18,9 +18,6 @@ namespace SimulationOfLife.Logic.Model.Food
             this.Y = Y;
             this.ID = ID;
         }
-        public void Damage()
-        {
-            HitPoint--;
-        }
+        public void Damage() => HitPoint--;
     }
 }

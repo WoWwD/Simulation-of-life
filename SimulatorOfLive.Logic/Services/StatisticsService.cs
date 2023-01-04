@@ -4,10 +4,10 @@ using System.Collections.Generic;
 
 namespace SimulatorOfLive.Logic.Services
 {
-    public class Statistics
+    public class StatisticsService
     {
         public Dictionary<string, int> dictionaryOfAncestors;
-        public Statistics()
+        public StatisticsService()
         {
             dictionaryOfAncestors = new Dictionary<string, int>();
         }

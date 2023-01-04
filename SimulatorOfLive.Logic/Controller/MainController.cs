@@ -11,22 +11,22 @@ using System.Xml.Serialization;
 namespace SimulationOfLife.Logic.Controller
 {
     [XmlInclude(typeof(Food))]
-    public class Controller
+    public class MainController
     {
         public int AmountOfDeaths, AmountOfCycles, AmountOfEvolution, AmountOfDivision;
         public List<FormOfCell> cells;
         public List<Food> food;
         public SerializationService serializationService;
-        public Statistics statistics;
+        public StatisticsService statistics;
         private Random rnd;
         private Guid guid;
 
-        public Controller()
+        public MainController()
         {
             serializationService = new SerializationService();
             cells = new List<FormOfCell>();
             food = new List<Food>();
-            statistics = new Statistics();
+            statistics = new StatisticsService();
             rnd = new Random();
             guid = Guid.NewGuid();
         }
@@ -167,7 +167,7 @@ namespace SimulationOfLife.Logic.Controller
             DirectionOfMove = 0;
             return false;
         }
-        private object SearchOfTargetForEating<C, T>(C creature, List<T> targets) where C : ICreature where T : IObject
+        private object SearchTargetForEating<C, T>(C creature, List<T> targets) where C : ICreature where T : IObject
         {
             bool result;
             foreach (var target in targets)
@@ -198,7 +198,7 @@ namespace SimulationOfLife.Logic.Controller
             {
                 if (cell is CarnivorousLowCell || cell is CarnivorousMediumCell || cell is CarnivorousHighCell)
                 {
-                    result = SearchOfTargetForEating(cell, cells);
+                    result = SearchTargetForEating(cell, cells);
                     if (result != null)
                     {
                         cells.RemoveAt((int)result);
@@ -208,7 +208,7 @@ namespace SimulationOfLife.Logic.Controller
                 {
                     if (rnd.Next(SettingsGame.ChanceOfDefense) == 1)
                     {
-                        result = SearchOfTargetForEating(cell, cells);
+                        result = SearchTargetForEating(cell, cells);
                         if (result != null)
                         {
                             cells.RemoveAt((int)result);
@@ -216,7 +216,7 @@ namespace SimulationOfLife.Logic.Controller
                     }
                     else
                     {
-                        result = SearchOfTargetForEating(cell, food);
+                        result = SearchTargetForEating(cell, food);
                         if (result != null)
                         {
                             food.RemoveAt((int)result);
@@ -225,14 +225,14 @@ namespace SimulationOfLife.Logic.Controller
                 }
                 if (cell is OmnivoreLowCell || cell is OmnivoreMediumCell || cell is OmnivoreHighCell)
                 {
-                    result = SearchOfTargetForEating(cell, food);
+                    result = SearchTargetForEating(cell, food);
                     if (result != null)
                     {
                         food.RemoveAt((int)result);
                     }
                     else
                     {
-                        result = SearchOfTargetForEating(cell, cells);
+                        result = SearchTargetForEating(cell, cells);
                         if (result != null)
                         {
                             cells.RemoveAt((int)result);
@@ -339,17 +339,17 @@ namespace SimulationOfLife.Logic.Controller
         }
         public void AddFood(int MaxWidthField, int MaxHeightField)
         {
-            if (food.Count >= SettingsGame.LimitOfFood)
+            if (food.Count >= SettingsGame.FoodLimit)
             {
-                food.RemoveAt(rnd.Next(SettingsGame.LimitOfFood));
+                food.RemoveAt(rnd.Next(SettingsGame.FoodLimit));
             }
             else
             {
-                if (rnd.Next(SettingsGame.ChanceOfAddFood) == 1)
+                if (rnd.Next(SettingsGame.ChanceOfAddingFood) == 1)
                 {
                     food.Add(new Food(rnd.Next(MaxWidthField), rnd.Next(MaxHeightField), "food"));
                 }
-                if (rnd.Next(SettingsGame.ChanceOfDeleteFood) == 1 && food.Count != 0)
+                if (rnd.Next(SettingsGame.ChanceOfDeletingFood) == 1 && food.Count != 0)
                 {
                     food.RemoveAt(rnd.Next(food.Count));
                 }

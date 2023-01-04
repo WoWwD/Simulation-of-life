@@ -10,7 +10,7 @@ namespace SimulatorOfLive.View.Chart
         {
             if (index != 0)
             {
-                index /= 50;
+                index /= SettingsGame.UpdateRate;
             }
             if (index < mas.Count)
             {
