@@ -7,9 +7,14 @@ namespace SimulatorOfLive.Logic.Services
     public class StatisticsService
     {
         public Dictionary<string, int> dictionaryOfAncestors;
+        public int sumDeaths, sumCycles, sumEvolutions, sumDivisions;
         public StatisticsService()
         {
             dictionaryOfAncestors = new Dictionary<string, int>();
+            sumDeaths = 0;
+            sumCycles = 0;
+            sumEvolutions = 0;
+            sumDivisions = 0;
         }
         public string LivingAncestors(List<FormOfCell> cells)
         {

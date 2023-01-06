@@ -13,7 +13,7 @@ namespace SimulationOfLife.View
 {
     public partial class Form1 : Form
     {
-        private MainController controller;
+        private MainController mainController;
         private static int MaxWidthField { get; set; }
         private static int MaxHeightField { get; set; }
         private Graphics graphics;
@@ -54,7 +54,7 @@ namespace SimulationOfLife.View
         }
         private void SaveGameButton_Click(object sender, EventArgs e)
         {
-            var result = controller.serializationService.Serialization(controller.cells, controller.food);
+            var result = mainController.serializationService.Serialization(mainController.cells, mainController.food);
             if (result == null)
             {
                 Show("Ошибка при сохранении игры!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -66,20 +66,20 @@ namespace SimulationOfLife.View
         }
         private void LoadGameButton_Click(object sender, EventArgs e)
         {
-            controller = new MainController();
+            mainController = new MainController();
             var OpenFile = openFileDialog1;
             OpenFile.Filter = "Documents (*.xml)|*.xml"; 
             if (OpenFile.ShowDialog() == DialogResult.OK)
             {
-                SavedGame savedGame = controller.serializationService.DeSerialization(OpenFile.FileName);
+                SavedGame savedGame = mainController.serializationService.DeSerialization(OpenFile.FileName);
                 if (savedGame == null)
                 {
                     Show("Ошибка при загрузке игры!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                 {
-                    controller.cells = savedGame.cells;
-                    controller.food = savedGame.food;
+                    mainController.cells = savedGame.cells;
+                    mainController.food = savedGame.food;
                     graphics.Clear(Color.WhiteSmoke);
                     RefreshData();
                     GameZonePictureBox.Refresh();
@@ -97,8 +97,8 @@ namespace SimulationOfLife.View
             listsForCharts.AmountDeaths = new List<int>();
             listsForCharts.AmountEvolution = new List<int>();
             listsForCharts.AmountDivision = new List<int>();
-            controller = new MainController();
-            controller.AddFirstCells(SettingsGame.AmountOfCells, MaxWidthField, MaxHeightField);
+            mainController = new MainController();
+            mainController.AddFirstCells(SettingsGame.AmountOfCells, MaxWidthField, MaxHeightField);
             RefreshData();
             GameZonePictureBox.Refresh();
             StartGameButton.Enabled = true;
@@ -108,7 +108,7 @@ namespace SimulationOfLife.View
         private void RefreshData()
         {
             double c = 0, h = 0, o = 0;
-            foreach (var cell in controller.cells)
+            foreach (var cell in mainController.cells)
             {
                 if (cell is CarnivorousLowCell || cell is CarnivorousMediumCell || cell is CarnivorousHighCell)
                 {
@@ -126,37 +126,37 @@ namespace SimulationOfLife.View
                     o++;
                 }
             }
-            foreach (var f in controller.food)
+            foreach (var f in mainController.food)
             {
                 graphics.FillRectangle(Brushes.Green, f.X, f.Y, f.Width, f.Height);
             }
-            if (controller.AmountOfCycles % SettingsGame.UpdateRate == 0)
+            if (mainController.statisticsService.sumCycles % SettingsGame.UpdateRate == 0)
             {
-                label1.Text = $"Количество клеток: {controller.cells.Count}";
-                carni.Text = controller.statistics.AmountCells(c, controller.cells.Count, "Плотоядные");
-                herbi.Text = controller.statistics.AmountCells(h, controller.cells.Count, "Травоядные");
-                omni.Text = controller.statistics.AmountCells(o, controller.cells.Count, "Всеядные");
-                IdCellLabel.Text = controller.statistics.LivingAncestors(controller.cells);      
+                label1.Text = $"Количество клеток: {mainController.cells.Count}";
+                carni.Text = mainController.statisticsService.AmountCells(c, mainController.cells.Count, "Плотоядные");
+                herbi.Text = mainController.statisticsService.AmountCells(h, mainController.cells.Count, "Травоядные");
+                omni.Text = mainController.statisticsService.AmountCells(o, mainController.cells.Count, "Всеядные");
+                IdCellLabel.Text = mainController.statisticsService.LivingAncestors(mainController.cells);      
             }
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (controller.AmountOfCycles < SettingsGame.AmountOfCycles)
+            if (mainController.statisticsService.sumCycles < SettingsGame.AmountOfCycles)
             {
                 graphics.Clear(Color.WhiteSmoke);
                 RefreshData();
-                controller.Cycle(MaxWidthField, MaxHeightField);
+                mainController.Cycle(MaxWidthField, MaxHeightField);
                 GameZonePictureBox.Refresh();
-                if (controller.AmountOfCycles % SettingsGame.UpdateRate == 0 && controller.AmountOfCycles != 0)
+                if (mainController.statisticsService.sumCycles % SettingsGame.UpdateRate == 0 && mainController.statisticsService.sumCycles != 0)
                 {
-                    listsForCharts.AmountDeaths.Add(controller.AmountOfDeaths);
-                    listsForCharts.AmountEvolution.Add(controller.AmountOfEvolution);
-                    listsForCharts.AmountDivision.Add(controller.AmountOfDivision);
-                    controller.AmountOfDeaths = 0;
-                    controller.AmountOfEvolution = 0;
-                    controller.AmountOfDivision = 0;
+                    listsForCharts.AmountDeaths.Add(mainController.statisticsService.sumDeaths);
+                    listsForCharts.AmountEvolution.Add(mainController.statisticsService.sumEvolutions);
+                    listsForCharts.AmountDivision.Add(mainController.statisticsService.sumDivisions);
+                    mainController.statisticsService.sumDeaths = 0;
+                    mainController.statisticsService.sumEvolutions = 0;
+                    mainController.statisticsService.sumDivisions = 0;
                 }
-                amountCycles.Text = $"Количество циклов: {controller.AmountOfCycles} из {SettingsGame.AmountOfCycles}";
+                amountCycles.Text = $"Количество циклов: {mainController.statisticsService.sumCycles} из {SettingsGame.AmountOfCycles}";
             }
             else
             {
@@ -211,7 +211,7 @@ namespace SimulationOfLife.View
         }
         private void GetChart_Click(object sender, EventArgs e)
         {
-            if (controller.AmountOfCycles != SettingsGame.AmountOfCycles)
+            if (mainController.statisticsService.sumCycles != SettingsGame.AmountOfCycles)
             {
                 Show("Необходимо дождаться конца симуляции!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }

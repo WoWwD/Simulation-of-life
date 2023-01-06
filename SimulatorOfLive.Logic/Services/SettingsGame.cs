@@ -3,7 +3,7 @@
     public static class SettingsGame
     {
         public const int AmountOfCells = 750;
-        public const int AmountOfCycles = 2000;
+        public const int AmountOfCycles = 3000;
         public const int CountOfEatForDivision = 2;
         public const int UpdateRate = 50; 
 
@@ -19,10 +19,10 @@
         #region Шанс эволюции
 
         public const int ChanceOfEvolutionCarnivorousLowCell = 10; 
-        public const int ChanceOfEvolutionCarnivorousMediumCell = 10; 
+        public const int ChanceOfEvolutionCarnivorousMediumCell = 2; 
 
         public const int ChanceOfEvolutionHerbivoreLowCell = 10; 
-        public const int ChanceOfEvolutionHerbivoreMediumCell = 10; 
+        public const int ChanceOfEvolutionHerbivoreMediumCell = 2; 
 
         public const int ChanceOfEvolutionOmnivoreLowCell = 10; 
         public const int ChanceOfEvolutionOmnivoreMediumCell = 10;                                                    
@@ -31,14 +31,14 @@
 
         #region Количество еды, необходимое для эволюции
 
-        public const int CountOfEatForEvolutionCarnivorousLowCell = 4;
-        public const int CountOfEatForEvolutionCarnivorousMediumCell = 5;
+        public const int CountOfEatForEvolutionCarnivorousLowCell = 3;
+        public const int CountOfEatForEvolutionCarnivorousMediumCell = 4;
 
-        public const int CountOfEatForEvolutionHerbivoreLowCell = 3;
-        public const int CountOfEatForEvolutionHerbivoreMediumCell = 4;
+        public const int CountOfEatForEvolutionHerbivoreLowCell = 2;
+        public const int CountOfEatForEvolutionHerbivoreMediumCell = 3;
 
-        public const int CountOfEatForEvolutionOmnivoreLowCell = 4;
-        public const int CountOfEatForEvolutionOmnivoreMediumCell = 5;
+        public const int CountOfEatForEvolutionOmnivoreLowCell = 3;
+        public const int CountOfEatForEvolutionOmnivoreMediumCell = 4;
 
         #endregion
 

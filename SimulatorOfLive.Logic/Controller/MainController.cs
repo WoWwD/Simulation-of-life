@@ -13,11 +13,10 @@ namespace SimulationOfLife.Logic.Controller
     [XmlInclude(typeof(Food))]
     public class MainController
     {
-        public int AmountOfDeaths, AmountOfCycles, AmountOfEvolution, AmountOfDivision;
         public List<FormOfCell> cells;
         public List<Food> food;
         public SerializationService serializationService;
-        public StatisticsService statistics;
+        public StatisticsService statisticsService;
         private Random rnd;
         private Guid guid;
 
@@ -26,7 +25,7 @@ namespace SimulationOfLife.Logic.Controller
             serializationService = new SerializationService();
             cells = new List<FormOfCell>();
             food = new List<Food>();
-            statistics = new StatisticsService();
+            statisticsService = new StatisticsService();
             rnd = new Random();
             guid = Guid.NewGuid();
         }
@@ -178,7 +177,7 @@ namespace SimulationOfLife.Logic.Controller
                     result = creature.Eating(target.HitPoint);
                     if (result == true)
                     {
-                        AmountOfDeaths++;
+                        statisticsService.sumDeaths++;
                         int index = targets.LastIndexOf(target);
                         return index;
                     }
@@ -247,37 +246,37 @@ namespace SimulationOfLife.Logic.Controller
             {
                 if (cell is CarnivorousLowCell && cell.IsEvolution(rnd.Next(SettingsGame.ChanceOfEvolutionCarnivorousLowCell)))
                 {
-                    AmountOfEvolution++;
+                    statisticsService.sumEvolutions++;
                     cells.Add(new CarnivorousMediumCell(cell.X, cell.Y, cell.ID));
                     cells.RemoveAll(c => c == cell);
                 }
                 if (cell is CarnivorousMediumCell && cell.IsEvolution(rnd.Next(SettingsGame.ChanceOfEvolutionCarnivorousMediumCell)))
                 {
-                    AmountOfEvolution++;
+                    statisticsService.sumEvolutions++;
                     cells.Add(new CarnivorousHighCell(cell.X, cell.Y, cell.ID));
                     cells.RemoveAll(c => c == cell);
                 }
                 if (cell is HerbivoreLowCell && cell.IsEvolution(rnd.Next(SettingsGame.ChanceOfEvolutionHerbivoreLowCell)))
                 {
-                    AmountOfEvolution++;
+                    statisticsService.sumEvolutions++;
                     cells.Add(new HerbivoreMediumCell(cell.X, cell.Y, cell.ID));
                     cells.RemoveAll(c => c == cell);
                 }
                 if (cell is HerbivoreMediumCell && cell.IsEvolution(rnd.Next(SettingsGame.ChanceOfEvolutionHerbivoreMediumCell)))
                 {
-                    AmountOfEvolution++;
+                    statisticsService.sumEvolutions++;
                     cells.Add(new HerbivoreHighCell(cell.X, cell.Y, cell.ID));
                     cells.RemoveAll(c => c == cell);
                 }
                 if (cell is OmnivoreLowCell && cell.IsEvolution(rnd.Next(SettingsGame.ChanceOfEvolutionOmnivoreLowCell)))
                 {
-                    AmountOfEvolution++;
+                    statisticsService.sumEvolutions++;
                     cells.Add(new OmnivoreMediumCell(cell.X, cell.Y, cell.ID));
                     cells.RemoveAll(c => c == cell);
                 }
                 if (cell is OmnivoreMediumCell && cell.IsEvolution(rnd.Next(SettingsGame.ChanceOfEvolutionOmnivoreMediumCell)))
                 {
-                    AmountOfEvolution++;
+                    statisticsService.sumEvolutions++;
                     cells.Add(new OmnivoreHighCell(cell.X, cell.Y, cell.ID));
                     cells.RemoveAll(c => c == cell);
                 }
@@ -286,18 +285,15 @@ namespace SimulationOfLife.Logic.Controller
         private void AddCell<T>(T cell) where T : FormOfCell => cells.Add(cell);
         public bool Division()
         {
-            if (cells != null && cells.Count != 0)
+            foreach (var cell in cells.ToArray())
             {
-                foreach (var cell in cells.ToArray())
+                if (cell.IsDivision(rnd.Next(SettingsGame.ChanceOfDivision)))
                 {
-                    if (cell.IsDivision(rnd.Next(SettingsGame.ChanceOfDivision)))
-                    {
-                        AmountOfDivision++;
-                        AddCell(cell);
-                        return true;
-                    }
-                    break;
-                }  
+                    statisticsService.sumDivisions++;
+                    AddCell(cell);
+                    return true;
+                }
+                break;
             }
             return false;
         }
@@ -360,9 +356,9 @@ namespace SimulationOfLife.Logic.Controller
             AddFood(MaxWidthField, MaxHeightField);
             Move(MaxWidthField, MaxHeightField);
             Eating();
-            Division();
+            if (cells != null && cells.Count != 0) Division();
             Evolution();
-            AmountOfCycles++;
+            statisticsService.sumCycles++;
         }
     }
 }
