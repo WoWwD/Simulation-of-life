@@ -2,7 +2,7 @@
 
 namespace SimulationOfLife.Logic.Model.Cell
 {
-    public class OmnivoreMediumCell: FormOfCell
+    public class OmnivoreMediumCell: CellModel
     {
         private byte _HitPoint = 8;
         private int _CountOfEating = 0;

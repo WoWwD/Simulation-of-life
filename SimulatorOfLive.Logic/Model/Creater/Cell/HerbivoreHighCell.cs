@@ -2,7 +2,7 @@
 
 namespace SimulationOfLife.Logic.Model.Cell
 {
-    public class HerbivoreHighCell: FormOfCell
+    public class HerbivoreHighCell: CellModel
     {
         private byte _HitPoint = 10;
         private int _CountOfEating = 0;

@@ -44,7 +44,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\MainController.cs" />
-    <Compile Include="Model\Creater\FormOfCell.cs" />
+    <Compile Include="Controller\ObjectController.cs" />
+    <Compile Include="Model\Creater\CellModel.cs" />
     <Compile Include="Model\Interfaces\IObject.cs" />
     <Compile Include="Model\Creater\Cell\HerbivoreHighCell.cs" />
     <Compile Include="Model\Creater\Cell\OmnivoreHighCell.cs" />
@@ -55,8 +56,9 @@
     <Compile Include="Model\Creater\Cell\CarnivorousLowCell.cs" />
     <Compile Include="Model\Creater\Cell\CarnivorousMediumCell.cs" />
     <Compile Include="Model\Creater\Cell\HerbivoreLowCell.cs" />
+    <Compile Include="Model\SavedGameModel.cs" />
     <Compile Include="Services\SettingsGame.cs" />
-    <Compile Include="Model\Food\Food.cs" />
+    <Compile Include="Model\Food\FoodModel.cs" />
     <Compile Include="Model\Interfaces\ICreature.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\SerializationService.cs" />

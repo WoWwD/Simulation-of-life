@@ -2,7 +2,7 @@
 
 namespace SimulationOfLife.Logic.Model.Food
 {
-    public class Food: IObject
+    public class FoodModel: IObject
     {
         private byte _HitPoint = 1;
         public byte HitPoint { get { return _HitPoint; } set { _HitPoint = value; } }
@@ -11,8 +11,8 @@ namespace SimulationOfLife.Logic.Model.Food
         public int X { get ; set ; }
         public int Y { get ; set ; }
         public string ID { get; set; }
-        public Food() { }
-        public Food(int X, int Y, string ID)
+        public FoodModel() { }
+        public FoodModel(int X, int Y, string ID)
         {
             this.X = X;
             this.Y = Y;

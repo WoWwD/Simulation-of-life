@@ -4,22 +4,23 @@ using System;
 using SimulationOfLife.Logic.Abstract_model;
 using SimulationOfLife.Logic.Model.Food;
 using System.Collections.Generic;
+using SimulatorOfLive.Logic.Model;
 
 namespace SimulatorOfLive.Logic.Services
 {
     public class SerializationService
     {
-        public string Serialization(List<FormOfCell> cells, List<Food> food)
+        public string Serialization(List<CellModel> cells, List<FoodModel> food)
         {
             string Name = DateTime.Now.ToString("yyyyMMdd_hhmmss");
             try
             {
-                SavedGame savedGame = new SavedGame
+                SavedGameModel savedGame = new SavedGameModel
                 {
                     cells = cells,
                     food = food
                 };
-                var objects = new XmlSerializer(typeof(SavedGame));
+                var objects = new XmlSerializer(typeof(SavedGameModel));
                 using (var file = new FileStream($"SavedGame ({Name}).xml", FileMode.Create))
                 {
                     objects.Serialize(file, savedGame);
@@ -31,14 +32,14 @@ namespace SimulatorOfLive.Logic.Services
                 return null;
             }
         }
-        public SavedGame DeSerialization(string Path)
+        public SavedGameModel DeSerialization(string Path)
         {
             try
             {
-                var objects = new XmlSerializer(typeof(SavedGame));
+                var objects = new XmlSerializer(typeof(SavedGameModel));
                 using (var file = new FileStream(Path, FileMode.Open))
                 {
-                    return objects.Deserialize(file) as SavedGame;
+                    return objects.Deserialize(file) as SavedGameModel;
                 }
             }
             catch
@@ -46,11 +47,5 @@ namespace SimulatorOfLive.Logic.Services
                 return null;
             }
         }
-    }
-
-    public class SavedGame
-    {
-        public List<FormOfCell> cells;
-        public List<Food> food;
     }
 }

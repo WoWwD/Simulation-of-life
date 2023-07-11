@@ -16,7 +16,7 @@ namespace SimulatorOfLive.Logic.Services
             sumEvolutions = 0;
             sumDivisions = 0;
         }
-        public string LivingAncestors(List<FormOfCell> cells)
+        public string LivingAncestors(List<CellModel> cells)
         {
             int count = 0;
             string name = "no value";

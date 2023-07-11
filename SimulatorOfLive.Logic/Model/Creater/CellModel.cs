@@ -14,7 +14,7 @@ namespace SimulationOfLife.Logic.Abstract_model
     [XmlInclude(typeof(OmnivoreLowCell))]
     [XmlInclude(typeof(OmnivoreMediumCell))]
     [XmlInclude(typeof(OmnivoreHighCell))]
-    public abstract class FormOfCell : ICreature, IObject
+    public abstract class CellModel : ICreature, IObject
     {
         public string ID { get; set; }
         public abstract byte Speed { get; }
@@ -254,8 +254,8 @@ namespace SimulationOfLife.Logic.Abstract_model
             }
             return false;
         }
-        public FormOfCell() { }
-        public FormOfCell(int X, int Y, string ID)
+        public CellModel() { }
+        public CellModel(int X, int Y, string ID)
         {
             this.X = X;
             this.Y = Y;
