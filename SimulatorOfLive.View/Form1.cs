@@ -17,7 +17,7 @@ namespace SimulationOfLife.View
         private static int MaxWidthField { get; set; }
         private static int MaxHeightField { get; set; }
         private Graphics graphics;
-        private ListsForCharts listsForCharts;ss
+        private ListsForCharts listsForCharts;
         public Form1()
         {
             InitializeComponent();
