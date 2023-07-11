@@ -30,12 +30,12 @@ namespace SimulationOfLife.Logic.Controller
         #region Поведение клеток
         public void Move(int MaxWidthField, int MaxHeightField)
         {
-            int DirectionOfMove = 0;
+            int DirectionOfMove;
             foreach (var cell in objectController.cells)
             {
                 if (cell is CarnivorousLowCell || cell is CarnivorousMediumCell || cell is CarnivorousHighCell)
                 {
-                    SearchOfTarget(ref DirectionOfMove, cell, objectController.cells);
+                    DirectionOfMove = TargetSearch(cell, objectController.cells);
                     if (DirectionOfMove != 0)
                     {
                         cell.Move(MaxWidthField, MaxHeightField, DirectionOfMove);
@@ -49,53 +49,15 @@ namespace SimulationOfLife.Logic.Controller
                 }
                 if (cell is HerbivoreLowCell || cell is HerbivoreMediumCell || cell is HerbivoreHighCell)
                 {
-                    SearchOfTarget(ref DirectionOfMove, cell, objectController.cells);
+                    DirectionOfMove = TargetSearch(cell, objectController.cells);
                     if (DirectionOfMove != 0)
                     {
-                        if (DirectionOfMove == 1)
-                        {
-                            cell.Move(MaxWidthField, MaxHeightField, 3);
-                            continue;
-                        }
-                        if (DirectionOfMove == 2)
-                        {
-                            cell.Move(MaxWidthField, MaxHeightField, 4);
-                            continue;
-                        }
-                        if (DirectionOfMove == 3)
-                        {
-                            cell.Move(MaxWidthField, MaxHeightField, 1);
-                            continue;
-                        }
-                        if (DirectionOfMove == 4)
-                        {
-                            cell.Move(MaxWidthField, MaxHeightField, 2);
-                            continue;
-                        }
-                        if (DirectionOfMove == 5)
-                        {
-                            cell.Move(MaxWidthField, MaxHeightField, 7);
-                            continue;
-                        }
-                        if (DirectionOfMove == 6)
-                        {
-                            cell.Move(MaxWidthField, MaxHeightField, 8);
-                            continue;
-                        }
-                        if (DirectionOfMove == 7)
-                        {
-                            cell.Move(MaxWidthField, MaxHeightField, 5);
-                            continue;
-                        }
-                        if (DirectionOfMove == 8)
-                        {
-                            cell.Move(MaxWidthField, MaxHeightField, 6);
-                            continue;
-                        }
+                        cell.Move(MaxWidthField, MaxHeightField, cell.GetDirectionForGetaway(DirectionOfMove));
+                        continue;
                     }
                     else
                     {
-                        SearchOfTarget(ref DirectionOfMove, cell, objectController.food);
+                        DirectionOfMove = TargetSearch(cell, objectController.food);
                         if (DirectionOfMove != 0)
                         {
                             cell.Move(MaxWidthField, MaxHeightField, DirectionOfMove);
@@ -113,7 +75,7 @@ namespace SimulationOfLife.Logic.Controller
                     int r = rnd.Next(2);
                     if (r == 0)
                     {
-                        SearchOfTarget(ref DirectionOfMove, cell, objectController.cells);
+                        DirectionOfMove = TargetSearch(cell, objectController.cells);
                         if (DirectionOfMove != 0)
                         {
                             cell.Move(MaxWidthField, MaxHeightField, DirectionOfMove);
@@ -127,7 +89,7 @@ namespace SimulationOfLife.Logic.Controller
                     }
                     if (r == 1)
                     {
-                        SearchOfTarget(ref DirectionOfMove, cell, objectController.food);
+                        DirectionOfMove = TargetSearch(cell, objectController.food);
                         if (DirectionOfMove != 0)
                         {
                             cell.Move(MaxWidthField, MaxHeightField, DirectionOfMove);
@@ -142,7 +104,7 @@ namespace SimulationOfLife.Logic.Controller
                 }
             }
         }
-        private bool SearchOfTarget<C, T>(ref int DirectionOfMove, C creature, List<T> targets) where C : ICreature where T : IObject
+        private int TargetSearch<C, T>(C creature, List<T> targets) where C : ICreature where T : IObject
         {
             int result;
             foreach (var target in targets)
@@ -150,19 +112,16 @@ namespace SimulationOfLife.Logic.Controller
                 result = creature.IsTargetInOverview(target.X, target.Y);
                 if (result != 0 && creature.ID != target.ID)
                 {
-                    DirectionOfMove = result;
-                    return true;
+                    return result;
                 }
                 else
                 {
-                    DirectionOfMove = 0;
-                    return false;
+                    return 0;
                 }
             }
-            DirectionOfMove = 0;
-            return false;
+            return 0;
         }
-        private object SearchTargetForEating<C, T>(C creature, List<T> targets) where C : ICreature where T : IObject
+        private object SearchForFood<C, T>(C creature, List<T> targets) where C : ICreature where T : IObject
         {
             bool result;
             foreach (var target in targets)
@@ -193,7 +152,7 @@ namespace SimulationOfLife.Logic.Controller
             {
                 if (cell is CarnivorousLowCell || cell is CarnivorousMediumCell || cell is CarnivorousHighCell)
                 {
-                    result = SearchTargetForEating(cell, objectController.cells);
+                    result = SearchForFood(cell, objectController.cells);
                     if (result != null)
                     {
                         objectController.cells.RemoveAt((int)result);
@@ -203,7 +162,7 @@ namespace SimulationOfLife.Logic.Controller
                 {
                     if (rnd.Next(SettingsGame.ChanceOfDefense) == 1)
                     {
-                        result = SearchTargetForEating(cell, objectController.cells);
+                        result = SearchForFood(cell, objectController.cells);
                         if (result != null)
                         {
                             objectController.cells.RemoveAt((int)result);
@@ -211,7 +170,7 @@ namespace SimulationOfLife.Logic.Controller
                     }
                     else
                     {
-                        result = SearchTargetForEating(cell, objectController.food);
+                        result = SearchForFood(cell, objectController.food);
                         if (result != null)
                         {
                             objectController.food.RemoveAt((int)result);
@@ -220,14 +179,14 @@ namespace SimulationOfLife.Logic.Controller
                 }
                 if (cell is OmnivoreLowCell || cell is OmnivoreMediumCell || cell is OmnivoreHighCell)
                 {
-                    result = SearchTargetForEating(cell, objectController.food);
+                    result = SearchForFood(cell, objectController.food);
                     if (result != null)
                     {
                         objectController.food.RemoveAt((int)result);
                     }
                     else
                     {
-                        result = SearchTargetForEating(cell, objectController.cells);
+                        result = SearchForFood(cell, objectController.cells);
                         if (result != null)
                         {
                             objectController.cells.RemoveAt((int)result);

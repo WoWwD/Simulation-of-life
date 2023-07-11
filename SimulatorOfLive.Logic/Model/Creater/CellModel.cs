@@ -143,11 +143,44 @@ namespace SimulationOfLife.Logic.Abstract_model
                 }
             }
         }
-        public abstract bool IsEvolution(int chance);
-        public void Damage()
+        public int GetDirectionForGetaway(int DirectionOfMove)
         {
-            HitPoint--;
+            if (DirectionOfMove == 1)
+            {
+                return 3;
+            }
+            if (DirectionOfMove == 2)
+            {
+                return 4;
+            }
+            if (DirectionOfMove == 3)
+            {
+                return 1;
+            }
+            if (DirectionOfMove == 4)
+            {
+                return 2;
+            }
+            if (DirectionOfMove == 5)
+            {
+                return 7;
+            }
+            if (DirectionOfMove == 6)
+            {
+                return 8;
+            }
+            if (DirectionOfMove == 7)
+            {
+                return 5;
+            }
+            if (DirectionOfMove == 8)
+            {
+                return 6;
+            }
+            return 0;
         }
+        public abstract bool IsEvolution(int chance);
+        public void Damage() => HitPoint--;
         public bool IsDivision(int chance)
         {
             if (chance == 1 && CountOfEating >= SettingsGame.CountOfEatForDivision)
@@ -254,7 +287,6 @@ namespace SimulationOfLife.Logic.Abstract_model
             }
             return false;
         }
-        public CellModel() { }
         public CellModel(int X, int Y, string ID)
         {
             this.X = X;
